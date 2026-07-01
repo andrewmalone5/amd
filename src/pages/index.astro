@@ -1,11 +1,10 @@
 ---
 import SiteLayout from '../layouts/SiteLayout.astro';
+import SelectedWork from '../components/SelectedWork.astro';
 
-// SCAFFOLD ONLY. These are the section landmarks so the nav resolves and the
-// shell can be judged in context. The hero composition and each section's real
-// layout are the next forks — nothing here is the finished page.
+// Remaining scaffold sections. Selected Work is now built; How I Work and About
+// land in later forks.
 const sections = [
-  { id: 'work', label: 'Selected Work' },
   { id: 'how-i-work', label: 'How I Work' },
   { id: 'about', label: 'About' },
 ];
@@ -16,10 +15,12 @@ const sections = [
        not the nameplate. Display XL used here and nowhere else on the site.
        All copy is the persona verbatim. -->
   <section class="hero column--wide" id="intro">
-    <p class="eyebrow hero__eyebrow">Senior Product Designer · Lisbon, Portugal</p>
+    <p class="eyebrow hero__eyebrow">Maya Okonkwo · Senior Product Designer · Lisbon, Portugal</p>
     <h1 class="hero__statement">Designing payment tools that people actually trust.</h1>
     <p class="hero__intro">I design in fintech, mostly around money movement and the moments where trust either holds or breaks. I like the unglamorous parts — reconciliation, error states, the screen someone sees at 2am when a transfer fails. Ten years in, still convinced the boring flows are where the real work is.</p>
   </section>
+
+  <SelectedWork />
 
   {sections.map((s) => (
     <section class="scaffold column--wide" id={s.id}>

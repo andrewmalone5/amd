@@ -89,6 +89,21 @@ a {
   color: var(--color-ink-muted);
 }
 
+/* The tag / status pill: a small bordered label. */
+.tag {
+  display: inline-block;
+  font-size: var(--text-xs);
+  font-weight: var(--weight-medium);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--color-ink-muted);
+  border: 1px solid var(--color-hairline-strong);
+  border-radius: 999px;
+  padding: 0.3em 0.75em;
+  line-height: 1;
+  white-space: nowrap;
+}
+
 /* Centered column wrappers. */
 .column {
   width: 100%;
