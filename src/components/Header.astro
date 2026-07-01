@@ -3,18 +3,21 @@
 // hairline that fades in on scroll. Links resolve to home anchors so they work
 // from inside a case study too. Wordmark stays in Hanken; the serif is saved
 // for display moments.
+import { withBase } from '../lib/url';
+
 const wordmark = 'Maya Okonkwo';
+const home = withBase('/');
 const links = [
-  { label: 'Selected Work', href: '/#work' },
-  { label: 'How I Work', href: '/#how-i-work' },
-  { label: 'About', href: '/#about' },
-  { label: 'Contact', href: '/#contact' },
+  { label: 'Selected Work', href: withBase('/#work') },
+  { label: 'How I Work', href: withBase('/#how-i-work') },
+  { label: 'About', href: withBase('/#about') },
+  { label: 'Contact', href: withBase('/#contact') },
 ];
 ---
 
 <header class="site-header" data-header>
   <div class="site-header__inner">
-    <a class="wordmark" href="/">{wordmark}</a>
+    <a class="wordmark" href={home}>{wordmark}</a>
 
     <nav class="nav-desktop" aria-label="Primary">
       <ul>

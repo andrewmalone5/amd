@@ -7,6 +7,7 @@
 // Spacing varies by block type, so the rhythm reads as edited rather than gridded.
 import SiteLayout from '../../layouts/SiteLayout.astro';
 import { projects } from '../../data/projects';
+import { withBase } from '../../lib/url';
 
 export function getStaticPaths() {
   return projects.map((p, i) => ({
@@ -24,7 +25,7 @@ const { project, prev, next } = Astro.props;
 
 <SiteLayout title={`${project.title} — Maya Okonkwo`}>
   <article class="case">
-    <a class="case__back" href="/#work">&larr;&nbsp;&nbsp;Selected Work</a>
+    <a class="case__back" href={withBase('/#work')}>&larr;&nbsp;&nbsp;Selected Work</a>
 
     <header class="case__header">
       <p class="eyebrow">
@@ -61,7 +62,7 @@ const { project, prev, next } = Astro.props;
 
     <nav class="case__nav" aria-label="More work">
       {prev ? (
-        <a class="case__nav-link case__nav-link--prev" href={`/work/${prev.slug}`}>
+        <a class="case__nav-link case__nav-link--prev" href={withBase(`/work/${prev.slug}`)}>
           <span class="case__nav-dir">← Previous</span>
           <span class="case__nav-title">{prev.title}</span>
         </a>
@@ -69,7 +70,7 @@ const { project, prev, next } = Astro.props;
         <span />
       )}
       {next && (
-        <a class="case__nav-link case__nav-link--next" href={`/work/${next.slug}`}>
+        <a class="case__nav-link case__nav-link--next" href={withBase(`/work/${next.slug}`)}>
           <span class="case__nav-dir">Next →</span>
           <span class="case__nav-title">{next.title}</span>
         </a>

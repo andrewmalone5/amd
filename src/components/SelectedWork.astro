@@ -4,6 +4,7 @@
 // template. Rows are hairline-separated at rest and lift into a surface card on
 // hover. The anchor project reads heavier (larger title + status tag).
 import { projects } from '../data/projects';
+import { withBase } from '../lib/url';
 ---
 
 <section id="work" class="selected-work column--wide">
@@ -12,7 +13,7 @@ import { projects } from '../data/projects';
   <ol class="work-list">
     {projects.map((p) => (
       <li>
-        <a class:list={['work', { 'is-anchor': p.anchor }]} href={`/work/${p.slug}`}>
+        <a class:list={['work', { 'is-anchor': p.anchor }]} href={withBase(`/work/${p.slug}`)}>
           <span class="work__index">{p.num}</span>
 
           <div class="work__body">
