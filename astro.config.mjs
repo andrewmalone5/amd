@@ -1,14 +1,10 @@
 import { defineConfig } from 'astro/config';
 
-// Deployed to GitHub Pages on the project path: andrewmalone5.github.io/amd/
-//
-// TO SWITCH TO A CUSTOM DOMAIN LATER:
-//   1. set `base: '/'`
-//   2. set `site` to the domain (e.g. 'https://mayaokonkwo.com')
-//   3. add `public/CNAME` containing the bare domain
-//   4. point DNS at GitHub Pages and set the domain in the repo Pages settings
-// All internal links go through src/lib/url.ts (withBase), so nothing else changes.
+// Deployed to GitHub Pages on the custom domain andrewmalone.design.
+// Domain root, so base is '/'. The CNAME lives at public/CNAME.
+// All internal links go through src/lib/url.ts (withBase), so they resolve
+// correctly at the root.
 export default defineConfig({
-  site: 'https://andrewmalone5.github.io',
-  base: '/amd',
+  site: 'https://andrewmalone.design',
+  base: '/',
 });
