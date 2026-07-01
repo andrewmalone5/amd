@@ -12,11 +12,13 @@ const sections = [
 ---
 
 <SiteLayout title="Maya Okonkwo — Senior Product Designer">
-  <!-- INTRO — placeholder, not the composed 5-second hero (next fork). -->
-  <section class="intro column--wide" id="intro">
-    <p class="eyebrow">Senior Product Designer · Lisbon, Portugal</p>
-    <h1 class="intro__line">Designing payment tools that people actually trust.</h1>
-    <p class="intro__scaffold">Intro composition is the next fork — this is placeholder hierarchy.</p>
+  <!-- HERO — the 5-second composition. Leads with the positioning statement,
+       not the nameplate. Display XL used here and nowhere else on the site.
+       All copy is the persona verbatim. -->
+  <section class="hero column--wide" id="intro">
+    <p class="eyebrow hero__eyebrow">Senior Product Designer · Lisbon, Portugal</p>
+    <h1 class="hero__statement">Designing payment tools that people actually trust.</h1>
+    <p class="hero__intro">I design in fintech, mostly around money movement and the moments where trust either holds or breaks. I like the unglamorous parts — reconciliation, error states, the screen someone sees at 2am when a transfer fails. Ten years in, still convinced the boring flows are where the real work is.</p>
   </section>
 
   {sections.map((s) => (
@@ -28,17 +30,42 @@ const sections = [
 </SiteLayout>
 
 <style>
-  .intro {
-    padding-block: var(--section-loose) var(--section);
+  /* HERO ---------------------------------------------------------------- */
+  .hero {
+    padding-block: var(--space-xl) var(--section-loose);
   }
-  .intro__line {
-    font-size: var(--text-display-lg);
-    max-width: 20ch;
-    margin-block: var(--space-lg) var(--space-xl);
+  .hero__statement {
+    font-size: var(--text-display-xl);
+    line-height: var(--leading-display);
+    letter-spacing: var(--tracking-display);
+    max-width: 15ch;
+    /* Deliberately uneven: small gap up to the eyebrow, generous air below,
+       so the statement lands before the reading voice begins — but not so much
+       that the intro drops entirely below the fold. */
+    margin-block: var(--space-md) var(--space-xl);
   }
-  .intro__scaffold {
-    font-size: var(--text-sm);
-    color: var(--color-ink-faint);
+  .hero__intro {
+    font-size: var(--text-lead);
+    line-height: var(--leading-lead);
+    color: var(--color-ink);
+    max-width: 40ch; /* narrower than the headline — the asymmetry is the design */
+  }
+
+  /* Reveal — slow, staggered, eased. Resting state is visible; the keyframe
+     runs from hidden, with fill-mode backwards so there's no flash. Under
+     prefers-reduced-motion the global reset collapses it to an instant show. */
+  .hero__eyebrow,
+  .hero__statement,
+  .hero__intro {
+    animation: hero-rise var(--duration-slow) var(--ease-out) backwards;
+  }
+  .hero__eyebrow { animation-delay: 40ms; }
+  .hero__statement { animation-delay: 150ms; }
+  .hero__intro { animation-delay: 320ms; }
+
+  @keyframes hero-rise {
+    from { opacity: 0; transform: translateY(0.9rem); }
+    to   { opacity: 1; transform: translateY(0); }
   }
 
   /* Scaffold stubs — enough height to make anchors and scroll behave. */
