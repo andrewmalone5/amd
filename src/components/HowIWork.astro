@@ -1,0 +1,85 @@
+---
+// How I Work — a statement of principles, deliberately built to read as a
+// different kind of thing from Selected Work. No numbers, no tags, no hover
+// cards, no links out. Horizontal title|elaboration split instead of a vertical
+// index, and Spectral italic titles to mark these as voice rather than
+// inventory. Copy is the persona verbatim.
+const principles = [
+  {
+    title: 'Trust is a design material',
+    body: 'How I design for the moments where users decide whether to believe the product.',
+  },
+  {
+    title: 'Ship the error state first',
+    body: 'Why I design failure paths before the happy path, and what it surfaces early.',
+  },
+];
+---
+
+<section id="how-i-work" class="how column--wide">
+  <p class="eyebrow how__label">How I Work</p>
+
+  <div class="principles">
+    {principles.map((p) => (
+      <article class="principle">
+        <h3 class="principle__title">{p.title}</h3>
+        <p class="principle__body">{p.body}</p>
+      </article>
+    ))}
+  </div>
+</section>
+
+<style>
+  .how {
+    padding-block: var(--section-loose);
+    border-top: 1px solid var(--color-hairline);
+  }
+  .how__label {
+    margin-bottom: var(--space-2xl);
+  }
+
+  .principles {
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* The differentiator: a horizontal split — belief on the left, elaboration on
+     the right — rather than the vertical numbered rows of Selected Work. */
+  .principle {
+    display: grid;
+    grid-template-columns: minmax(0, 20rem) 1fr;
+    gap: var(--space-xl);
+    align-items: start;
+    padding-block: var(--space-2xl);
+    border-top: 1px solid var(--color-hairline);
+  }
+  .principle:first-child {
+    border-top: 0;
+    padding-top: 0;
+  }
+
+  .principle__title {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: var(--weight-regular);
+    font-size: var(--text-display-sm);
+    line-height: var(--leading-tight);
+    letter-spacing: var(--tracking-tight);
+    color: var(--color-ink);
+  }
+
+  .principle__body {
+    font-size: var(--text-lead);
+    line-height: var(--leading-lead);
+    color: var(--color-ink-muted);
+    max-width: 42ch;
+  }
+
+  @media (max-width: 40rem) {
+    .principle {
+      grid-template-columns: 1fr;
+      gap: var(--space-sm);
+      padding-block: var(--space-xl);
+    }
+  }
+</style>

@@ -1,11 +1,10 @@
 ---
 import SiteLayout from '../layouts/SiteLayout.astro';
 import SelectedWork from '../components/SelectedWork.astro';
+import HowIWork from '../components/HowIWork.astro';
 
-// Remaining scaffold sections. Selected Work is now built; How I Work and About
-// land in later forks.
+// Remaining scaffold section. About lands in the next fork.
 const sections = [
-  { id: 'how-i-work', label: 'How I Work' },
   { id: 'about', label: 'About' },
 ];
 ---
@@ -21,6 +20,8 @@ const sections = [
   </section>
 
   <SelectedWork />
+
+  <HowIWork />
 
   {sections.map((s) => (
     <section class="scaffold column--wide" id={s.id}>
