@@ -1,0 +1,97 @@
+@import './tokens.css';
+
+/* ============================================================================
+   RESET — minimal, modern. Just enough to work from a known baseline.
+   ========================================================================== */
+*, *::before, *::after { box-sizing: border-box; }
+* { margin: 0; }
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+img, picture, svg, video, canvas {
+  display: block;
+  max-width: 100%;
+}
+
+input, button, textarea, select { font: inherit; color: inherit; }
+
+/* Respect users who ask for less motion — the whole aesthetic leans on motion,
+   so this matters. */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ============================================================================
+   BASE ELEMENTS — the tokens, applied.
+   ========================================================================== */
+body {
+  background-color: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  font-weight: var(--weight-regular);
+  line-height: var(--leading-body);
+  letter-spacing: var(--tracking-normal);
+}
+
+/* Headings default to the display serif, tight and tracked-in. */
+h1, h2, h3 {
+  font-family: var(--font-display);
+  font-weight: var(--weight-regular);
+  line-height: var(--leading-display);
+  letter-spacing: var(--tracking-display);
+  text-wrap: balance;
+}
+
+h1 { font-size: var(--text-display-lg); }
+h2 { font-size: var(--text-display-md); }
+h3 { font-size: var(--text-display-sm); line-height: var(--leading-tight); }
+
+p { text-wrap: pretty; }
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+::selection {
+  background-color: var(--color-ink);
+  color: var(--color-paper);
+}
+
+/* ============================================================================
+   HELPERS — a few semantic classes the frame will lean on.
+   ========================================================================== */
+
+/* The eyebrow / label: small, uppercase, tracked wide, muted. */
+.eyebrow {
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-medium);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--color-ink-muted);
+}
+
+/* Centered column wrappers. */
+.column {
+  width: 100%;
+  max-width: var(--width-text);
+  margin-inline: auto;
+  padding-inline: var(--page-gutter);
+}
+.column--wide { max-width: var(--width-wide); }

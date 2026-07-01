@@ -1,0 +1,114 @@
+/* ============================================================================
+   DESIGN TOKENS
+   The visual language, in one place. Everything downstream reads from here.
+   Change a value once; the whole site follows.
+   ========================================================================== */
+
+:root {
+  /* --------------------------------------------------------------------------
+     TYPEFACES
+     Two, chosen deliberately. Spectral carries the voice; Hanken carries the
+     reading. Generic fallbacks only — nothing "distinctive" swaps in on FOUT.
+     ------------------------------------------------------------------------ */
+  --font-display: 'Spectral', Georgia, 'Times New Roman', serif;
+  --font-body: 'Hanken Grotesk', system-ui, -apple-system, sans-serif;
+
+  /* --------------------------------------------------------------------------
+     TYPE SCALE — dramatic on purpose.
+     Body sits at 18px. The hero name reaches 128px. That's a ~7x range, not a
+     timid ramp. Display sizes are fluid (clamp) so the drama survives mobile
+     instead of overflowing it. Editorial confidence, not uniform steps.
+     ------------------------------------------------------------------------ */
+
+  /* Display — Spectral. The loud end. */
+  --text-display-xl: clamp(3.5rem, 2rem + 7.5vw, 8rem);       /*  56 → 128  hero / name        */
+  --text-display-lg: clamp(2.75rem, 1.8rem + 4.75vw, 5.5rem); /*  44 →  88  page headline (h1)  */
+  --text-display-md: clamp(2rem, 1.5rem + 2.5vw, 3.25rem);    /*  32 →  52  section head (h2)   */
+  --text-display-sm: clamp(1.5rem, 1.3rem + 1vw, 2rem);       /*  24 →  32  sub-head (h3)       */
+
+  /* Text — Hanken Grotesk. The quiet, readable end. */
+  --text-lead: clamp(1.25rem, 1.15rem + 0.5vw, 1.5rem);       /*  20 →  24  intro / pull-lead   */
+  --text-body: 1.125rem;                                       /*  18        body copy           */
+  --text-sm:   0.9375rem;                                      /*  15        meta / captions     */
+  --text-xs:   0.8125rem;                                      /*  13        eyebrows / labels    */
+
+  /* Line height — display runs tight, reading runs open. */
+  --leading-display: 1.04;
+  --leading-tight:   1.14;
+  --leading-lead:    1.45;
+  --leading-body:    1.62;
+
+  /* Tracking — tighten the big serif, open the small labels. */
+  --tracking-display: -0.021em;
+  --tracking-tight:   -0.01em;
+  --tracking-normal:  0;
+  --tracking-label:   0.14em;
+
+  /* Weights */
+  --weight-regular:  400;
+  --weight-medium:   500;
+  --weight-semibold: 600;
+
+  /* --------------------------------------------------------------------------
+     COLOR — warm paper, warm near-black. No stark white, no pure black.
+     Futurism comes from motion and depth, not from the palette. No accent
+     hue yet — restraint is the point; we add one only if a real need appears.
+     ------------------------------------------------------------------------ */
+  --color-paper:           #F6F4EE;  /* warm off-white — the base            */
+  --color-surface:         #FBFAF6;  /* a hair lighter — raised card face    */
+  --color-ink:             #1C1A17;  /* warm near-black — primary text       */
+  --color-ink-muted:       #6A655D;  /* secondary — meta, supporting copy    */
+  --color-ink-faint:       #9C968C;  /* tertiary — captions, disabled        */
+  --color-hairline:        #E4E0D6;  /* precise thin rules                    */
+  --color-hairline-strong: #CFC9BC;  /* emphasized divider                   */
+
+  /* --------------------------------------------------------------------------
+     ELEVATION — restrained, warm-tinted. The "lift" is the whole trick:
+     a work card rises a little on hover, nothing floats or glows.
+     ------------------------------------------------------------------------ */
+  --shadow-sm:   0 1px 2px rgba(28, 26, 23, 0.04), 0 1px 1px rgba(28, 26, 23, 0.03);
+  --shadow-lift: 0 14px 34px -14px rgba(28, 26, 23, 0.20), 0 4px 10px -6px rgba(28, 26, 23, 0.10);
+
+  /* --------------------------------------------------------------------------
+     MOTION — slow and eased. This is where "futuristic" lives.
+     --ease-out is the signature curve: a decisive settle, used for lifts
+     and reveals. Durations lean long on purpose.
+     ------------------------------------------------------------------------ */
+  --ease-out:    cubic-bezier(0.16, 1, 0.30, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --duration-fast: 180ms;
+  --duration:      380ms;
+  --duration-slow: 680ms;
+
+  /* --------------------------------------------------------------------------
+     SPACING — a wide range, so rhythm becomes an editing decision.
+     The steps grow faster at the top end (64 → 96 → 144 → 208): that gap is
+     what lets one section run tight and the next breathe. Do NOT reach for a
+     single value everywhere — that reintroduces the metronome.
+     ------------------------------------------------------------------------ */
+  --space-3xs: 0.25rem;  /*   4 */
+  --space-2xs: 0.5rem;   /*   8 */
+  --space-xs:  0.75rem;  /*  12 */
+  --space-sm:  1rem;     /*  16 */
+  --space-md:  1.5rem;   /*  24 */
+  --space-lg:  2.5rem;   /*  40 */
+  --space-xl:  4rem;     /*  64 */
+  --space-2xl: 6rem;     /*  96 */
+  --space-3xl: 9rem;     /* 144 */
+  --space-4xl: 13rem;    /* 208 */
+
+  /* Section rhythm — three deliberate choices, fluid. Pick per section so the
+     page reads as edited, not gridded. Tight for related blocks; loose to let
+     a moment land. */
+  --section-tight: clamp(2.5rem, 6vw,  4rem);
+  --section:       clamp(4rem,   9vw,  7rem);
+  --section-loose: clamp(7rem,  14vw, 12rem);
+
+  /* --------------------------------------------------------------------------
+     LAYOUT — single centered column. Work is the hero; space is generous.
+     ------------------------------------------------------------------------ */
+  --measure:      66ch;                          /* max readable line length   */
+  --width-text:   40rem;                         /* 640 — narrow prose column  */
+  --width-wide:   70rem;                         /* 1120 — hero / work list    */
+  --page-gutter:  clamp(1.5rem, 6vw, 4rem);      /* breathing room at the edge */
+}
