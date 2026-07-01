@@ -1,0 +1,198 @@
+---
+// Site header. Quiet by default — transparent over the paper — with a single
+// hairline that fades in on scroll. Links resolve to home anchors so they work
+// from inside a case study too. Wordmark stays in Hanken; the serif is saved
+// for display moments.
+const wordmark = 'Maya Okonkwo';
+const links = [
+  { label: 'Selected Work', href: '/#work' },
+  { label: 'How I Work', href: '/#how-i-work' },
+  { label: 'About', href: '/#about' },
+  { label: 'Contact', href: '/#contact' },
+];
+---
+
+<header class="site-header" data-header>
+  <div class="site-header__inner">
+    <a class="wordmark" href="/">{wordmark}</a>
+
+    <nav class="nav-desktop" aria-label="Primary">
+      <ul>
+        {links.map((l) => (
+          <li><a href={l.href}>{l.label}</a></li>
+        ))}
+      </ul>
+    </nav>
+
+    <button
+      class="nav-toggle"
+      type="button"
+      aria-expanded="false"
+      aria-controls="mobile-nav"
+    >
+      <span class="nav-toggle__label" data-open="Close" data-closed="Menu">Menu</span>
+    </button>
+  </div>
+
+  <nav id="mobile-nav" class="nav-mobile" aria-label="Primary (mobile)">
+    <ul>
+      {links.map((l) => (
+        <li><a href={l.href}>{l.label}</a></li>
+      ))}
+    </ul>
+  </nav>
+</header>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: transparent;
+    border-bottom: 1px solid transparent;
+    transition:
+      background-color var(--duration) var(--ease-out),
+      border-color var(--duration) var(--ease-out);
+  }
+
+  /* Fades in once the page is scrolled — no blur, no glass, just paper + a rule. */
+  .site-header.is-scrolled {
+    background: var(--color-paper);
+    border-bottom-color: var(--color-hairline);
+  }
+
+  .site-header__inner {
+    width: 100%;
+    max-width: var(--width-wide);
+    margin-inline: auto;
+    padding: var(--space-sm) var(--page-gutter);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-lg);
+  }
+
+  .wordmark {
+    font-family: var(--font-body);
+    font-size: 1.0625rem;
+    font-weight: var(--weight-semibold);
+    letter-spacing: -0.01em;
+    color: var(--color-ink);
+    white-space: nowrap;
+  }
+
+  /* Desktop nav ---------------------------------------------------------- */
+  .nav-desktop ul {
+    display: flex;
+    align-items: center;
+    gap: var(--space-lg);
+    list-style: none;
+    padding: 0;
+  }
+  .nav-desktop a {
+    position: relative;
+    font-size: var(--text-sm);
+    font-weight: var(--weight-medium);
+    color: var(--color-ink-muted);
+    transition: color var(--duration-fast) var(--ease-out);
+  }
+  /* Hairline underline that draws in from the left on hover. */
+  .nav-desktop a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -0.35em;
+    width: 100%;
+    height: 1px;
+    background: var(--color-ink);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform var(--duration) var(--ease-out);
+  }
+  .nav-desktop a:hover { color: var(--color-ink); }
+  .nav-desktop a:hover::after { transform: scaleX(1); }
+
+  /* Mobile toggle -------------------------------------------------------- */
+  .nav-toggle {
+    display: none;
+    background: none;
+    border: 0;
+    padding: var(--space-2xs) 0;
+    cursor: pointer;
+    font-size: var(--text-sm);
+    font-weight: var(--weight-medium);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    color: var(--color-ink);
+  }
+
+  /* Mobile panel --------------------------------------------------------- */
+  .nav-mobile {
+    display: none;
+    position: fixed;
+    inset: 3.75rem 0 auto 0; /* sits just under the header row */
+    background: var(--color-paper);
+    border-bottom: 1px solid var(--color-hairline);
+    padding: var(--space-xl) var(--page-gutter) var(--space-2xl);
+    opacity: 0;
+    transform: translateY(-0.75rem);
+    pointer-events: none;
+    transition:
+      opacity var(--duration) var(--ease-out),
+      transform var(--duration) var(--ease-out);
+  }
+  .nav-mobile ul { list-style: none; padding: 0; display: flex; flex-direction: column; gap: var(--space-md); }
+  .nav-mobile a {
+    font-family: var(--font-display);
+    font-size: var(--text-display-sm);
+    letter-spacing: var(--tracking-display);
+    color: var(--color-ink);
+  }
+
+  /* Below the breakpoint: swap desktop nav for the toggle + panel. */
+  @media (max-width: 48rem) {
+    .nav-desktop { display: none; }
+    .nav-toggle { display: inline-flex; align-items: center; }
+    .nav-mobile { display: block; }
+    .site-header.nav-open {
+      background: var(--color-paper);
+      border-bottom-color: transparent;
+    }
+    .site-header.nav-open .nav-mobile {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+  }
+</style>
+
+<script>
+  const header = document.querySelector<HTMLElement>('[data-header]');
+  const toggle = document.querySelector<HTMLButtonElement>('.nav-toggle');
+  const label = document.querySelector<HTMLElement>('.nav-toggle__label');
+  const panel = document.getElementById('mobile-nav');
+
+  // Hairline fades in once the page moves.
+  const onScroll = () => header?.classList.toggle('is-scrolled', window.scrollY > 8);
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
+
+  const setOpen = (open: boolean) => {
+    header?.classList.toggle('nav-open', open);
+    toggle?.setAttribute('aria-expanded', String(open));
+    if (label) label.textContent = open ? label.dataset.open! : label.dataset.closed!;
+    document.body.style.overflow = open ? 'hidden' : '';
+  };
+
+  toggle?.addEventListener('click', () => {
+    setOpen(!header?.classList.contains('nav-open'));
+  });
+
+  // Close after choosing a destination.
+  panel?.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => setOpen(false)));
+
+  // Close if the viewport grows past the mobile breakpoint.
+  window.matchMedia('(min-width: 48rem)').addEventListener('change', (e) => {
+    if (e.matches) setOpen(false);
+  });
+</script>

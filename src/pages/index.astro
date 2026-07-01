@@ -1,0 +1,57 @@
+---
+import SiteLayout from '../layouts/SiteLayout.astro';
+
+// SCAFFOLD ONLY. These are the section landmarks so the nav resolves and the
+// shell can be judged in context. The hero composition and each section's real
+// layout are the next forks — nothing here is the finished page.
+const sections = [
+  { id: 'work', label: 'Selected Work' },
+  { id: 'how-i-work', label: 'How I Work' },
+  { id: 'about', label: 'About' },
+];
+---
+
+<SiteLayout title="Maya Okonkwo — Senior Product Designer">
+  <!-- INTRO — placeholder, not the composed 5-second hero (next fork). -->
+  <section class="intro column--wide" id="intro">
+    <p class="eyebrow">Senior Product Designer · Lisbon, Portugal</p>
+    <h1 class="intro__line">Designing payment tools that people actually trust.</h1>
+    <p class="intro__scaffold">Intro composition is the next fork — this is placeholder hierarchy.</p>
+  </section>
+
+  {sections.map((s) => (
+    <section class="scaffold column--wide" id={s.id}>
+      <p class="eyebrow">{s.label}</p>
+      <p class="scaffold__note">Section scaffold — layout lands in a later fork.</p>
+    </section>
+  ))}
+</SiteLayout>
+
+<style>
+  .intro {
+    padding-block: var(--section-loose) var(--section);
+  }
+  .intro__line {
+    font-size: var(--text-display-lg);
+    max-width: 20ch;
+    margin-block: var(--space-lg) var(--space-xl);
+  }
+  .intro__scaffold {
+    font-size: var(--text-sm);
+    color: var(--color-ink-faint);
+  }
+
+  /* Scaffold stubs — enough height to make anchors and scroll behave. */
+  .scaffold {
+    min-height: 60vh;
+    padding-block: var(--section);
+    border-top: 1px solid var(--color-hairline);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+  }
+  .scaffold__note {
+    font-size: var(--text-sm);
+    color: var(--color-ink-faint);
+  }
+</style>

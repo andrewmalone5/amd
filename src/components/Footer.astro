@@ -1,0 +1,65 @@
+---
+// Site footer = the contact moment. The CTA line is set in Spectral so the
+// close of the page carries the same voice as the top. Email is a placeholder
+// slot until real contact details go in.
+const email = 'hello@example.com'; // PLACEHOLDER — swap for real address
+const year = 2026;
+---
+
+<footer id="contact" class="site-footer">
+  <div class="site-footer__inner">
+    <p class="eyebrow">Contact</p>
+    <p class="site-footer__cta">Working on something in payments? Let&rsquo;s talk.</p>
+
+    <a class="site-footer__email" href={`mailto:${email}`}>{email}</a>
+
+    <div class="site-footer__meta">
+      <span>Lisbon, Portugal</span>
+      <span aria-hidden="true">·</span>
+      <span>&copy; {year}</span>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    border-top: 1px solid var(--color-hairline);
+    margin-top: var(--section-loose);
+  }
+
+  .site-footer__inner {
+    width: 100%;
+    max-width: var(--width-wide);
+    margin-inline: auto;
+    padding: var(--section) var(--page-gutter) var(--space-2xl);
+  }
+
+  .site-footer__cta {
+    font-family: var(--font-display);
+    font-size: var(--text-display-md);
+    line-height: var(--leading-tight);
+    letter-spacing: var(--tracking-display);
+    max-width: 18ch;
+    margin-block: var(--space-md) var(--space-lg);
+    text-wrap: balance;
+  }
+
+  .site-footer__email {
+    position: relative;
+    display: inline-block;
+    font-size: var(--text-lead);
+    color: var(--color-ink);
+    border-bottom: 1px solid var(--color-hairline-strong);
+    padding-bottom: 2px;
+    transition: border-color var(--duration) var(--ease-out);
+  }
+  .site-footer__email:hover { border-bottom-color: var(--color-ink); }
+
+  .site-footer__meta {
+    display: flex;
+    gap: var(--space-xs);
+    margin-top: var(--space-3xl);
+    font-size: var(--text-sm);
+    color: var(--color-ink-faint);
+  }
+</style>
