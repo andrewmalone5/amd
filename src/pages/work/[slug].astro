@@ -1,0 +1,247 @@
+---
+// The case-study template. One route, every project. The page is composed from
+// the project's `blocks` array, so a two-sentence project and the anchor share
+// the same template but render at completely different densities.
+//
+// A content grid keeps text at a readable measure while media breaks out wider.
+// Spacing varies by block type, so the rhythm reads as edited rather than gridded.
+import SiteLayout from '../../layouts/SiteLayout.astro';
+import { projects } from '../../data/projects';
+
+export function getStaticPaths() {
+  return projects.map((p, i) => ({
+    params: { slug: p.slug },
+    props: {
+      project: p,
+      prev: projects[i - 1] ?? null,
+      next: projects[i + 1] ?? null,
+    },
+  }));
+}
+
+const { project, prev, next } = Astro.props;
+---
+
+<SiteLayout title={`${project.title} — Maya Okonkwo`}>
+  <article class="case">
+    <a class="case__back" href="/#work">&larr;&nbsp;&nbsp;Selected Work</a>
+
+    <header class="case__header">
+      <p class="eyebrow">
+        {project.num} · {project.client} · {project.discipline} · {project.year}
+      </p>
+      <h1 class="case__title">{project.title}</h1>
+      {project.status && <span class="tag case__status">{project.status}</span>}
+    </header>
+
+    {project.blocks.map((b) =>
+      b.type === 'narrative' ? (
+        <div class="block block--narrative">
+          <p>{b.body}</p>
+        </div>
+      ) : b.type === 'quote' ? (
+        <blockquote class="block block--quote">
+          <p>{b.text}</p>
+          {b.cite && <cite>{b.cite}</cite>}
+        </blockquote>
+      ) : b.type === 'stat' ? (
+        <div class="block block--stat">
+          <span class="stat__value">{b.value}</span>
+          <span class="stat__label">{b.label}</span>
+        </div>
+      ) : b.type === 'media' ? (
+        <figure class="block block--media">
+          <div class="media__frame">
+            <span class="media__label">{b.label}</span>
+          </div>
+          {b.caption && <figcaption>{b.caption}</figcaption>}
+        </figure>
+      ) : null
+    )}
+
+    <nav class="case__nav" aria-label="More work">
+      {prev ? (
+        <a class="case__nav-link case__nav-link--prev" href={`/work/${prev.slug}`}>
+          <span class="case__nav-dir">← Previous</span>
+          <span class="case__nav-title">{prev.title}</span>
+        </a>
+      ) : (
+        <span />
+      )}
+      {next && (
+        <a class="case__nav-link case__nav-link--next" href={`/work/${next.slug}`}>
+          <span class="case__nav-dir">Next →</span>
+          <span class="case__nav-title">{next.title}</span>
+        </a>
+      )}
+    </nav>
+  </article>
+</SiteLayout>
+
+<style>
+  /* Content grid: a readable centre column, with room to break media out wider.
+     Everything defaults to the centre column; media and nav opt into the width. */
+  .case {
+    display: grid;
+    grid-template-columns:
+      1fr
+      min(42rem, calc(100% - 2 * var(--page-gutter)))
+      1fr;
+    padding-block: var(--space-2xl) var(--section);
+  }
+  .case > * {
+    grid-column: 2;
+  }
+
+  .case__back {
+    font-size: var(--text-sm);
+    font-weight: var(--weight-medium);
+    color: var(--color-ink-muted);
+    transition: color var(--duration-fast) var(--ease-out);
+  }
+  .case__back:hover { color: var(--color-ink); }
+
+  /* Header — the case title is Display LG (one step below the homepage hero). */
+  .case__header {
+    margin-top: var(--space-xl);
+    animation: case-rise var(--duration-slow) var(--ease-out) backwards;
+  }
+  .case__title {
+    font-size: var(--text-display-lg);
+    max-width: 18ch;
+    margin-top: var(--space-md);
+  }
+  .case__status { margin-top: var(--space-lg); }
+
+  @keyframes case-rise {
+    from { opacity: 0; transform: translateY(0.75rem); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Block rhythm — default gap between blocks, with emphasis blocks given more
+     air. This is where density stops being uniform. */
+  .block + .block { margin-top: var(--space-xl); }
+  .block--quote,
+  .block--stat { margin-top: var(--section-tight); margin-bottom: var(--space-lg); }
+  .block--media { margin-top: var(--section); margin-bottom: var(--space-lg); }
+  .case__header + .block { margin-top: var(--section-tight); }
+
+  /* Narrative */
+  .block--narrative p {
+    font-size: var(--text-lead);
+    line-height: var(--leading-lead);
+    color: var(--color-ink);
+  }
+
+  /* Pull quote — Spectral, marked with a short rule above it. */
+  .block--quote {
+    padding-top: var(--space-lg);
+    border-top: 2px solid var(--color-ink);
+  }
+  .block--quote p {
+    font-family: var(--font-display);
+    font-size: var(--text-display-sm);
+    line-height: var(--leading-tight);
+    letter-spacing: var(--tracking-display);
+    color: var(--color-ink);
+    text-wrap: balance;
+  }
+  .block--quote cite {
+    display: block;
+    margin-top: var(--space-md);
+    font-family: var(--font-body);
+    font-style: normal;
+    font-size: var(--text-xs);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    color: var(--color-ink-muted);
+  }
+
+  /* Stat — a single big number. Reads as a lead when a project opens on it. */
+  .block--stat {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2xs);
+  }
+  .stat__value {
+    font-family: var(--font-display);
+    font-size: var(--text-display-lg);
+    line-height: 1;
+    letter-spacing: var(--tracking-display);
+    color: var(--color-ink);
+  }
+  .stat__label {
+    font-size: var(--text-sm);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    color: var(--color-ink-muted);
+    max-width: 28ch;
+  }
+
+  /* Media — breaks out wider than the text column. The embed slot for live
+     React prototypes (client:load) or images. */
+  .block--media {
+    grid-column: 1 / -1;
+    justify-self: center;
+    width: min(70rem, calc(100% - 2 * var(--page-gutter)));
+  }
+  .media__frame {
+    aspect-ratio: 16 / 9;
+    display: grid;
+    place-items: center;
+    background: var(--color-surface);
+    border: 1px solid var(--color-hairline);
+    border-radius: 12px;
+  }
+  .media__label {
+    font-size: var(--text-xs);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    color: var(--color-ink-faint);
+  }
+  .block--media figcaption {
+    margin-top: var(--space-sm);
+    font-size: var(--text-sm);
+    color: var(--color-ink-faint);
+    text-align: center;
+  }
+
+  /* Prev / next — a wider footer to the page. */
+  .case__nav {
+    grid-column: 1 / -1;
+    justify-self: center;
+    width: min(70rem, calc(100% - 2 * var(--page-gutter)));
+    margin-top: var(--section);
+    padding-top: var(--space-xl);
+    border-top: 1px solid var(--color-hairline);
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-lg);
+  }
+  .case__nav-link {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2xs);
+    max-width: 22ch;
+    transition: transform var(--duration) var(--ease-out);
+  }
+  .case__nav-link--next { text-align: right; margin-left: auto; }
+  .case__nav-dir {
+    font-size: var(--text-xs);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    color: var(--color-ink-muted);
+  }
+  .case__nav-title {
+    font-family: var(--font-display);
+    font-size: var(--text-display-sm);
+    line-height: var(--leading-tight);
+    color: var(--color-ink);
+  }
+  .case__nav-link:hover { transform: translateY(-2px); }
+
+  @media (max-width: 33rem) {
+    .case__nav { flex-direction: column; }
+    .case__nav-link--next { text-align: left; margin-left: 0; }
+  }
+</style>
