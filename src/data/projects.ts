@@ -26,6 +26,7 @@ export interface Project {
   status?: string;
   anchor?: boolean;
   summary: string;
+  image?: string; // thumbnail for the Selected Work list; falls back to a placeholder
   blocks: Block[];
 }
 

@@ -1,8 +1,9 @@
 ---
-// Selected Work — an editorial numbered index, not a card grid. Each row runs
-// at the true length of its summary so density varies with the content, not a
-// template. Rows are hairline-separated at rest and lift into a surface card on
-// hover. The anchor project reads heavier (larger title + status tag).
+// Selected Work — an editorial numbered index, not a card grid. Text on the
+// left (number, title, meta, summary), a thumbnail on the right. Each row runs
+// at the true length of its summary so density still varies with the content.
+// Hovering the list spotlights one project and dims the rest. Images fall back
+// to a toned placeholder until real ones are set in the data file.
 import { projects } from '../data/projects';
 import { withBase } from '../lib/url';
 ---
@@ -29,6 +30,14 @@ import { withBase } from '../lib/url';
 
             <p class="work__summary">{p.summary}</p>
           </div>
+
+          <div class="work__media">
+            {p.image ? (
+              <img src={withBase(p.image)} alt={p.title} loading="lazy" />
+            ) : (
+              <div class="work__media-ph"><span>Project image</span></div>
+            )}
+          </div>
         </a>
       </li>
     ))}
@@ -49,11 +58,12 @@ import { withBase } from '../lib/url';
     margin: 0;
   }
 
-  /* Each entry: number in a left gutter, everything else in the body column. */
+  /* number | text | thumbnail */
   .work {
     display: grid;
-    grid-template-columns: 3rem 1fr;
+    grid-template-columns: 3rem 1fr minmax(0, 17rem);
     gap: var(--space-lg);
+    align-items: start;
     padding: var(--space-xl) var(--space-md);
     border-top: 1px solid var(--color-hairline);
     color: inherit;
@@ -136,15 +146,54 @@ import { withBase } from '../lib/url';
     margin-top: var(--space-md);
     font-size: var(--text-body);
     color: var(--color-ink);
-    max-width: 58ch;
+    max-width: 52ch;
   }
 
-  @media (max-width: 33rem) {
+  /* Thumbnail — consistent size, toned to the palette. Subtle zoom on hover,
+     clipped by the frame (the image is always visible, never revealed). */
+  .work__media {
+    align-self: start;
+    aspect-ratio: 4 / 3;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid var(--color-hairline);
+  }
+  .work__media img,
+  .work__media-ph {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    transition: transform var(--duration-slow) var(--ease-out);
+  }
+  .work__media-ph {
+    background: var(--color-surface);
+    display: grid;
+    place-items: center;
+  }
+  .work__media-ph span {
+    font-size: var(--text-xs);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    color: var(--color-ink-faint);
+  }
+  .work:hover .work__media img,
+  .work:hover .work__media-ph,
+  .work:focus-visible .work__media img,
+  .work:focus-visible .work__media-ph {
+    transform: scale(1.03);
+  }
+
+  /* Stack below the point where three columns get cramped. */
+  @media (max-width: 48rem) {
     .work {
       grid-template-columns: 1fr;
-      gap: var(--space-sm);
+      gap: var(--space-md);
       padding-inline: var(--space-xs);
     }
     .work__index { padding-top: 0; }
+    .work__media { max-width: 28rem; }
+    .work:hover .work__body,
+    .work:focus-visible .work__body { transform: none; }
   }
 </style>
