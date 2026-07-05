@@ -29,7 +29,7 @@ const { project, prev, next } = Astro.props;
 
     <header class="case__header">
       <p class="eyebrow">
-        {project.num} · {project.client} · {project.discipline} · {project.year}
+        {project.num} / {project.client} / {project.discipline} / {project.year}
       </p>
       <h1 class="case__title">{project.title}</h1>
       {project.status && <span class="tag case__status">{project.status}</span>}
