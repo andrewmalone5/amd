@@ -34,6 +34,7 @@ export const projects: Project[] = [
   {
     num: '01',
     slug: 'refunds',
+    image: '/work/refunds.svg', // placeholder — replace with a real thumbnail
     title: 'Rebuilding refunds from the ground up',
     client: 'Neobank',
     discipline: 'Payments',
@@ -61,6 +62,7 @@ export const projects: Project[] = [
   {
     num: '02',
     slug: 'instant-transfers',
+    image: '/work/instant-transfers.svg', // placeholder — replace with a real thumbnail
     title: 'When “instant” isn’t',
     client: 'Neobank',
     discipline: 'Payments',
@@ -80,6 +82,7 @@ export const projects: Project[] = [
   {
     num: '03',
     slug: 'merchant-dashboard',
+    image: '/work/merchant-dashboard.svg', // placeholder — replace with a real thumbnail
     title: 'A dashboard people opened on purpose',
     client: 'Neobank',
     discipline: 'Merchant Tools',
@@ -99,6 +102,7 @@ export const projects: Project[] = [
   {
     num: '04',
     slug: 'onboarding',
+    image: '/work/onboarding.svg', // placeholder — replace with a real thumbnail
     title: 'Onboarding without the drop-off',
     client: 'Fintech startup',
     discipline: 'Mobile',
