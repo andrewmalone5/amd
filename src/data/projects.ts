@@ -189,20 +189,98 @@ export const projects: Project[] = [
     num: '02',
     slug: 'ai-seller-back-office',
     image: '/work/ai-seller-back-office.svg',
-    title: 'Designing for AI in the seller back office',
+    title: 'AI suggests. The seller decides.',
     client: 'Back Market',
-    discipline: 'Seller Back Office',
+    discipline: 'AI Strategy',
     year: '2025–present',
     status: 'In progress',
     summary:
-      'A multi-year programme bringing machine intelligence into Back Market’s seller platform: automated pricing, an AI assistant, the Automation Spectrum, trust framework, and sequencing model that shaped every feature decision.',
+      'When AI in the Back Office was an open question with no evidence base, I ran the 118-seller study that set Back Market’s AI posture: suggest-and-confirm, adopted verbatim into the 2026 vision. Now turning that posture into a proactive assistant.',
     blocks: [
+      // Lead: the ambiguity and the stakes.
       {
         type: 'narrative',
         body:
-          'A multi-year programme bringing machine intelligence into Back Market’s seller platform: automated pricing, an AI assistant, the Automation Spectrum, trust framework, and sequencing model that shaped every feature decision.',
+          'AI in the Back Office was a strategic question nobody had evidence for. Leadership wanted to move fast, and the real risk was building the wrong AI: over-automating in ways sellers would not trust, or under-building and missing the moment. There was no data on what sellers actually wanted AI to do, or how much autonomy they would accept.\n\nI took the ambiguity on directly, as a product designer rather than a researcher by title. That is the point of this story: a contested, politically loaded question turned into an evidence question, and the answer turned into the company’s adopted AI posture.',
       },
-      { type: 'media', label: 'Screenshot', caption: 'Placeholder — add a screenshot.' },
+      {
+        type: 'stat',
+        value: '118',
+        label: 'Sellers in the study that set the AI posture, cross-validated with frontline Seller Success Managers',
+      },
+
+      // The bet: rigor under speed pressure, credibility by design.
+      { type: 'heading', kicker: 'The bet', text: 'Evidence before roadmap' },
+      {
+        type: 'narrative',
+        body:
+          'A designer’s survey alone would not carry a decision this contested. So the validation was two-phase by design: direct seller sentiment first, then a cross-validation round with Seller Success Managers, the people who talk to sellers every day. The survey instrument went out in October 2025, hit 100 responses in two weeks, and closed at 118. A preliminary report landed in November; the consolidated report, with the recommendation, in February.\n\nThe signal was consistent. 54% of sellers already used AI tools, and they rated its potential value in the Back Office at 6.9 out of 10. On autonomy the split was decisive: 36% wanted suggest-only, 33% wanted auto-fill with approval, 25% wanted full automation on their own rules. Sellers were not afraid of AI. They were unwilling to be automated over.',
+      },
+      {
+        type: 'stat',
+        value: '51.8%',
+        label: 'Require the ability to accept or reject every individual AI action; only 6% reject AI outright',
+      },
+
+      // The recommendation: posture plus a no-go list.
+      { type: 'heading', kicker: 'The recommendation', text: 'Suggest-and-confirm, with a no-go list' },
+      {
+        type: 'narrative',
+        body:
+          'The consolidated report recommended a suggest-and-confirm posture: AI proposes, the seller approves. Framed as the right stance for 2026 on its own merits, not as a temporary limitation while trust gets built. With it came a prioritized Phase 1 feature set (Alerts and Monitoring, a Listing Quality Assistant, a Performance Digest) and an explicit no-go list: no automated pricing decisions, and no autonomous listing changes without an accept-or-reject step.\n\nThe no-go list is the part I’d defend hardest. It is a designer saying no, with evidence, to the most automated version of the roadmap while the pressure ran the other way.',
+      },
+      {
+        type: 'media',
+        label: 'Suggest-and-confirm framework',
+        caption: 'The posture in one picture: what AI proposes, what sellers approve, what stays off the table.',
+      },
+
+      // Impact: decision-impact, claimed as exactly that.
+      { type: 'heading', kicker: 'Impact', text: 'Adopted verbatim into strategy' },
+      {
+        type: 'narrative',
+        body:
+          'The suggest-and-confirm posture was cited verbatim in the Seller XP Vision 2026 as the 2026 strategy, using the study’s specific data points and naming the study directly. The report also broke a stalled AI prioritization process that had been waiting on seller-validation evidence, producing the three confirmed Phase 1 features, and it seeded the workstreams that followed: a competitive benchmark and the Head of Product’s commitment of development resources for a chatbot-to-BackFunds integration.\n\nThis is decision-impact, and I claim it as exactly that. The work changed what got built and the company’s stated posture. Whether suggest-and-confirm drives adoption once the features ship is the test still ahead, and I treat the 51.8% finding as a hypothesis the shipped product will prove or break, not a conclusion already proven.',
+      },
+      {
+        type: 'media',
+        label: 'Vision 2026 citation',
+        caption: 'The posture, cited in the company’s strategy document.',
+      },
+
+      // Strategy into product: benchmark plus the two-concept prototype.
+      { type: 'heading', kicker: 'Strategy into product', text: 'From posture to prototype' },
+      {
+        type: 'narrative',
+        body:
+          'The posture then had to become product. I lead the design side of that: a competitive benchmark of AI seller-assistant capabilities across nine platforms (Amazon, Shopify, eBay, Walmart, Etsy and others), mapped against Back Market’s own vision, and a coded prototype built as two concepts side by side. Concept one is the current state: a reactive Q&A assistant that searches the support centre and answers. Concept two is where we want to be: a proactive assistant that surfaces things grounded in the seller’s actual data.\n\nSix proactive scenarios are fully built as clickable states, and every one follows the same shape: a proactive message grounded in real seller data, then follow-up branches the seller chooses. A BackFunds introduction pegged to the seller’s actual pending payout. A payout-tier answer with the specific next step. A GMV drop traced to delisted iPhone models, with a link to relist. A quality flag with the concrete consequence stated. The consistency is the argument: suggest-and-confirm applied as a system, not case by case.',
+      },
+      {
+        type: 'media',
+        label: 'Two concepts, side by side',
+        caption: 'The reactive assistant in development, next to the proactive vision it should become.',
+      },
+
+      // Shipping it: the industrialization spec on the live MVP.
+      { type: 'heading', kicker: 'Shipping it', text: 'Industrializing the MVP' },
+      {
+        type: 'narrative',
+        body:
+          'In parallel, a chatbot MVP built by a taskforce outside the team went live in Q1 2026, answering seller questions from support-centre articles. It worked, and its numbers described the problem: 44% of conversations ended after a single exchange with no way to know whether the seller got an answer or gave up, 8.5% of sellers explicitly asked for a human, and articles were not filtered by country, so French sellers could receive answers that did not apply to them.\n\nI co-wrote the industrialization spec with the PM, owning the seller-facing experience layer: the entry point moved out of a locked tab, the legal disclaimer redesigned so it stops blocking the first message, loading and error states, answer feedback, and the escalation logic. The rules are deliberately simple. No answer found: offer a human, immediately, without making the seller ask. Negative rating: offer a human. Technical error: retry.',
+      },
+      {
+        type: 'media',
+        label: 'Entry point, before and after',
+        caption: 'The chatbot freed from its tab, with the disclaimer out of the way of the first message.',
+      },
+
+      // Where it stands.
+      { type: 'heading', kicker: 'Where it stands', text: 'The bet is still being tested' },
+      {
+        type: 'narrative',
+        body:
+          'The benchmark sits at roughly 60% complete, iteration 2 of the assistant is in discovery for Q3 2026 with implementation scoped for Q4, and the committed BackFunds-integration resources unlock when the PRDs and designs land. The proof so far lives in decisions and citations rather than usage numbers, which is the right kind of impact for research-to-strategy work, and the honest version of this case study says so: the posture is adopted, the prototype exists, and the adoption test is ahead.',
+      },
     ],
   },
   {
