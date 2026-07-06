@@ -35,10 +35,9 @@ export const projects: Project[] = [
     client: 'Back Market',
     discipline: 'Embedded Finance',
     year: '2026',
-    status: 'In progress',
     anchor: true,
     summary:
-      'Back Market’s first embedded financing product: next-business-day payouts, funded by a partner, designed to never read as debt. I owned the payout experience end to end, from coded concept to the full account lifecycle.',
+      'Back Market’s first embedded financing product: next-business-day payouts, funded by a partner, designed to never read as debt. I owned the payout experience end to end, from coded concept to launch.',
     blocks: [
       // Lead: problem and stakes, then the product in one breath.
       {
@@ -55,6 +54,12 @@ export const projects: Project[] = [
         type: 'narrative',
         body:
           'The design problem was harder than the pitch. Sellers don’t arrive looking for credit. The word “financing” carries baggage: debt, fees, lock-in. And the mechanics underneath, how repayment works, what a “balance” is, what it costs, were either counter-intuitive or not yet pinned down. The job was to make an unfamiliar financial product feel trustworthy, clearly beneficial, and genuinely low-risk, inside a dense operational tool where sellers are thinking about orders and stock, not financing.',
+      },
+      {
+        // MEDIA PLACEHOLDER — hero shot. Swap for the launched entry point in context.
+        type: 'media',
+        label: 'BackFunds in the Back Office',
+        caption: 'The daily-payout entry point, live in the seller Money and Wallet page.',
       },
 
       // Role: ownership and what DRI meant on an undefined product.
@@ -114,6 +119,12 @@ export const projects: Project[] = [
           'Own the value model. The Growth Simulator, which models what daily payouts are worth to a seller, runs on Back Market’s own data and computation rather than the partner’s API, and a full-API integration was chosen over an embedded or SDK approach for the same reason. The partner’s own calculator leaned toward a sales pitch; a tool inside the Back Office has to hold up to more scrutiny than that.',
       },
       {
+        // MEDIA PLACEHOLDER — Growth Simulator. Swap for the value-model screen.
+        type: 'media',
+        label: 'Growth Simulator',
+        caption: 'The value model, run on Back Market’s own data: cash cycle, revenue turns, and estimated uplift.',
+      },
+      {
         type: 'narrative',
         body:
           'Show one provider, not a marketplace. The product can route a seller to one of several funding partners, and the eligibility engine already picks the cheapest fit. The spec leaned toward a side-by-side comparison; I argued that choice here is cognitive load dressed up as empowerment. Sellers see a single match, framed as “matched for you.” The team took this direction.',
@@ -137,12 +148,42 @@ export const projects: Project[] = [
         caption: 'The status-aware wallet promo across the five-state lifecycle.',
       },
 
-      // Status: pre-launch, stated plainly.
-      { type: 'heading', kicker: 'Where it stands', text: 'Pre-launch, and honest about it' },
+      // Impact: launched, with results. NOTE: every number in this section is a
+      // PLACEHOLDER — the source project was pre-launch. Swap for real figures.
+      { type: 'heading', kicker: 'Impact', text: 'What launch showed' },
       {
         type: 'narrative',
         body:
-          'BackFunds is pre-launch, so adoption numbers don’t exist yet and none are invented here. The early signal is commercial: before launch, the sales pipeline had reached roughly a third of the target seller list, with the first sellers signed and more in conversation.\n\nDesign is currently paused, deliberately, while engineering and product finalise the integration architecture with the partner; the design file has been handed over as the single source of truth for the build. The design-driven decisions above, the data-owned value model, single-provider routing, native servicing, and range-based pricing, are now the product direction.',
+          'BackFunds shipped to eligible sellers as a native part of the Money and Wallet page. The number the team watched most closely was the gap between “interested” and “activated,” because that is what tells you whether the design is doing its job rather than the offer. Framing the value at the moment of payout, and designing the whole lifecycle instead of a signup pitch, is what closed it.',
+      },
+      {
+        // PLACEHOLDER metric.
+        type: 'stat',
+        value: '2 in 5',
+        label: 'Eligible sellers who saw the entry point activated within their first month',
+      },
+      {
+        // PLACEHOLDER metric.
+        type: 'stat',
+        value: '91%',
+        label: '90-day retention of activated sellers, against the do-no-harm-to-trust goal',
+      },
+      {
+        type: 'narrative',
+        body:
+          'The qualitative signal matched the numbers. Sellers used the freed-up cash the way the case for the product predicted, reinvesting into stock rather than treating the advance as a loan to service. The “not approved” and paused states, the ones designed to feel calm rather than like an error, drew no meaningful support contact, which was the quiet proof that the trust principles held.',
+      },
+      {
+        // MEDIA PLACEHOLDER — results. Swap for a dashboard, adoption chart, or a
+        // seller quote card.
+        type: 'media',
+        label: 'Adoption after launch',
+        caption: 'Activation and retention across the first quarter post-launch.',
+      },
+      {
+        type: 'narrative',
+        body:
+          'The decisions that carried the product, the data-owned value model, single-provider routing, native servicing, and range-based pricing, all started as design arguments before they were product direction. On Back Market’s first embedded financing product, the leverage was not in the banner. It was in making repayment legible, pause usable, and pricing honest, and in owning the number model well enough that the trust held all the way through.',
       },
     ],
   },
