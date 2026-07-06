@@ -59,9 +59,15 @@ const { project, prev, next } = Astro.props;
         </div>
       ) : b.type === 'media' ? (
         <figure class="block block--media">
-          <div class="media__frame">
-            <span class="media__label">{b.label}</span>
-          </div>
+          {b.image ? (
+            <div class="media__frame media__frame--image">
+              <img src={withBase(b.image)} alt={b.label} loading="lazy" />
+            </div>
+          ) : (
+            <div class="media__frame">
+              <span class="media__label">{b.label}</span>
+            </div>
+          )}
           {b.caption && <figcaption>{b.caption}</figcaption>}
         </figure>
       ) : null
@@ -227,6 +233,16 @@ const { project, prev, next } = Astro.props;
     letter-spacing: var(--tracking-label);
     text-transform: uppercase;
     color: var(--color-ink-faint);
+  }
+  /* With a real image the frame takes the image's own proportions. */
+  .media__frame--image {
+    aspect-ratio: auto;
+    display: block;
+  }
+  .media__frame--image img {
+    width: 100%;
+    height: auto;
+    display: block;
   }
   .block--media figcaption {
     margin-top: var(--space-sm);

@@ -10,7 +10,7 @@ export type Block =
   | { type: 'narrative'; body: string } // body may contain \n\n paragraph breaks
   | { type: 'quote'; text: string; cite?: string }
   | { type: 'stat'; value: string; label: string }
-  | { type: 'media'; label: string; caption?: string };
+  | { type: 'media'; label: string; caption?: string; image?: string }; // image: path under /public; placeholder frame until set
 
 export interface Project {
   num: string;
