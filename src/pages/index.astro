@@ -27,14 +27,17 @@ import About from '../components/About.astro';
 <style>
   /* HERO ---------------------------------------------------------------- */
   .hero {
-    padding-block: var(--space-xl) var(--section-loose);
+    padding-block: var(--space-lg) var(--section-loose);
   }
   .hero__statement {
-    font-size: var(--text-display-xl);
-    line-height: var(--leading-display);
+    /* Sized to keep the whole hero — headline, intro, and role — in the first
+       screen. Smaller than the Display XL ceiling, which was too big for this
+       longer line. */
+    font-size: clamp(2.25rem, 1.3rem + 3.2vw, 4.25rem);
+    line-height: 1.06;
     letter-spacing: var(--tracking-display);
-    max-width: 16ch;
-    margin-bottom: var(--space-xl);
+    max-width: 18ch;
+    margin-bottom: var(--space-lg);
   }
   /* The payoff phrase, set in italic and eased back a tone — the one two-tone
      moment, echoing the existing site. */
@@ -51,7 +54,7 @@ import About from '../components/About.astro';
 
   /* Currently / location metadata, below the intro. */
   .hero__meta {
-    margin-top: var(--space-2xl);
+    margin-top: var(--space-xl);
     display: flex;
     flex-direction: column;
     gap: var(--space-xs);
