@@ -214,15 +214,22 @@ const { project } = Astro.props;
     text-transform: uppercase;
     color: var(--color-ink-faint);
   }
-  /* With a real image the frame takes the image's own proportions. */
+  /* With a real image the frame adapts: landscape media fills the breakout
+     width; portrait shots (phone screens) sit centred at a readable height on
+     the surface panel instead of stretching to fill it. */
   .media__frame--image {
     aspect-ratio: auto;
-    display: block;
+    display: flex;
+    justify-content: center;
+    padding: var(--space-xl) var(--space-md);
   }
   .media__frame--image img {
-    width: 100%;
-    height: auto;
     display: block;
+    width: auto;
+    max-width: 100%;
+    max-height: 46rem;
+    height: auto;
+    border-radius: 18px;
   }
   .block--media figcaption {
     margin-top: var(--space-sm);

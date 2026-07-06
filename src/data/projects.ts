@@ -305,7 +305,7 @@ export const projects: Project[] = [
   {
     num: '04',
     slug: 'care-gap',
-    image: '/work/care-gap.svg',
+    image: '/work/soteria/thumb-4x3.png',
     title: 'Closing the gap between appointments.',
     client: 'Infocare Healthcare',
     discipline: 'Mobile App',
@@ -318,7 +318,36 @@ export const projects: Project[] = [
         body:
           'Patients drift from their care plans when there’s nothing connecting them between clinic visits. SoteriaMe was designed to close that gap: building the habits and trust that keep patients engaged with their treatment when no one is watching.',
       },
-      { type: 'media', label: 'Screenshot', caption: 'Placeholder — add a screenshot.' },
+      {
+        type: 'media',
+        label: 'Home',
+        image: '/work/soteria/01-home.png',
+        caption: 'The dashboard as the single hub: one primary action, no persistent navigation.',
+      },
+      {
+        type: 'media',
+        label: 'Symptom history',
+        image: '/work/soteria/02-symptom-history.png',
+        caption: 'Severity over time, with series distinguished by shape as well as colour.',
+      },
+      {
+        type: 'media',
+        label: 'Log symptoms',
+        image: '/work/soteria/03-log-symptoms.png',
+        caption: 'The trust label at the point of data entry: who can see this, answered before it’s asked.',
+      },
+      {
+        type: 'media',
+        label: 'Configure reminder',
+        image: '/work/soteria/04-configure-reminder.png',
+        caption: 'Reminder setup, rebuilt after testing surfaced it as the flow patients failed.',
+      },
+      {
+        type: 'media',
+        label: 'Select time',
+        image: '/work/soteria/05-select-time.png',
+        caption: 'Platform-native time selection on Android.',
+      },
     ],
   },
 ];
