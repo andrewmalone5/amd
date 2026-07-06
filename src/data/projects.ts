@@ -1,14 +1,9 @@
 // Single source of truth for project work. The Selected Work index and the
-// case-study pages both read from here — adding a real project is editing this
-// array, nothing else.
+// case-study pages both read from here — adding a project is editing this array.
 //
-// A case-study page is composed from `blocks`: only the blocks a project needs,
-// in any order. That's what lets density vary per project instead of forcing
-// every story into the same template.
-//
-// COPY NOTE: titles, meta, and summaries are the placeholder persona verbatim.
-// Pull-quote text and stat values/labels are extracted verbatim from those
-// summaries. Media captions are placeholders. No new prose has been written.
+// Copy is from Andrew's existing site. Case-study page detail (blocks) is
+// minimal for now — the list summaries are real; deeper page content and real
+// screenshots get added per project.
 
 export type Block =
   | { type: 'narrative'; body: string }
@@ -33,90 +28,80 @@ export interface Project {
 export const projects: Project[] = [
   {
     num: '01',
-    slug: 'refunds',
-    image: '/work/refunds.svg', // placeholder — replace with a real thumbnail
-    title: 'Rebuilding refunds from the ground up',
-    client: 'Neobank',
-    discipline: 'Payments',
-    year: '2024–present',
+    slug: 'ai-seller-back-office',
+    image: '/work/ai-seller-back-office.svg',
+    title: 'Designing for AI in the seller back office',
+    client: 'Back Market',
+    discipline: 'Seller Back Office',
+    year: '2025–present',
     status: 'In progress',
     anchor: true,
     summary:
-      'Refunds were the top driver of support tickets and the single worst-rated flow in the app. I led a full rebuild across three teams — mapping the reconciliation logic, redesigning the customer-facing states, and building a shared component set the payments org still uses. Adoption of the new flow hit 80% within two quarters and ticket volume dropped by a third.',
-    // Richest page: the anchor. Narrative, a media slot, a pull quote, a stat.
+      'A multi-year programme bringing machine intelligence into Back Market’s seller platform: automated pricing, an AI assistant, the Automation Spectrum, trust framework, and sequencing model that shaped every feature decision.',
     blocks: [
       {
         type: 'narrative',
         body:
-          'Refunds were the top driver of support tickets and the single worst-rated flow in the app. I led a full rebuild across three teams — mapping the reconciliation logic, redesigning the customer-facing states, and building a shared component set the payments org still uses. Adoption of the new flow hit 80% within two quarters and ticket volume dropped by a third.',
+          'A multi-year programme bringing machine intelligence into Back Market’s seller platform: automated pricing, an AI assistant, the Automation Spectrum, trust framework, and sequencing model that shaped every feature decision.',
       },
-      {
-        type: 'media',
-        label: 'Prototype',
-        caption: 'Placeholder — a live React prototype or image sequence mounts here.',
-      },
-      { type: 'quote', text: 'I led a full rebuild across three teams.' },
-      { type: 'stat', value: '80%', label: 'adoption within two quarters' },
+      { type: 'media', label: 'Screenshot', caption: 'Placeholder — add a screenshot.' },
     ],
   },
   {
     num: '02',
-    slug: 'instant-transfers',
-    image: '/work/instant-transfers.svg', // placeholder — replace with a real thumbnail
-    title: 'When “instant” isn’t',
-    client: 'Neobank',
-    discipline: 'Payments',
-    year: '2023',
+    slug: 'deals-programme',
+    image: '/work/deals-programme.svg',
+    title: 'Commission rates don’t move sellers. Margin math does.',
+    client: 'Back Market',
+    discipline: 'Deals Programme',
+    year: '2025',
     summary:
-      'Instant transfers aren’t instant when they fail. I designed the waiting and failure states nobody wants to think about.',
-    // Deliberately minimal: two sentences, one block. Proves the template holds
-    // at the shortest length without looking broken or empty.
+      'Back Market’s Deals programme offered sellers reduced commission, but with no product surface, no margin context, and no way to self-evaluate, adoption was near zero. I designed three iterations of in-product decision support, each one earned by the signal the last one generated.',
     blocks: [
       {
         type: 'narrative',
         body:
-          'Instant transfers aren’t instant when they fail. I designed the waiting and failure states nobody wants to think about.',
+          'Back Market’s Deals programme offered sellers reduced commission, but with no product surface, no margin context, and no way to self-evaluate, adoption was near zero. I designed three iterations of in-product decision support, each one earned by the signal the last one generated.',
       },
+      { type: 'media', label: 'Screenshot', caption: 'Placeholder — add a screenshot.' },
     ],
   },
   {
     num: '03',
-    slug: 'merchant-dashboard',
-    image: '/work/merchant-dashboard.svg', // placeholder — replace with a real thumbnail
-    title: 'A dashboard people opened on purpose',
-    client: 'Neobank',
-    discipline: 'Merchant Tools',
-    year: '2022–23',
+    slug: 'back-office-homepage',
+    image: '/work/back-office-homepage.svg',
+    title: 'Making the homepage worth opening',
+    client: 'Back Market',
+    discipline: 'Seller Back Office',
+    year: '2024–25',
     summary:
-      'Merchants ignored the analytics dashboard entirely. I rebuilt it around the one question they actually asked — “did I make money today?” — and it became the most-visited screen in the merchant product.',
-    // Quote-led: opens on the question that reframed the project.
+      'Sellers had stopped using the Back Office homepage entirely, bookmarking around it to reach Orders and Insights directly. I redesigned the content layer to answer a seller’s first-60-seconds questions. By mid-2025, the #1 most-visited page in the product.',
     blocks: [
-      { type: 'quote', text: 'did I make money today?' },
       {
         type: 'narrative',
         body:
-          'Merchants ignored the analytics dashboard entirely. I rebuilt it around the one question they actually asked — “did I make money today?” — and it became the most-visited screen in the merchant product.',
+          'Sellers had stopped using the Back Office homepage entirely, bookmarking around it to reach Orders and Insights directly. I redesigned the content layer to answer a seller’s first-60-seconds questions. By mid-2025, the #1 most-visited page in the product.',
       },
+      { type: 'media', label: 'Screenshot', caption: 'Placeholder — add a screenshot.' },
     ],
   },
   {
     num: '04',
-    slug: 'onboarding',
-    image: '/work/onboarding.svg', // placeholder — replace with a real thumbnail
-    title: 'Onboarding without the drop-off',
-    client: 'Fintech startup',
-    discipline: 'Mobile',
-    year: '2021',
+    slug: 'care-gap',
+    image: '/work/care-gap.svg',
+    title: 'Closing the gap between appointments.',
+    client: 'Integris Healthcare',
+    discipline: 'Mobile App',
+    year: '2022',
     summary:
-      'New users abandoned signup at identity verification. I redesigned the flow around explaining why each step mattered, and cut drop-off at the verification step nearly in half.',
-    // Number-led: opens on the outcome, then explains it.
+      'Patients drift from their care plans when there’s nothing connecting their between-clinic visits. TahoeMe was designed to close that gap, building the habits and trust that keep patients engaged with their treatment.',
     blocks: [
-      { type: 'stat', value: 'Nearly half', label: 'drop-off at the verification step' },
       {
         type: 'narrative',
         body:
-          'New users abandoned signup at identity verification. I redesigned the flow around explaining why each step mattered, and cut drop-off at the verification step nearly in half.',
+          'Patients drift from their care plans when there’s nothing connecting their between-clinic visits. TahoeMe was designed to close that gap, building the habits and trust that keep patients engaged with their treatment.',
       },
+      { type: 'media', label: 'Screenshot', caption: 'Placeholder — add a screenshot.' },
     ],
   },
 ];

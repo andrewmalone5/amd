@@ -1,22 +1,28 @@
 ---
-// Site footer = the contact moment. The CTA line is set in Spectral so the
-// close of the page carries the same voice as the top. Email is a placeholder
-// slot until real contact details go in.
-const email = 'hello@example.com'; // PLACEHOLDER — swap for real address
-const year = 2026;
+// Site footer = the contact moment. Copy is Andrew's, from the existing site.
+// The LinkedIn URL is a placeholder — set it below. Button is styled to the
+// ink palette rather than LinkedIn-blue to stay in the system.
+const linkedin = 'https://www.linkedin.com/'; // PLACEHOLDER — set your profile URL
+const year = 2025;
 ---
 
 <footer id="contact" class="site-footer">
   <div class="site-footer__inner">
     <p class="eyebrow">Contact</p>
-    <p class="site-footer__cta">Working on something in payments? Let&rsquo;s talk.</p>
+    <p class="site-footer__cta">Get in touch.</p>
+    <p class="site-footer__body">
+      I care about working on things that leave people genuinely better off. If that&rsquo;s
+      what you&rsquo;re building, I&rsquo;d love to talk.
+    </p>
 
-    <a class="site-footer__email" href={`mailto:${email}`}>{email}</a>
+    <a class="site-footer__link" href={linkedin} target="_blank" rel="noopener">
+      Connect on LinkedIn
+    </a>
 
     <div class="site-footer__meta">
       <span>Berlin, Germany</span>
       <span aria-hidden="true">/</span>
-      <span>&copy; {year}</span>
+      <span>&copy; {year} Andrew Malone</span>
     </div>
   </div>
 </footer>
@@ -39,21 +45,36 @@ const year = 2026;
     font-size: var(--text-display-md);
     line-height: var(--leading-tight);
     letter-spacing: var(--tracking-display);
-    max-width: 18ch;
     margin-block: var(--space-md) var(--space-lg);
-    text-wrap: balance;
   }
 
-  .site-footer__email {
-    position: relative;
-    display: inline-block;
+  .site-footer__body {
     font-size: var(--text-lead);
-    color: var(--color-ink);
-    border-bottom: 1px solid var(--color-hairline-strong);
-    padding-bottom: 2px;
-    transition: border-color var(--duration) var(--ease-out);
+    line-height: var(--leading-lead);
+    color: var(--color-ink-muted);
+    max-width: 40ch;
   }
-  .site-footer__email:hover { border-bottom-color: var(--color-ink); }
+
+  /* Ink button — in-system, not LinkedIn-blue. */
+  .site-footer__link {
+    display: inline-flex;
+    align-items: center;
+    margin-top: var(--space-xl);
+    padding: 0.85em 1.5em;
+    background: var(--color-ink);
+    color: var(--color-paper);
+    border-radius: 999px;
+    font-size: var(--text-sm);
+    font-weight: var(--weight-medium);
+    letter-spacing: 0.01em;
+    transition:
+      transform var(--duration) var(--ease-out),
+      opacity var(--duration) var(--ease-out);
+  }
+  .site-footer__link:hover {
+    transform: translateY(-2px);
+    opacity: 0.9;
+  }
 
   .site-footer__meta {
     display: flex;

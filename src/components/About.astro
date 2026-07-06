@@ -1,15 +1,27 @@
 ---
-// About — the personal close. The one place on the site where Spectral runs as
-// reading-length prose, so the most human section reads like a signed note
-// rather than body copy. Full-ink: this is her voice. Copy is the persona
-// verbatim.
-const bio =
-  'A Nigerian designer in Lisbon, a decade into a career that started in print and drifted into product. I do my best work early, close to the problem, before anyone’s opened a design tool. Off-hours I’m usually running or failing to keep plants alive. Cautiously optimistic about both.';
+// About — the personal close. Prose set in Spectral (the one long-form serif
+// moment on the site), with a portrait alongside. Copy is Andrew's, from the
+// existing site. Portrait is a placeholder until the real photo is added.
+import { withBase } from '../lib/url';
+const portrait = '/about-portrait.svg'; // PLACEHOLDER — swap for the real photo
+const paragraphs = [
+  'An Irishman in Berlin, ten years into a career that started in industrial design and found its home in digital. I took the long route, and I think it shows in how I approach problems.',
+  'I work best when I’m early, close to the team, asking questions that probably should have been asked sooner. I’m good at finding common ground between disciplines and I care about getting teams aligned on what they’re actually building before the design work begins.',
+  'Away from screens I’m usually behind a camera or training for some goal I’ve set myself. Persistently optimistic about both.',
+];
 ---
 
 <section id="about" class="about column--wide">
   <p class="eyebrow about__label">About</p>
-  <p class="about__bio">{bio}</p>
+
+  <div class="about__grid">
+    <div class="about__bio">
+      {paragraphs.map((p) => <p>{p}</p>)}
+    </div>
+    <div class="about__portrait">
+      <img src={withBase(portrait)} alt="Andrew Malone" loading="lazy" />
+    </div>
+  </div>
 </section>
 
 <style>
@@ -21,13 +33,49 @@ const bio =
     margin-bottom: var(--space-2xl);
   }
 
+  .about__grid {
+    display: grid;
+    grid-template-columns: 1fr minmax(0, 18rem);
+    gap: var(--space-2xl);
+    align-items: start;
+  }
+
   .about__bio {
+    max-width: 42ch;
+  }
+  .about__bio p {
     font-family: var(--font-display);
-    font-size: clamp(1.375rem, 1.15rem + 0.9vw, 1.75rem);
-    line-height: 1.42;
+    font-size: clamp(1.25rem, 1.1rem + 0.5vw, 1.5rem);
+    line-height: 1.5;
     letter-spacing: var(--tracking-tight);
     color: var(--color-ink);
-    max-width: 34ch; /* intimate measure — reads as a personal note, not a column */
     text-wrap: pretty;
+  }
+  .about__bio p + p {
+    margin-top: var(--space-lg);
+  }
+
+  .about__portrait {
+    aspect-ratio: 4 / 5;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid var(--color-hairline);
+  }
+  .about__portrait img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  @media (max-width: 48rem) {
+    .about__grid {
+      grid-template-columns: 1fr;
+      gap: var(--space-xl);
+    }
+    .about__portrait {
+      order: -1;
+      max-width: 20rem;
+    }
   }
 </style>

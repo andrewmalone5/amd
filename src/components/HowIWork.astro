@@ -6,12 +6,14 @@
 // inventory. Copy is the persona verbatim.
 const principles = [
   {
-    title: 'Trust is a design material',
-    body: 'How I design for the moments where users decide whether to believe the product.',
+    kicker: 'Process / Methodology',
+    title: 'Narrative-First Design',
+    body: 'A framework for aligning teams on the user story before any design begins, and why plot point 4 is the one most teams skip.',
   },
   {
-    title: 'Ship the error state first',
-    body: 'Why I design failure paths before the happy path, and what it surfaces early.',
+    kicker: 'Process / Methodology',
+    title: 'Solve the Right Problem',
+    body: 'Five questions I ask before opening Figma, because good execution of the wrong thing is still failure.',
   },
 ];
 ---
@@ -22,7 +24,10 @@ const principles = [
   <div class="principles">
     {principles.map((p) => (
       <article class="principle">
-        <h3 class="principle__title">{p.title}</h3>
+        <div class="principle__lead">
+          <p class="eyebrow principle__kicker">{p.kicker}</p>
+          <h3 class="principle__title">{p.title}</h3>
+        </div>
         <p class="principle__body">{p.body}</p>
       </article>
     ))}
@@ -58,6 +63,9 @@ const principles = [
     padding-top: 0;
   }
 
+  .principle__kicker {
+    margin-bottom: var(--space-sm);
+  }
   .principle__title {
     font-family: var(--font-display);
     font-style: italic;
