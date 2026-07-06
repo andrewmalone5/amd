@@ -4,20 +4,30 @@
 // ink palette rather than LinkedIn-blue to stay in the system.
 const linkedin = 'https://www.linkedin.com/'; // PLACEHOLDER — set your profile URL
 const year = 2025;
+
+interface Props {
+  /** True on case-study pages: just the meta line, no contact CTA. */
+  minimal?: boolean;
+}
+const { minimal = false } = Astro.props;
 ---
 
-<footer id="contact" class="site-footer">
+<footer id={minimal ? undefined : 'contact'} class:list={['site-footer', { 'site-footer--minimal': minimal }]}>
   <div class="site-footer__inner">
-    <p class="eyebrow">Contact</p>
-    <p class="site-footer__cta">Get in touch.</p>
-    <p class="site-footer__body">
-      I care about working on things that leave people genuinely better off. If that&rsquo;s
-      what you&rsquo;re building, I&rsquo;d love to talk.
-    </p>
+    {!minimal && (
+      <>
+        <p class="eyebrow">Contact</p>
+        <p class="site-footer__cta">Get in touch.</p>
+        <p class="site-footer__body">
+          I care about working on things that leave people genuinely better off. If that&rsquo;s
+          what you&rsquo;re building, I&rsquo;d love to talk.
+        </p>
 
-    <a class="site-footer__link" href={linkedin} target="_blank" rel="noopener">
-      Connect on LinkedIn
-    </a>
+        <a class="site-footer__link" href={linkedin} target="_blank" rel="noopener">
+          Connect on LinkedIn
+        </a>
+      </>
+    )}
 
     <div class="site-footer__meta">
       <span>Berlin, Germany</span>
@@ -82,5 +92,13 @@ const year = 2025;
     margin-top: var(--space-3xl);
     font-size: var(--text-sm);
     color: var(--color-ink-faint);
+  }
+
+  /* Minimal variant (case-study pages): the meta line alone, quiet. */
+  .site-footer--minimal .site-footer__inner {
+    padding-block: var(--space-xl);
+  }
+  .site-footer--minimal .site-footer__meta {
+    margin-top: 0;
   }
 </style>

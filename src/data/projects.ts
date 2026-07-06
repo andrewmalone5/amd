@@ -169,7 +169,7 @@ export const projects: Project[] = [
       {
         type: 'narrative',
         body:
-          'Active sellers grew from 58 to over 120, and the programme closed the year at roughly €1.9M in revenue against a €915K plan. The self-service direction carried its weight too: fewer than 5% of servicing questions the dashboard could answer ever reached support, which was the quiet proof that the balance, pause, and lifecycle states were doing the explaining on their own.',
+          'The active seller base more than doubled over the year, and the programme closed it at roughly twice its original revenue plan. The self-service direction carried its weight too: fewer than 5% of servicing questions the dashboard could answer ever reached support, which was the quiet proof that the balance, pause, and lifecycle states were doing the explaining on their own.',
       },
       {
         // MEDIA PLACEHOLDER — results. Swap for a dashboard, adoption chart, or a

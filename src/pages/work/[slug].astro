@@ -10,20 +10,16 @@ import { projects } from '../../data/projects';
 import { withBase } from '../../lib/url';
 
 export function getStaticPaths() {
-  return projects.map((p, i) => ({
+  return projects.map((p) => ({
     params: { slug: p.slug },
-    props: {
-      project: p,
-      prev: projects[i - 1] ?? null,
-      next: projects[i + 1] ?? null,
-    },
+    props: { project: p },
   }));
 }
 
-const { project, prev, next } = Astro.props;
+const { project } = Astro.props;
 ---
 
-<SiteLayout title={`${project.title} — Andrew Malone`}>
+<SiteLayout title={`${project.title} — Andrew Malone`} minimalFooter>
   <article class="case">
     <a class="case__back" href={withBase('/#work')}>&larr;&nbsp;&nbsp;Selected Work</a>
 
@@ -72,23 +68,6 @@ const { project, prev, next } = Astro.props;
         </figure>
       ) : null
     )}
-
-    <nav class="case__nav" aria-label="More work">
-      {prev ? (
-        <a class="case__nav-link case__nav-link--prev" href={withBase(`/work/${prev.slug}`)}>
-          <span class="case__nav-dir">← Previous</span>
-          <span class="case__nav-title">{prev.title}</span>
-        </a>
-      ) : (
-        <span />
-      )}
-      {next && (
-        <a class="case__nav-link case__nav-link--next" href={withBase(`/work/${next.slug}`)}>
-          <span class="case__nav-dir">Next →</span>
-          <span class="case__nav-title">{next.title}</span>
-        </a>
-      )}
-    </nav>
   </article>
 </SiteLayout>
 
@@ -213,12 +192,13 @@ const { project, prev, next } = Astro.props;
     max-width: 28ch;
   }
 
-  /* Media — breaks out wider than the text column. The embed slot for live
-     React prototypes (client:load) or images. */
+  /* Media — the imposing moment. Breaks out well past the text column, close
+     to full-bleed, so the work dominates when it appears. The embed slot for
+     live React prototypes (client:load) or images. */
   .block--media {
     grid-column: 1 / -1;
     justify-self: center;
-    width: min(70rem, calc(100% - 2 * var(--page-gutter)));
+    width: min(88rem, calc(100% - 2 * var(--page-gutter)));
   }
   .media__frame {
     aspect-ratio: 16 / 9;
@@ -251,42 +231,4 @@ const { project, prev, next } = Astro.props;
     text-align: center;
   }
 
-  /* Prev / next — a wider footer to the page. */
-  .case__nav {
-    grid-column: 1 / -1;
-    justify-self: center;
-    width: min(70rem, calc(100% - 2 * var(--page-gutter)));
-    margin-top: var(--section);
-    padding-top: var(--space-xl);
-    border-top: 1px solid var(--color-hairline);
-    display: flex;
-    justify-content: space-between;
-    gap: var(--space-lg);
-  }
-  .case__nav-link {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-2xs);
-    max-width: 22ch;
-    transition: transform var(--duration) var(--ease-out);
-  }
-  .case__nav-link--next { text-align: right; margin-left: auto; }
-  .case__nav-dir {
-    font-size: var(--text-xs);
-    letter-spacing: var(--tracking-label);
-    text-transform: uppercase;
-    color: var(--color-ink-muted);
-  }
-  .case__nav-title {
-    font-family: var(--font-display);
-    font-size: var(--text-display-sm);
-    line-height: var(--leading-tight);
-    color: var(--color-ink);
-  }
-  .case__nav-link:hover { transform: translateY(-2px); }
-
-  @media (max-width: 33rem) {
-    .case__nav { flex-direction: column; }
-    .case__nav-link--next { text-align: left; margin-left: 0; }
-  }
 </style>
