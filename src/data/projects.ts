@@ -313,22 +313,72 @@ export const projects: Project[] = [
     summary:
       'Patients drift from their care plans when there’s nothing connecting them between clinic visits. SoteriaMe was designed to close that gap: building the habits and trust that keep patients engaged with their treatment when no one is watching.',
     blocks: [
+      // Lead: the problem and the stakes.
       {
         type: 'narrative',
         body:
-          'Patients drift from their care plans when there’s nothing connecting them between clinic visits. SoteriaMe was designed to close that gap: building the habits and trust that keep patients engaged with their treatment when no one is watching.',
+          'Infocare’s desktop platform handled scheduling, records, and clinical workflows well. What it couldn’t address was what happened to patients after they left the building. Without a connection to their care plan between visits, patients missed medications, forgot instructions, and drifted. Clinicians absorbed the cost as administrative overhead.\n\nInfocare had tried to solve this with email. It hadn’t worked. Patients in chronic care tend to have complex and variable digital literacy, and a generic email from a clinic name they half-recognised wasn’t moving the needle. The brief was to design something that felt personal, trustworthy, and easy to use. It was also the company’s first patient-facing product, which made it a reputational bet as much as a design brief.',
+      },
+      {
+        type: 'stat',
+        value: '1 in 3',
+        label: 'Patients forget their next appointment date within a week of their visit (published adherence research)',
       },
       {
         type: 'media',
         label: 'Home',
         image: '/work/soteria/01-home.png',
-        caption: 'The dashboard as the single hub: one primary action, no persistent navigation.',
+        caption: 'The shipped home screen: a single hub, one primary action.',
+      },
+
+      // Research under a constraint.
+      { type: 'heading', kicker: 'Research', text: 'Patient access was gated. Clinicians filled the gap.' },
+      {
+        type: 'narrative',
+        body:
+          'GDPR and clinical governance frameworks limited direct patient access from the start. The approach relied on triangulation: eight interviews with consented patients through Infocare’s clinical partners, four clinician workshops across three clinical sites, desk research and competitive analysis, and prototype testing with internal clinical advisors.\n\nRunning clinicians as the primary research lens filled a gap that direct patient access couldn’t. Clinicians carry daily working knowledge of what patients forget to say in appointments, where they disengage, and what they misunderstand. That knowledge fed directly into the information architecture.',
       },
       {
         type: 'media',
-        label: 'Symptom history',
-        image: '/work/soteria/02-symptom-history.png',
-        caption: 'Severity over time, with series distinguished by shape as well as colour.',
+        label: 'Research synthesis',
+        image: '/work/soteria/affinity-map.png',
+        caption: 'The affinity map, reconstructed from the original synthesis: four clusters, and the dot-voted priorities that set the product’s spine.',
+      },
+      {
+        type: 'media',
+        label: 'Patient journey',
+        image: '/work/soteria/journey-map.png',
+        caption: 'The arc had a clear message: anxiety doesn’t go away, it changes form. Each stage’s design need became a principle.',
+      },
+      {
+        type: 'narrative',
+        body:
+          'The research kept resolving into two people with opposite defaults. The patient needed less: less information, fewer choices, plainer language. The clinician needed more: more signal, more visibility, more automation. Every decision that followed had to serve both without shortchanging either.\n\nThree principles came directly out of the journey work. Earn trust before asking for data. One thing at a time. Make data visibility persistent and contextual.',
+      },
+
+      // Design decisions.
+      { type: 'heading', kicker: 'Design', text: 'Designed for patients. Useful to clinicians.' },
+      {
+        type: 'media',
+        label: 'Concept sketches',
+        image: '/work/soteria/sketches.png',
+        caption: 'The initial screen inventory: six core views, which meant six navigation items, which was already too much. The shipped product dropped persistent navigation entirely.',
+      },
+      {
+        type: 'narrative',
+        body:
+          'Early wireframes tried to surface everything at once: medications, appointments, symptom history, messages, wellness tips. Clinical advisors confirmed what the research implied: patients often arrive at the tool with cognitive load already high, and a dashboard that required scanning before acting was going to be abandoned.\n\nThe answer was to drop persistent navigation entirely. The dashboard became the single hub, the next appointment the primary action, and every other view one tap from home.',
+      },
+      {
+        type: 'media',
+        label: 'The abandoned direction',
+        image: '/work/soteria/before-dashboard.png',
+        caption: 'The early dashboard concept: profile data, health stats, and notes competing for a patient who arrived with one question.',
+      },
+      {
+        type: 'narrative',
+        body:
+          'The conventional fix for data anxiety is a consent screen at onboarding, which treats trust as a legal requirement and puts all the weight on a moment when patients are already overwhelmed. Instead, persistent plain-language visibility labels sit at every point where patients enter data: “Shared with your care team,” or “Only you can see this.” Those small typographic decisions changed patient behaviour more than any structural design change in the product.',
       },
       {
         type: 'media',
@@ -337,16 +387,69 @@ export const projects: Project[] = [
         caption: 'The trust label at the point of data entry: who can see this, answered before it’s asked.',
       },
       {
+        type: 'narrative',
+        body:
+          'The patients using SoteriaMe were managing chronic conditions, often older, often carrying multiple diagnoses. WCAG AA was treated as a floor. The symptom severity scale originally used colour only: red, amber, green, clean and immediately legible to anyone with normal colour vision. Redesigning it to use colour, icon, and label together meant abandoning the cleaner version, but it was the only design that worked for patients with colour vision deficiencies. A more minimal scale would have failed them silently, and we would never have seen it in testing.',
+      },
+      {
+        type: 'media',
+        label: 'Symptom history',
+        image: '/work/soteria/02-symptom-history.png',
+        caption: 'The shipped severity system: colour, icon, and label together, with chart series distinguished by shape as well as hue.',
+      },
+
+      // Testing.
+      { type: 'heading', kicker: 'Testing', text: 'Two rounds, built to find what was wrong' },
+      {
+        type: 'narrative',
+        body:
+          'Round one put four clinical advisors (a GP, a specialist nurse, a clinical informatics lead, and patient experience) through the full prototype against scripted scenarios, briefed to flag anything clinically inaccurate, structurally confusing, or likely to cause patient harm by omission. Two issues were marked blockers and rebuilt before round two.\n\nRound two was patient testing: five participants aged 34 to 67, all managing chronic conditions, think-aloud protocol, three tasks with no prompting. Small numbers, treated as small numbers. What they showed was still direct.',
+      },
+      {
+        type: 'stat',
+        value: '3 → 5',
+        label: 'Participants completing reminder setup, before and after it was rebuilt as a primary action',
+      },
+      {
+        type: 'stat',
+        value: '4 → 0',
+        label: 'Participants pausing over data entry to ask who could see it, once inline visibility labels were added',
+      },
+      {
         type: 'media',
         label: 'Configure reminder',
         image: '/work/soteria/04-configure-reminder.png',
-        caption: 'Reminder setup, rebuilt after testing surfaced it as the flow patients failed.',
+        caption: 'The rebuilt flow: three of five participants failed reminder setup in round one; all five completed it unprompted in round two.',
       },
       {
         type: 'media',
         label: 'Select time',
         image: '/work/soteria/05-select-time.png',
         caption: 'Platform-native time selection on Android.',
+      },
+
+      // Outcome, honestly framed.
+      { type: 'heading', kicker: 'Outcome', text: 'A working pilot, honestly accounted' },
+      {
+        type: 'narrative',
+        body:
+          'SoteriaMe was piloted through Infocare’s clinical partners across a small number of US clinics. The pilot ran without the instrumentation to measure engagement at scale, so the strongest evidence is qualitative, drawn from the testing rounds rather than the pilot itself.\n\nBeyond the pilot, the product served a second purpose Infocare cared about equally: demonstrating that they could build a credible patient-facing digital product. Their reputation was built entirely on desktop clinical infrastructure, and a working mobile health app opened new commercial ground. It was used directly in conversations with prospective healthcare clients.',
+      },
+      {
+        type: 'quote',
+        text: 'It’s easier to remember what the doctor said when it’s all written down here.',
+        cite: 'Patient, usability testing',
+      },
+      {
+        type: 'media',
+        label: 'Secure messaging',
+        image: '/work/soteria/09-conversation.png',
+        caption: 'The clinician’s side of the bargain: visibility into engagement between visits, without a second inbox.',
+      },
+      {
+        type: 'narrative',
+        body:
+          'Running this again with a proper measurement framework, I’d establish a baseline appointment-miss rate before launch, track medication log completion in-app, and run a cohort comparison between engaged and disengaged users against downstream clinical outcomes. None of that was feasible within the project’s scope. Worth naming anyway.\n\nBoth user groups were placing trust in the product: patients that their data was safe, clinicians that what they saw was accurate. That’s a harder brief than it sounds, and it shaped every decision from the information architecture to the inline data labels.',
       },
     ],
   },
