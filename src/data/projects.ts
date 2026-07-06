@@ -307,16 +307,16 @@ export const projects: Project[] = [
     slug: 'care-gap',
     image: '/work/care-gap.svg',
     title: 'Closing the gap between appointments.',
-    client: 'Integris Healthcare',
+    client: 'Infocare Healthcare',
     discipline: 'Mobile App',
     year: '2022',
     summary:
-      'Patients drift from their care plans when there’s nothing connecting their between-clinic visits. TahoeMe was designed to close that gap, building the habits and trust that keep patients engaged with their treatment.',
+      'Patients drift from their care plans when there’s nothing connecting them between clinic visits. SoteriaMe was designed to close that gap: building the habits and trust that keep patients engaged with their treatment when no one is watching.',
     blocks: [
       {
         type: 'narrative',
         body:
-          'Patients drift from their care plans when there’s nothing connecting their between-clinic visits. TahoeMe was designed to close that gap, building the habits and trust that keep patients engaged with their treatment.',
+          'Patients drift from their care plans when there’s nothing connecting them between clinic visits. SoteriaMe was designed to close that gap: building the habits and trust that keep patients engaged with their treatment when no one is watching.',
       },
       { type: 'media', label: 'Screenshot', caption: 'Placeholder — add a screenshot.' },
     ],
