@@ -285,25 +285,6 @@ export const projects: Project[] = [
   },
   {
     num: '03',
-    slug: 'deals-programme',
-    image: '/work/deals-programme.svg',
-    title: 'Commission rates don’t move sellers. Margin math does.',
-    client: 'Back Market',
-    discipline: 'Deals Programme',
-    year: '2025',
-    summary:
-      'Back Market’s Deals programme offered sellers reduced commission, but with no product surface, no margin context, and no way to self-evaluate, adoption was near zero. I designed three iterations of in-product decision support, each one earned by the signal the last one generated.',
-    blocks: [
-      {
-        type: 'narrative',
-        body:
-          'Back Market’s Deals programme offered sellers reduced commission, but with no product surface, no margin context, and no way to self-evaluate, adoption was near zero. I designed three iterations of in-product decision support, each one earned by the signal the last one generated.',
-      },
-      { type: 'media', label: 'Screenshot', caption: 'Placeholder — add a screenshot.' },
-    ],
-  },
-  {
-    num: '04',
     slug: 'back-office-homepage',
     image: '/work/back-office-homepage.svg',
     title: 'Making the homepage worth opening',
@@ -322,7 +303,7 @@ export const projects: Project[] = [
     ],
   },
   {
-    num: '05',
+    num: '04',
     slug: 'care-gap',
     image: '/work/care-gap.svg',
     title: 'Closing the gap between appointments.',
