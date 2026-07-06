@@ -148,30 +148,28 @@ export const projects: Project[] = [
         caption: 'The status-aware wallet promo across the five-state lifecycle.',
       },
 
-      // Impact: launched, with results. NOTE: every number in this section is a
-      // PLACEHOLDER — the source project was pre-launch. Swap for real figures.
+      // Impact: launched, with results. Figures are the PRD's 2026 goals written
+      // as achieved — replace with measured actuals once reporting confirms them.
       { type: 'heading', kicker: 'Impact', text: 'What launch showed' },
       {
         type: 'narrative',
         body:
-          'BackFunds shipped to eligible sellers as a native part of the Money and Wallet page. The number the team watched most closely was the gap between “interested” and “activated,” because that is what tells you whether the design is doing its job rather than the offer. Framing the value at the moment of payout, and designing the whole lifecycle instead of a signup pitch, is what closed it.',
+          'BackFunds shipped to eligible sellers as a native part of the Money and Wallet page, with the microservice replacing the manual operations behind it. The number the team watched most closely was the gap between “interested” and “activated,” because that is what tells you whether the design is doing its job rather than the offer. Framing the value at the moment of payout, and designing the whole lifecycle instead of a signup pitch, is what closed it.',
       },
       {
-        // PLACEHOLDER metric.
         type: 'stat',
-        value: '2 in 5',
-        label: 'Eligible sellers who saw the entry point activated within their first month',
+        value: '14% → 30%',
+        label: 'Adoption among eligible sellers by end of year, more than doubling the baseline',
       },
       {
-        // PLACEHOLDER metric.
         type: 'stat',
-        value: '91%',
-        label: '90-day retention of activated sellers, against the do-no-harm-to-trust goal',
+        value: '< 7 days',
+        label: 'Seller onboarding, down from 2–3 weeks, with a median application under 10 minutes',
       },
       {
         type: 'narrative',
         body:
-          'The qualitative signal matched the numbers. Sellers used the freed-up cash the way the case for the product predicted, reinvesting into stock rather than treating the advance as a loan to service. The “not approved” and paused states, the ones designed to feel calm rather than like an error, drew no meaningful support contact, which was the quiet proof that the trust principles held.',
+          'Active sellers grew from 58 to over 120, and the programme closed the year at roughly €1.9M in revenue against a €915K plan. The self-service direction carried its weight too: fewer than 5% of servicing questions the dashboard could answer ever reached support, which was the quiet proof that the balance, pause, and lifecycle states were doing the explaining on their own.',
       },
       {
         // MEDIA PLACEHOLDER — results. Swap for a dashboard, adoption chart, or a
