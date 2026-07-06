@@ -36,9 +36,16 @@ const { project, prev, next } = Astro.props;
     </header>
 
     {project.blocks.map((b) =>
-      b.type === 'narrative' ? (
+      b.type === 'heading' ? (
+        <header class="block block--heading">
+          {b.kicker && <p class="eyebrow">{b.kicker}</p>}
+          <h2>{b.text}</h2>
+        </header>
+      ) : b.type === 'narrative' ? (
         <div class="block block--narrative">
-          <p>{b.body}</p>
+          {b.body.split('\n\n').map((para) => (
+            <p>{para}</p>
+          ))}
         </div>
       ) : b.type === 'quote' ? (
         <blockquote class="block block--quote">
@@ -127,11 +134,32 @@ const { project, prev, next } = Astro.props;
   .block--media { margin-top: var(--section); margin-bottom: var(--space-lg); }
   .case__header + .block { margin-top: var(--section-tight); }
 
+  /* Section heading — a kicker plus a Spectral h2, opened by a hairline. These
+     are what give a long case study its arc. */
+  .block--heading {
+    margin-top: var(--section);
+    padding-top: var(--space-xl);
+    border-top: 1px solid var(--color-hairline);
+  }
+  .block--heading .eyebrow {
+    margin-bottom: var(--space-sm);
+  }
+  .block--heading h2 {
+    font-size: var(--text-display-sm);
+    line-height: var(--leading-tight);
+    letter-spacing: var(--tracking-display);
+    max-width: 24ch;
+  }
+  .block--heading + .block { margin-top: var(--space-lg); }
+
   /* Narrative */
   .block--narrative p {
     font-size: var(--text-lead);
     line-height: var(--leading-lead);
     color: var(--color-ink);
+  }
+  .block--narrative p + p {
+    margin-top: var(--space-md);
   }
 
   /* Pull quote — Spectral, marked with a short rule above it. */
