@@ -12,8 +12,11 @@ import About from '../components/About.astro';
     <h1 class="hero__statement">Designing systems that turn <em>complexity into clarity.</em></h1>
     <p class="hero__intro">I&rsquo;m a product designer drawn to how complex systems work, and to making them understandable to the people who depend on them. I work best on hard problems, across teams, where design shapes more than the interface.</p>
     <div class="hero__meta">
-      <p class="hero__current">Currently <strong>Senior Product Designer</strong> at <a href="https://www.backmarket.com" target="_blank" rel="noopener">Back Market</a></p>
-      <p class="hero__location">Berlin, Germany</p>
+      <p class="hero__current">Currently <strong>Senior Product Designer</strong> at <a href="https://www.backmarket.de" target="_blank" rel="noopener">Back Market</a></p>
+      <p class="hero__location">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+        Berlin, Germany
+      </p>
     </div>
   </section>
 
@@ -52,14 +55,19 @@ import About from '../components/About.astro';
     max-width: 50ch;
   }
 
-  /* Currently / location metadata — one quiet row closing the hero. */
+  /* Currently / location metadata — two stacked lines closing the hero. */
   .hero__meta {
     margin-top: var(--space-xl);
     display: flex;
-    flex-wrap: wrap;
-    column-gap: var(--space-2xl);
-    row-gap: var(--space-xs);
+    flex-direction: column;
+    gap: var(--space-sm);
   }
+  .hero__location {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5em;
+  }
+  .hero__location svg { flex-shrink: 0; }
   .hero__current,
   .hero__location {
     font-size: var(--text-xs);
