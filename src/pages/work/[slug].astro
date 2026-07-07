@@ -10,35 +10,38 @@ import { projects } from '../../data/projects';
 import { withBase } from '../../lib/url';
 
 export function getStaticPaths() {
-  return projects.map((p, i) => ({
+  return projects.map((p) => ({
     params: { slug: p.slug },
-    props: {
-      project: p,
-      prev: projects[i - 1] ?? null,
-      next: projects[i + 1] ?? null,
-    },
+    props: { project: p },
   }));
 }
 
-const { project, prev, next } = Astro.props;
+const { project } = Astro.props;
 ---
 
-<SiteLayout title={`${project.title} — Maya Okonkwo`}>
+<SiteLayout title={`${project.title} | Andrew Malone`} minimalFooter>
   <article class="case">
     <a class="case__back" href={withBase('/#work')}>&larr;&nbsp;&nbsp;Selected Work</a>
 
     <header class="case__header">
       <p class="eyebrow">
-        {project.num} · {project.client} · {project.discipline} · {project.year}
+        {project.num} / {project.client} / {project.discipline} / {project.year}
       </p>
       <h1 class="case__title">{project.title}</h1>
       {project.status && <span class="tag case__status">{project.status}</span>}
     </header>
 
     {project.blocks.map((b) =>
-      b.type === 'narrative' ? (
+      b.type === 'heading' ? (
+        <header class="block block--heading">
+          {b.kicker && <p class="eyebrow">{b.kicker}</p>}
+          <h2>{b.text}</h2>
+        </header>
+      ) : b.type === 'narrative' ? (
         <div class="block block--narrative">
-          <p>{b.body}</p>
+          {b.body.split('\n\n').map((para) => (
+            <p>{para}</p>
+          ))}
         </div>
       ) : b.type === 'quote' ? (
         <blockquote class="block block--quote">
@@ -52,30 +55,86 @@ const { project, prev, next } = Astro.props;
         </div>
       ) : b.type === 'media' ? (
         <figure class="block block--media">
-          <div class="media__frame">
-            <span class="media__label">{b.label}</span>
-          </div>
+          {b.image ? (
+            <div class="media__frame media__frame--image">
+              <img src={withBase(b.image)} alt={b.label} loading="lazy" />
+            </div>
+          ) : (
+            <div class="media__frame">
+              <span class="media__label">{b.label}</span>
+            </div>
+          )}
           {b.caption && <figcaption>{b.caption}</figcaption>}
         </figure>
+      ) : b.type === 'overview' ? (
+        <div class="block block--overview">
+          <dl class="overview__cols">
+            {b.columns.map((c) => (
+              <div class="overview__col">
+                <dt>{c.label}</dt>
+                <dd>{c.value}</dd>
+              </div>
+            ))}
+          </dl>
+          <p class="overview__body"><span class="overview__lead">The one-minute version.</span> {b.body}</p>
+        </div>
+      ) : b.type === 'statRow' ? (
+        <dl class="block block--statrow" data-count={b.stats.length}>
+          {b.stats.map((s) => (
+            <div class="statrow__item">
+              <dd>{s.value}</dd>
+              <dt>{s.label}</dt>
+            </div>
+          ))}
+        </dl>
+      ) : b.type === 'callout' ? (
+        <aside class="block block--callout">
+          <p class="eyebrow">{b.kicker}</p>
+          {b.body.split('\n\n').map((para) => (
+            <p class="callout__body">{para}</p>
+          ))}
+        </aside>
+      ) : b.type === 'principle' ? (
+        <section class="block block--principle">
+          <span class="principle__num" aria-hidden="true">{b.num}</span>
+          <div class="principle__content">
+            <h3>{b.title}</h3>
+            {b.body.split('\n\n').map((para) => (
+              <p>{para}</p>
+            ))}
+          </div>
+        </section>
+      ) : b.type === 'duo' ? (
+        <div class="block block--duo">
+          {b.items.map((item) => (
+            <figure class="duo__item">
+              {item.image ? (
+                <div class="duo__frame">
+                  <img src={withBase(item.image)} alt={item.label} loading="lazy" />
+                </div>
+              ) : (
+                <div class="duo__frame duo__frame--empty">
+                  <span class="media__label">{item.label}</span>
+                </div>
+              )}
+              {item.caption && <figcaption>{item.caption}</figcaption>}
+            </figure>
+          ))}
+        </div>
+      ) : b.type === 'pairs' ? (
+        <div class="block block--pairs">
+          {b.kicker && <p class="eyebrow pairs__kicker">{b.kicker}</p>}
+          <dl class="pairs__grid">
+            {b.items.map((item) => (
+              <div class="pairs__row">
+                <dt>{item.label}</dt>
+                <dd>{item.value}</dd>
+              </div>
+            ))}
+          </dl>
+        </div>
       ) : null
     )}
-
-    <nav class="case__nav" aria-label="More work">
-      {prev ? (
-        <a class="case__nav-link case__nav-link--prev" href={withBase(`/work/${prev.slug}`)}>
-          <span class="case__nav-dir">← Previous</span>
-          <span class="case__nav-title">{prev.title}</span>
-        </a>
-      ) : (
-        <span />
-      )}
-      {next && (
-        <a class="case__nav-link case__nav-link--next" href={withBase(`/work/${next.slug}`)}>
-          <span class="case__nav-dir">Next →</span>
-          <span class="case__nav-title">{next.title}</span>
-        </a>
-      )}
-    </nav>
   </article>
 </SiteLayout>
 
@@ -127,11 +186,32 @@ const { project, prev, next } = Astro.props;
   .block--media { margin-top: var(--section); margin-bottom: var(--space-lg); }
   .case__header + .block { margin-top: var(--section-tight); }
 
+  /* Section heading — a kicker plus a Spectral h2, opened by a hairline. These
+     are what give a long case study its arc. */
+  .block--heading {
+    margin-top: var(--section);
+    padding-top: var(--space-xl);
+    border-top: 1px solid var(--color-hairline);
+  }
+  .block--heading .eyebrow {
+    margin-bottom: var(--space-sm);
+  }
+  .block--heading h2 {
+    font-size: var(--text-display-sm);
+    line-height: var(--leading-tight);
+    letter-spacing: var(--tracking-display);
+    max-width: 24ch;
+  }
+  .block--heading + .block { margin-top: var(--space-lg); }
+
   /* Narrative */
   .block--narrative p {
     font-size: var(--text-lead);
     line-height: var(--leading-lead);
     color: var(--color-ink);
+  }
+  .block--narrative p + p {
+    margin-top: var(--space-md);
   }
 
   /* Pull quote — Spectral, marked with a short rule above it. */
@@ -179,12 +259,13 @@ const { project, prev, next } = Astro.props;
     max-width: 28ch;
   }
 
-  /* Media — breaks out wider than the text column. The embed slot for live
-     React prototypes (client:load) or images. */
-  .block--media {
+  /* Media — the imposing moment. Breaks out well past the text column, close
+     to full-bleed, so the work dominates when it appears. The embed slot for
+     live React prototypes (client:load) or images. */
+  .case > .block--media {
     grid-column: 1 / -1;
     justify-self: center;
-    width: min(70rem, calc(100% - 2 * var(--page-gutter)));
+    width: min(88rem, calc(100% - 2 * var(--page-gutter)));
   }
   .media__frame {
     aspect-ratio: 16 / 9;
@@ -200,6 +281,23 @@ const { project, prev, next } = Astro.props;
     text-transform: uppercase;
     color: var(--color-ink-faint);
   }
+  /* With a real image the frame adapts: landscape media fills the breakout
+     width; portrait shots (phone screens) sit centred at a readable height on
+     the surface panel instead of stretching to fill it. */
+  .media__frame--image {
+    aspect-ratio: auto;
+    display: flex;
+    justify-content: center;
+    padding: var(--space-xl) var(--space-md);
+  }
+  .media__frame--image img {
+    display: block;
+    width: auto;
+    max-width: 100%;
+    max-height: 46rem;
+    height: auto;
+    border-radius: 18px;
+  }
   .block--media figcaption {
     margin-top: var(--space-sm);
     font-size: var(--text-sm);
@@ -207,42 +305,200 @@ const { project, prev, next } = Astro.props;
     text-align: center;
   }
 
-  /* Prev / next — a wider footer to the page. */
-  .case__nav {
+  /* Overview — the at-a-glance strip under the case header. Wide: it's the
+     skim layer, set apart from the prose column. */
+  .case > .block--overview {
+    grid-column: 1 / -1;
+    justify-self: center;
+    width: min(70rem, calc(100% - 2 * var(--page-gutter)));
+    margin-top: var(--section-tight);
+    padding-top: var(--space-lg);
+    border-top: 1px solid var(--color-hairline);
+    display: grid;
+    grid-template-columns: minmax(0, 22rem) 1fr;
+    gap: var(--space-xl) var(--space-3xl);
+    align-items: start;
+  }
+  .overview__cols {
+    margin: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-lg) var(--space-lg);
+  }
+  .overview__col dt {
+    font-size: var(--text-xs);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    color: var(--color-ink-faint);
+  }
+  .overview__col dd {
+    margin: var(--space-3xs) 0 0;
+    font-size: var(--text-sm);
+    font-weight: var(--weight-medium);
+    color: var(--color-ink);
+    line-height: 1.4;
+  }
+  .overview__body {
+    font-size: var(--text-lead);
+    line-height: var(--leading-lead);
+    color: var(--color-ink);
+    max-width: 52ch;
+  }
+  .overview__lead {
+    font-weight: var(--weight-semibold);
+  }
+  @media (max-width: 48rem) {
+    .block--overview { grid-template-columns: 1fr; gap: var(--space-lg); }
+  }
+
+  /* Stat row — 2-4 stats sharing one ruled row. */
+  .case > .block--statrow {
+    grid-column: 1 / -1;
+    justify-self: center;
+    width: min(70rem, calc(100% - 2 * var(--page-gutter)));
+    margin-block: var(--section-tight) var(--space-lg);
+    padding-top: var(--space-lg);
+    border-top: 2px solid var(--color-ink);
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+    gap: var(--space-lg) var(--space-xl);
+  }
+  .statrow__item dd {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: var(--text-display-md);
+    line-height: 1;
+    letter-spacing: var(--tracking-display);
+    color: var(--color-ink);
+  }
+  .statrow__item dt {
+    margin-top: var(--space-xs);
+    font-size: var(--text-xs);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    color: var(--color-ink-muted);
+    max-width: 24ch;
+    line-height: 1.5;
+  }
+
+  /* Callout — bordered evidence aside. */
+  .block--callout {
+    border: 1px solid var(--color-hairline-strong);
+    border-radius: 12px;
+    padding: var(--space-lg) var(--space-lg);
+    background: var(--color-surface);
+  }
+  .block--callout .eyebrow { margin-bottom: var(--space-sm); }
+  .callout__body {
+    font-size: var(--text-body);
+    line-height: var(--leading-body);
+    color: var(--color-ink);
+  }
+  .callout__body + .callout__body { margin-top: var(--space-sm); }
+
+  /* Principle — oversized numeral + display title. The old portfolio's
+     strongest pattern, rebuilt in the site's type. */
+  .case > .block--principle {
     grid-column: 1 / -1;
     justify-self: center;
     width: min(70rem, calc(100% - 2 * var(--page-gutter)));
     margin-top: var(--section);
     padding-top: var(--space-xl);
     border-top: 1px solid var(--color-hairline);
-    display: flex;
-    justify-content: space-between;
-    gap: var(--space-lg);
+    display: grid;
+    grid-template-columns: minmax(0, 14rem) minmax(0, 42rem);
+    gap: var(--space-lg) var(--space-2xl);
   }
-  .case__nav-link {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-2xs);
-    max-width: 22ch;
-    transition: transform var(--duration) var(--ease-out);
-  }
-  .case__nav-link--next { text-align: right; margin-left: auto; }
-  .case__nav-dir {
-    font-size: var(--text-xs);
-    letter-spacing: var(--tracking-label);
-    text-transform: uppercase;
-    color: var(--color-ink-muted);
-  }
-  .case__nav-title {
+  .principle__num {
     font-family: var(--font-display);
+    font-size: clamp(4rem, 3rem + 4vw, 7.5rem);
+    line-height: 0.9;
+    letter-spacing: var(--tracking-display);
+    color: var(--color-ink-faint);
+  }
+  .principle__content h3 {
     font-size: var(--text-display-sm);
     line-height: var(--leading-tight);
+    letter-spacing: var(--tracking-display);
+    max-width: 24ch;
+  }
+  .principle__content p {
+    margin-top: var(--space-md);
+    font-size: var(--text-lead);
+    line-height: var(--leading-lead);
     color: var(--color-ink);
   }
-  .case__nav-link:hover { transform: translateY(-2px); }
-
-  @media (max-width: 33rem) {
-    .case__nav { flex-direction: column; }
-    .case__nav-link--next { text-align: left; margin-left: 0; }
+  @media (max-width: 48rem) {
+    .block--principle { grid-template-columns: 1fr; gap: var(--space-sm); }
+    .principle__num { font-size: 3.5rem; }
   }
+
+  /* Duo — two images side by side, sharing the media breakout. */
+  .case > .block--duo {
+    grid-column: 1 / -1;
+    justify-self: center;
+    width: min(88rem, calc(100% - 2 * var(--page-gutter)));
+    margin-top: var(--section);
+    margin-bottom: var(--space-lg);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-md);
+    align-items: start;
+  }
+  .duo__frame {
+    background: var(--color-surface);
+    border: 1px solid var(--color-hairline);
+    border-radius: 12px;
+    padding: var(--space-md);
+    display: flex;
+    justify-content: center;
+  }
+  .duo__frame img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+  }
+  .duo__frame--empty {
+    aspect-ratio: 4 / 3;
+    display: grid;
+    place-items: center;
+  }
+  .block--duo figcaption {
+    margin-top: var(--space-sm);
+    font-size: var(--text-sm);
+    color: var(--color-ink-faint);
+    text-align: center;
+  }
+  @media (max-width: 48rem) {
+    .block--duo { grid-template-columns: 1fr; }
+  }
+
+  /* Pairs — label/value rows for maps and inventories. */
+  .block--pairs { margin-top: var(--space-xl); }
+  .pairs__kicker { margin-bottom: var(--space-md); }
+  .pairs__grid { margin: 0; }
+  .pairs__row {
+    display: grid;
+    grid-template-columns: minmax(0, 14rem) 1fr;
+    gap: var(--space-md);
+    padding-block: var(--space-sm);
+    border-top: 1px solid var(--color-hairline);
+  }
+  .pairs__row dt {
+    font-size: var(--text-sm);
+    font-weight: var(--weight-semibold);
+    color: var(--color-ink);
+    line-height: 1.5;
+  }
+  .pairs__row dd {
+    margin: 0;
+    font-size: var(--text-sm);
+    color: var(--color-ink-muted);
+    line-height: 1.5;
+  }
+  @media (max-width: 40rem) {
+    .pairs__row { grid-template-columns: 1fr; gap: var(--space-3xs); }
+  }
+
 </style>

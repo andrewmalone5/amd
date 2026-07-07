@@ -104,11 +104,14 @@ a {
   white-space: nowrap;
 }
 
-/* Centered column wrappers. */
-.column {
+/* Centered column wrappers. Both variants are self-sufficient — they carry the
+   centering and edge gutter themselves, so `column--wide` works standalone
+   (no need to also apply the base `column` class). */
+.column,
+.column--wide {
   width: 100%;
-  max-width: var(--width-text);
   margin-inline: auto;
   padding-inline: var(--page-gutter);
 }
+.column { max-width: var(--width-text); }
 .column--wide { max-width: var(--width-wide); }

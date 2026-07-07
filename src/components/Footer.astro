@@ -1,37 +1,53 @@
 ---
-// Site footer = the contact moment. The CTA line is set in Spectral so the
-// close of the page carries the same voice as the top. Email is a placeholder
-// slot until real contact details go in.
-const email = 'hello@example.com'; // PLACEHOLDER — swap for real address
+// Site footer = the contact moment. Button is styled to the ink palette
+// rather than LinkedIn-blue to stay in the system.
+const linkedin = 'https://www.linkedin.com/in/andrewmalonedesign/';
 const year = 2026;
+
+interface Props {
+  /** True on case-study pages: just the meta line, no contact CTA. */
+  minimal?: boolean;
+}
+const { minimal = false } = Astro.props;
 ---
 
-<footer id="contact" class="site-footer">
+<footer id={minimal ? undefined : 'contact'} class:list={['site-footer', { 'site-footer--minimal': minimal }]}>
   <div class="site-footer__inner">
-    <p class="eyebrow">Contact</p>
-    <p class="site-footer__cta">Working on something in payments? Let&rsquo;s talk.</p>
+    {!minimal && (
+      <>
+        <p class="site-footer__cta">Get in touch.</p>
+        <p class="site-footer__body">
+          I care about working on things that leave people better off. If that&rsquo;s
+          what you&rsquo;re building, I&rsquo;d love to talk.
+        </p>
 
-    <a class="site-footer__email" href={`mailto:${email}`}>{email}</a>
+        <a class="site-footer__link" href={linkedin} target="_blank" rel="noopener">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5a2.49 2.49 0 1 1 0 4.98 2.49 2.49 0 0 1 0-4.98zM3 9.75h4v10.75H3zM9.5 9.75h3.83v1.47h.05c.53-1 1.84-2.06 3.78-2.06 4.04 0 4.79 2.66 4.79 6.12v6.22h-4v-5.52c0-1.31-.02-3-1.83-3-1.83 0-2.11 1.43-2.11 2.9v5.62h-4z"/></svg>
+          Connect on LinkedIn
+        </a>
+      </>
+    )}
 
     <div class="site-footer__meta">
-      <span>Lisbon, Portugal</span>
-      <span aria-hidden="true">·</span>
-      <span>&copy; {year}</span>
+      <span>Berlin, Germany</span>
+      <span aria-hidden="true">/</span>
+      <span>&copy; {year} Andrew Malone</span>
     </div>
   </div>
 </footer>
 
 <style>
-  .site-footer {
+  .site-footer--minimal {
     border-top: 1px solid var(--color-hairline);
-    margin-top: var(--section-loose);
   }
 
+  /* Centred close, echoing the display treatment of the hero. */
   .site-footer__inner {
     width: 100%;
     max-width: var(--width-wide);
     margin-inline: auto;
-    padding: var(--section) var(--page-gutter) var(--space-2xl);
+    padding: var(--section) var(--page-gutter) var(--space-xl);
+    text-align: center;
   }
 
   .site-footer__cta {
@@ -39,27 +55,65 @@ const year = 2026;
     font-size: var(--text-display-md);
     line-height: var(--leading-tight);
     letter-spacing: var(--tracking-display);
-    max-width: 18ch;
-    margin-block: var(--space-md) var(--space-lg);
-    text-wrap: balance;
+    margin-bottom: var(--space-lg);
   }
 
-  .site-footer__email {
-    position: relative;
-    display: inline-block;
+  .site-footer__body {
     font-size: var(--text-lead);
-    color: var(--color-ink);
-    border-bottom: 1px solid var(--color-hairline-strong);
-    padding-bottom: 2px;
-    transition: border-color var(--duration) var(--ease-out);
+    line-height: var(--leading-lead);
+    color: var(--color-ink-muted);
+    max-width: 44ch;
+    margin-inline: auto;
   }
-  .site-footer__email:hover { border-bottom-color: var(--color-ink); }
+
+  /* Ink button — in-system, not LinkedIn-blue. */
+  .site-footer__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6em;
+    margin-top: var(--space-xl);
+    padding: 0.85em 1.5em;
+    background: var(--color-ink);
+    color: var(--color-paper);
+    border-radius: 999px;
+    font-size: var(--text-sm);
+    font-weight: var(--weight-medium);
+    letter-spacing: 0.01em;
+    transition:
+      transform var(--duration) var(--ease-out),
+      opacity var(--duration) var(--ease-out);
+  }
+  .site-footer__link:hover {
+    transform: translateY(-2px);
+    opacity: 0.9;
+  }
 
   .site-footer__meta {
     display: flex;
+    justify-content: space-between;
     gap: var(--space-xs);
     margin-top: var(--space-3xl);
+    padding-top: var(--space-lg);
+    border-top: 1px solid var(--color-hairline);
     font-size: var(--text-sm);
     color: var(--color-ink-faint);
+  }
+  .site-footer__meta [aria-hidden] { display: none; }
+
+  /* Case-study pages keep the quiet left-aligned meta line. */
+  .site-footer--minimal .site-footer__inner { text-align: left; }
+  .site-footer--minimal .site-footer__meta {
+    border-top: 0;
+    padding-top: 0;
+    justify-content: flex-start;
+  }
+  .site-footer--minimal .site-footer__meta [aria-hidden] { display: inline; }
+
+  /* Minimal variant (case-study pages): the meta line alone, quiet. */
+  .site-footer--minimal .site-footer__inner {
+    padding-block: var(--space-xl);
+  }
+  .site-footer--minimal .site-footer__meta {
+    margin-top: 0;
   }
 </style>

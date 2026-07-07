@@ -6,7 +6,10 @@ name: Deploy to GitHub Pages
 # Source = "GitHub Actions".
 on:
   push:
-    branches: [main]
+    # Includes the current default branch so the Pages environment (which only
+    # allows deploys from the default branch) accepts the deployment. Once main
+    # is made the default, [main] alone is enough.
+    branches: [main, claude/portfolio-site-frame-fmhpg5]
   workflow_dispatch:
 
 permissions:
