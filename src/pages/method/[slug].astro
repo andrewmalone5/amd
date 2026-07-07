@@ -3,6 +3,8 @@
 // one block system and one set of styles. Keep the styles in sync with
 // work/[slug].astro when the block system changes.
 import SiteLayout from '../../layouts/SiteLayout.astro';
+import StoryArc from '../../components/method/StoryArc.astro';
+import SentenceTemplate from '../../components/method/SentenceTemplate.astro';
 import { methods } from '../../data/methods';
 import { withBase } from '../../lib/url';
 
@@ -115,6 +117,10 @@ const { method } = Astro.props;
             </figure>
           ))}
         </div>
+      ) : b.type === 'storyArc' ? (
+        <StoryArc />
+      ) : b.type === 'sentenceTemplate' ? (
+        <SentenceTemplate />
       ) : b.type === 'pairs' ? (
         <div class="block block--pairs">
           {b.kicker && <p class="eyebrow pairs__kicker">{b.kicker}</p>}
@@ -129,12 +135,6 @@ const { method } = Astro.props;
         </div>
       ) : null
     )}
-
-    <footer class="companion">
-      <p class="eyebrow">The companion practice</p>
-      <a class="companion__link" href={withBase(`/method/${method.companion.slug}`)}>{method.companion.title}</a>
-      <p class="companion__note">{method.companion.note}</p>
-    </footer>
   </article>
 </SiteLayout>
 
@@ -278,9 +278,6 @@ const { method } = Astro.props;
     aspect-ratio: 16 / 9;
     display: grid;
     place-items: center;
-    background: var(--color-surface);
-    border: 1px solid var(--color-hairline);
-    border-radius: 12px;
   }
   .media__label {
     font-size: var(--text-xs);
@@ -288,14 +285,14 @@ const { method } = Astro.props;
     text-transform: uppercase;
     color: var(--color-ink-faint);
   }
-  /* With a real image the frame adapts: landscape media fills the breakout
-     width; portrait shots (phone screens) sit centred at a readable height on
-     the surface panel instead of stretching to fill it. */
+  /* Method artifacts share the page's paper, so images sit frameless — no
+     border, no surface panel. (Deliberate divergence from work/[slug].astro,
+     where screenshots need the frame to separate from the page.) */
   .media__frame--image {
     aspect-ratio: auto;
     display: flex;
     justify-content: center;
-    padding: var(--space-xl) var(--space-md);
+    padding: 0;
   }
   .media__frame--image img {
     display: block;
@@ -505,27 +502,70 @@ const { method } = Astro.props;
     .pairs__row { grid-template-columns: 1fr; gap: var(--space-3xs); }
   }
 
-  /* Companion cross-link — closes every methodology page. */
-  .companion {
+  /* Placement for the two live artifacts (component roots, so :global). The
+     arc takes the full media breakout; the sentence shares the wide text axis. */
+  .case > :global(.block--arc) {
+    grid-column: 1 / -1;
+    justify-self: center;
+    width: min(88rem, calc(100% - 2 * var(--page-gutter)));
     margin-top: var(--section);
-    padding-top: var(--space-xl);
-    border-top: 1px solid var(--color-hairline);
+    margin-bottom: var(--space-lg);
   }
-  .companion .eyebrow { margin-bottom: var(--space-sm); }
-  .companion__link {
-    font-family: var(--font-display);
-    font-size: var(--text-display-sm);
-    line-height: var(--leading-tight);
-    letter-spacing: var(--tracking-display);
-    color: var(--color-ink);
-    border-bottom: 1px solid var(--color-hairline-strong);
-    transition: border-color var(--duration) var(--ease-out);
+  .case > :global(.block--sentence) {
+    grid-column: 2 / -1;
+    width: min(61rem, calc(100% - var(--page-gutter)));
+    margin-top: var(--section-tight);
+    margin-bottom: var(--space-lg);
   }
-  .companion__link:hover { border-bottom-color: var(--color-ink); }
-  .companion__note {
-    margin-top: var(--space-sm);
-    font-size: var(--text-body);
-    color: var(--color-ink-muted);
-    max-width: 52ch;
+
+  /* Scroll reveal — each block rises gently as it enters the viewport. The
+     .reveal class is only added when JS runs, so nothing hides without it. */
+  .case.reveal > :global(.will-reveal) {
+    opacity: 0;
+    transform: translateY(1.25rem);
+    transition:
+      opacity var(--duration-slow) var(--ease-out),
+      transform var(--duration-slow) var(--ease-out);
+  }
+  .case.reveal > :global(.will-reveal.is-in) {
+    opacity: 1;
+    transform: translateY(0);
   }
 </style>
+
+<script>
+  // Bring the page to life: blocks rise in as they enter the viewport. The
+  // arc and sentence artifacts run their own choreography, so they're skipped.
+  const article = document.querySelector('.case');
+  if (article && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const blocks = article.querySelectorAll(
+      ':scope > *:not(.case__back):not(.case__header):not(.block--arc):not(.block--sentence):not(script)'
+    );
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          if (e.isIntersecting) {
+            e.target.classList.add('is-in');
+            io.unobserve(e.target);
+          }
+        }
+      },
+      { rootMargin: '0px 0px -10% 0px' }
+    );
+    blocks.forEach((el) => {
+      el.classList.add('will-reveal');
+      io.observe(el);
+    });
+    article.classList.add('reveal');
+
+    // A block that ends the page can sit below the reveal line forever;
+    // reaching the bottom reveals whatever is left.
+    const onScroll = () => {
+      if (window.innerHeight + window.scrollY >= document.body.scrollHeight - 48) {
+        blocks.forEach((el) => el.classList.add('is-in'));
+        window.removeEventListener('scroll', onScroll);
+      }
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+  }
+</script>

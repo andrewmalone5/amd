@@ -7,15 +7,20 @@
 // "not X but Y" construction rationed to the lines that earn it.
 import type { Block } from './projects';
 
+/**
+ * Methodology pages get two blocks the case studies don't: the interactive
+ * story arc and the fill-in sentence template, both rendered live by their
+ * own components instead of shipped as images.
+ */
+export type MethodBlock = Block | { type: 'storyArc' } | { type: 'sentenceTemplate' };
+
 export interface Method {
   slug: string;
   kicker: string;
   title: string;
   /** Short line used by the How I Work index rows. */
   summary: string;
-  blocks: Block[];
-  /** Cross-link to the companion methodology. */
-  companion: { slug: string; title: string; note: string };
+  blocks: MethodBlock[];
 }
 
 export const methods: Method[] = [
@@ -104,11 +109,6 @@ export const methods: Method[] = [
           'The time you skip at the start comes back with interest. It comes back as rework when the real constraints surface, and as a design direction people stop trusting because it keeps changing. Asked early, the same questions cost an afternoon.\n\nThe best version of this discipline isn’t me asking the questions. It’s the team beating me to them.',
       },
     ],
-    companion: {
-      slug: 'narrative-first-design',
-      title: 'Start with the story. Then open Figma.',
-      note: 'The companion practice: how I get cross-functional teams aligned on the user’s story before design work begins.',
-    },
   },
 
   {
@@ -146,24 +146,7 @@ export const methods: Method[] = [
         body:
           'The workshop walks the team through the user’s story as seven plot points, in order. By the end there’s a complete picture of who the user is, why the feature exists, and where it could fail.',
       },
-      {
-        type: 'pairs',
-        items: [
-          { label: '01 What does the user want?', value: 'Their goal in their words, not the feature’s description of it.' },
-          { label: '02 Why can’t they get it today?', value: 'The obstacle that makes the current path fail, cost too much, or feel too risky.' },
-          { label: '03 What do we introduce?', value: 'The feature, told as an event in the user’s story rather than a spec.' },
-          { label: '04 What would stop them adopting it?', value: 'The hesitation. The plot point teams skip.' },
-          { label: '05 What convinces them to cross?', value: 'The proof or the moment that makes trying it feel safe and worth it.' },
-          { label: '06 What changes in their behaviour?', value: 'What they now do differently, and what that demands of the product around it.' },
-          { label: '07 What does success look like?', value: 'The observable outcome for the user, and the measurable one for the team.' },
-        ],
-      },
-      {
-        type: 'media',
-        label: 'The story arc',
-        image: '/method/story-arc.png',
-        caption: 'The seven plot points as the team walks them: rising context, the crisis at four, resolution the whole room has agreed on.',
-      },
+      { type: 'storyArc' },
 
       { type: 'heading', kicker: 'The key insight', text: 'Most teams skip plot point four. That’s where features go to die.' },
       {
@@ -184,12 +167,7 @@ export const methods: Method[] = [
         body:
           'The workshop ends with a single sentence assembled from the plot points: who the user is, what blocks them, what we’re introducing, and what changes for them. Short enough to remember, specific enough to argue with.\n\nThat sentence becomes the feature’s north star. It gets quoted in sprints and PRD reviews, and it gut-checks design decisions for the rest of the project. When a decision can’t be justified against it, that’s a conversation worth having. And when the sentence itself has to change mid-project, that’s the earliest warning you’ll ever get that the problem has moved underneath you.',
       },
-      {
-        type: 'media',
-        label: 'The sentence template',
-        image: '/method/sentence-template.png',
-        caption: 'The template, and one filled in from a real workshop.',
-      },
+      { type: 'sentenceTemplate' },
 
       { type: 'heading', kicker: 'In practice', text: 'One workshop, two blockers, two features' },
       {
@@ -211,10 +189,5 @@ export const methods: Method[] = [
           'It only works with everyone in the room, including whoever owns the metric. The story belongs to the team rather than to any one discipline, and that’s what makes the decisions hold. Blockers surface in an hour instead of a sprint. Nobody assumes alignment, because you’ve heard the whole room tell the same story.',
       },
     ],
-    companion: {
-      slug: 'solve-the-right-problem',
-      title: 'Good execution of the wrong thing is still failure.',
-      note: 'The companion discipline: the questions I ask before any of this, to make sure the story we align on is the right one.',
-    },
   },
 ];
