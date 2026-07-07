@@ -153,12 +153,11 @@ const { project } = Astro.props;
     grid-column: 2;
   }
 
-  /* Back link and header take the wide measure; prose stays at 42rem. */
+  /* One shared left axis: header and structural blocks start at the prose
+     column's left edge and extend right. Only media breaks out centred. */
   .case > .case__back,
   .case > .case__header {
-    grid-column: 1 / -1;
-    justify-self: center;
-    width: min(80rem, calc(100% - 2 * var(--page-gutter)));
+    grid-column: 2 / -1;
   }
 
   .case__back {
@@ -316,9 +315,8 @@ const { project } = Astro.props;
   /* Overview — the at-a-glance strip under the case header. Wide: it's the
      skim layer, set apart from the prose column. */
   .case > .block--overview {
-    grid-column: 1 / -1;
-    justify-self: center;
-    width: min(80rem, calc(100% - 2 * var(--page-gutter)));
+    grid-column: 2 / -1;
+    width: min(61rem, calc(100% - var(--page-gutter)));
     margin-top: var(--section-tight);
     padding-top: var(--space-lg);
     border-top: 1px solid var(--color-hairline);
@@ -361,9 +359,8 @@ const { project } = Astro.props;
 
   /* Stat row — 2-4 stats sharing one ruled row. */
   .case > .block--statrow {
-    grid-column: 1 / -1;
-    justify-self: center;
-    width: min(80rem, calc(100% - 2 * var(--page-gutter)));
+    grid-column: 2 / -1;
+    width: min(61rem, calc(100% - var(--page-gutter)));
     margin-block: var(--section-tight) var(--space-lg);
     padding-top: var(--space-lg);
     border-top: 2px solid var(--color-ink);
@@ -407,9 +404,8 @@ const { project } = Astro.props;
   /* Principle — oversized numeral + display title. The old portfolio's
      strongest pattern, rebuilt in the site's type. */
   .case > .block--principle {
-    grid-column: 1 / -1;
-    justify-self: center;
-    width: min(80rem, calc(100% - 2 * var(--page-gutter)));
+    grid-column: 2 / -1;
+    width: min(61rem, calc(100% - var(--page-gutter)));
     margin-top: var(--section);
     padding-top: var(--space-xl);
     border-top: 1px solid var(--color-hairline);

@@ -1,9 +1,21 @@
 // Single source of truth for project work. The Selected Work index and the
 // case-study pages both read from here — adding a project is editing this array.
 //
-// Copy is from Andrew's existing site. Case-study page detail (blocks) is
-// minimal for now — the list summaries are real; deeper page content and real
-// screenshots get added per project.
+// CANONICAL CASE-STUDY TEMPLATE — every project follows this arc:
+//   1. overview        (always) Role / Timeline / Working with / Status + the
+//                      one-minute version for skimming readers
+//   2. lead narrative  the problem and the stakes, optionally a lead stat
+//   3. chapters        2-5 heading-led sections from a shared kicker vocabulary
+//                      (The problem / The role / The approach / What shipped /
+//                      The insight / The diagnosis / The move / The exploration /
+//                      Research / Design / Testing / The system / The hard part)
+//   4. evidence        stats cluster as a statRow; a single stat is a lead
+//                      emphasis only; verbatim internal evidence goes in callout
+//   5. close           'Impact' for shipped work, 'Where it stands' for
+//                      in-progress work, statRow'd when metrics exist
+//   6. principles      optional: numbered 'The calls I'd make again'
+//   7. reflection      optional but encouraged: 'What I'd do differently'
+// Media breaks out full-width; duo pairs comparisons; pairs maps inventories.
 
 export type Block =
   | { type: 'heading'; text: string; kicker?: string }
@@ -46,6 +58,18 @@ export const projects: Project[] = [
     summary:
       'Back Market’s first embedded financing product: next-business-day payouts, funded by a partner, designed to never read as debt. I owned the payout experience end to end, from coded concept to launch.',
     blocks: [
+      {
+        type: 'overview',
+        columns: [
+          { label: 'Role', value: 'Senior Product Designer, design DRI' },
+          { label: 'Timeline', value: '2025 to 2026, launched' },
+          { label: 'Working with', value: 'PM, product partner, content design, research, the funding partner’s team' },
+          { label: 'Status', value: 'Live for eligible sellers' },
+        ],
+        body:
+          'Back Market’s first embedded financing product: next-business-day payouts, funded by a partner, designed to never read as debt. I owned the experience end to end, from coded prototype to launch, and the decision to design the full lifecycle rather than a signup pitch is what turned interest into activation.',
+      },
+
       // Lead: problem and stakes, then the product in one breath.
       {
         type: 'narrative',
@@ -70,7 +94,7 @@ export const projects: Project[] = [
       },
 
       // Role: ownership and what DRI meant on an undefined product.
-      { type: 'heading', kicker: 'Role', text: 'Design DRI on a product that didn’t exist yet' },
+      { type: 'heading', kicker: 'The role', text: 'Design DRI on a product that didn’t exist yet' },
       {
         type: 'narrative',
         body:
@@ -78,7 +102,7 @@ export const projects: Project[] = [
       },
 
       // Approach: the coded prototype as the working artefact.
-      { type: 'heading', kicker: 'Approach', text: 'The prototype was the argument' },
+      { type: 'heading', kicker: 'The approach', text: 'The prototype was the argument' },
       {
         type: 'narrative',
         body:
@@ -119,7 +143,7 @@ export const projects: Project[] = [
       },
 
       // Judgment: the product calls argued for and won.
-      { type: 'heading', kicker: 'Judgment', text: 'Three calls that set the product direction' },
+      { type: 'heading', kicker: 'Principles', text: 'Three calls that set the product direction' },
       {
         type: 'narrative',
         body:
@@ -164,14 +188,12 @@ export const projects: Project[] = [
           'BackFunds shipped to eligible sellers as a native part of the Money and Wallet page, with the microservice replacing the manual operations behind it. The number the team watched most closely was the gap between “interested” and “activated,” because that is what tells you whether the design is doing its job rather than the offer. Framing the value at the moment of payout, and designing the whole lifecycle instead of a signup pitch, is what closed it.',
       },
       {
-        type: 'stat',
-        value: '14% → 30%',
-        label: 'Adoption among eligible sellers by end of year, more than doubling the baseline',
-      },
-      {
-        type: 'stat',
-        value: '< 7 days',
-        label: 'Seller onboarding, down from 2–3 weeks, with a median application under 10 minutes',
+        type: 'statRow',
+        stats: [
+          { value: '14% → 30%', label: 'Adoption among eligible sellers by end of year, more than doubling the baseline' },
+          { value: '< 7 days', label: 'Seller onboarding, down from 2–3 weeks, median application under 10 minutes' },
+          { value: '< 5%', label: 'Of servicing questions the dashboard could answer ever reached support' },
+        ],
       },
       {
         type: 'narrative',
@@ -204,6 +226,18 @@ export const projects: Project[] = [
     summary:
       'When AI in the Back Office was an open question with no evidence base, I ran the 118-seller study that set Back Market’s AI posture: suggest-and-confirm, adopted verbatim into the 2026 vision. Now turning that posture into a proactive assistant.',
     blocks: [
+      {
+        type: 'overview',
+        columns: [
+          { label: 'Role', value: 'Senior Product Designer, research and design lead' },
+          { label: 'Timeline', value: '2025 to present' },
+          { label: 'Working with', value: 'The squad’s PM, seller success, data, and a cross-team chatbot taskforce' },
+          { label: 'Status', value: 'Posture adopted, assistant in build' },
+        ],
+        body:
+          'When AI in the Back Office was an open question with no evidence base, I ran the 118-seller study that set Back Market’s AI posture: suggest and confirm. The posture was adopted verbatim into the company’s 2026 vision, and I am now turning it into product, a proactive assistant prototype and the industrialization of the support chatbot.',
+      },
+
       // Lead: the ambiguity and the stakes.
       {
         type: 'narrative',
@@ -603,6 +637,18 @@ export const projects: Project[] = [
     summary:
       'Patients drift from their care plans when there’s nothing connecting them between clinic visits. I designed SoteriaMe to close that gap: building the habits and trust that keep patients engaged with their treatment when no one is watching.',
     blocks: [
+      {
+        type: 'overview',
+        columns: [
+          { label: 'Role', value: 'Product Designer, end to end' },
+          { label: 'Timeline', value: '2022' },
+          { label: 'Working with', value: 'Clinical advisors and Infocare’s clinical partners' },
+          { label: 'Status', value: 'Piloted in US clinics' },
+        ],
+        body:
+          'Infocare’s first patient-facing product: a mobile app that keeps chronic-care patients connected to their care plan between visits. I designed it end to end under gated patient access, and the trust mechanics, plain-language visibility labels at every point of data entry, changed patient behaviour more than any structural decision in the product.',
+      },
+
       // Lead: the problem and the stakes.
       {
         type: 'narrative',
@@ -696,14 +742,11 @@ export const projects: Project[] = [
           'I put four clinical advisors (a GP, a specialist nurse, a clinical informatics lead, and patient experience) through the full prototype against scripted scenarios, briefed to flag anything clinically inaccurate, structurally confusing, or likely to cause patient harm by omission. Two issues were marked blockers and rebuilt before round two.\n\nRound two was patient testing: five participants aged 34 to 67, all managing chronic conditions, think-aloud protocol, three tasks with no prompting. Small numbers, treated as small numbers. What they showed was still direct.',
       },
       {
-        type: 'stat',
-        value: '3 → 5',
-        label: 'Participants completing reminder setup, before and after it was rebuilt as a primary action',
-      },
-      {
-        type: 'stat',
-        value: '4 → 0',
-        label: 'Participants pausing over data entry to ask who could see it, once inline visibility labels were added',
+        type: 'statRow',
+        stats: [
+          { value: '3 → 5', label: 'Participants completing reminder setup, before and after it was rebuilt as a primary action' },
+          { value: '4 → 0', label: 'Participants pausing over data entry to ask who could see it, once inline visibility labels were added' },
+        ],
       },
       {
         type: 'media',
@@ -736,6 +779,7 @@ export const projects: Project[] = [
         image: '/work/soteria/09-conversation.png',
         caption: 'The clinician’s side of the bargain: visibility into engagement between visits, without a second inbox.',
       },
+      { type: 'heading', kicker: 'Reflection', text: 'What I’d do differently' },
       {
         type: 'narrative',
         body:
