@@ -1,0 +1,531 @@
+---
+// Methodology template — derived from the case-study template so the two share
+// one block system and one set of styles. Keep the styles in sync with
+// work/[slug].astro when the block system changes.
+import SiteLayout from '../../layouts/SiteLayout.astro';
+import { methods } from '../../data/methods';
+import { withBase } from '../../lib/url';
+
+export function getStaticPaths() {
+  return methods.map((m) => ({
+    params: { slug: m.slug },
+    props: { method: m },
+  }));
+}
+
+const { method } = Astro.props;
+---
+
+<SiteLayout title={`${method.title} | Andrew Malone`} minimalFooter>
+  <article class="case">
+    <a class="case__back" href={withBase('/#how-i-work')}>&larr;&nbsp;&nbsp;How I Work</a>
+
+    <header class="case__header">
+      <p class="eyebrow">{method.kicker}</p>
+      <h1 class="case__title">{method.title}</h1>
+    </header>
+
+    {method.blocks.map((b) =>
+      b.type === 'heading' ? (
+        <header class="block block--heading">
+          {b.kicker && <p class="eyebrow">{b.kicker}</p>}
+          <h2>{b.text}</h2>
+        </header>
+      ) : b.type === 'narrative' ? (
+        <div class="block block--narrative">
+          {b.body.split('\n\n').map((para) => (
+            <p>{para}</p>
+          ))}
+        </div>
+      ) : b.type === 'quote' ? (
+        <blockquote class="block block--quote">
+          <p>{b.text}</p>
+          {b.cite && <cite>{b.cite}</cite>}
+        </blockquote>
+      ) : b.type === 'stat' ? (
+        <div class="block block--stat">
+          <span class="stat__value">{b.value}</span>
+          <span class="stat__label">{b.label}</span>
+        </div>
+      ) : b.type === 'media' ? (
+        <figure class="block block--media">
+          {b.image ? (
+            <div class="media__frame media__frame--image">
+              <img src={withBase(b.image)} alt={b.label} loading="lazy" />
+            </div>
+          ) : (
+            <div class="media__frame">
+              <span class="media__label">{b.label}</span>
+            </div>
+          )}
+          {b.caption && <figcaption>{b.caption}</figcaption>}
+        </figure>
+      ) : b.type === 'overview' ? (
+        <div class="block block--overview">
+          <dl class="overview__cols">
+            {b.columns.map((c) => (
+              <div class="overview__col">
+                <dt>{c.label}</dt>
+                <dd>{c.value}</dd>
+              </div>
+            ))}
+          </dl>
+          <p class="overview__body"><span class="overview__lead">The one-minute version.</span> {b.body}</p>
+        </div>
+      ) : b.type === 'statRow' ? (
+        <dl class="block block--statrow" data-count={b.stats.length}>
+          {b.stats.map((s) => (
+            <div class="statrow__item">
+              <dd>{s.value}</dd>
+              <dt>{s.label}</dt>
+            </div>
+          ))}
+        </dl>
+      ) : b.type === 'callout' ? (
+        <aside class="block block--callout">
+          <p class="eyebrow">{b.kicker}</p>
+          {b.body.split('\n\n').map((para) => (
+            <p class="callout__body">{para}</p>
+          ))}
+        </aside>
+      ) : b.type === 'principle' ? (
+        <section class="block block--principle">
+          <span class="principle__num" aria-hidden="true">{b.num}</span>
+          <div class="principle__content">
+            <h3>{b.title}</h3>
+            {b.body.split('\n\n').map((para) => (
+              <p>{para}</p>
+            ))}
+          </div>
+        </section>
+      ) : b.type === 'duo' ? (
+        <div class="block block--duo">
+          {b.items.map((item) => (
+            <figure class="duo__item">
+              {item.image ? (
+                <div class="duo__frame">
+                  <img src={withBase(item.image)} alt={item.label} loading="lazy" />
+                </div>
+              ) : (
+                <div class="duo__frame duo__frame--empty">
+                  <span class="media__label">{item.label}</span>
+                </div>
+              )}
+              {item.caption && <figcaption>{item.caption}</figcaption>}
+            </figure>
+          ))}
+        </div>
+      ) : b.type === 'pairs' ? (
+        <div class="block block--pairs">
+          {b.kicker && <p class="eyebrow pairs__kicker">{b.kicker}</p>}
+          <dl class="pairs__grid">
+            {b.items.map((item) => (
+              <div class="pairs__row">
+                <dt>{item.label}</dt>
+                <dd>{item.value}</dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+      ) : null
+    )}
+
+    <footer class="companion">
+      <p class="eyebrow">The companion practice</p>
+      <a class="companion__link" href={withBase(`/method/${method.companion.slug}`)}>{method.companion.title}</a>
+      <p class="companion__note">{method.companion.note}</p>
+    </footer>
+  </article>
+</SiteLayout>
+
+<style>
+  /* Content grid: a readable centre column, with room to break media out wider.
+     Everything defaults to the centre column; media and nav opt into the width. */
+  .case {
+    display: grid;
+    grid-template-columns:
+      1fr
+      min(42rem, calc(100% - 2 * var(--page-gutter)))
+      1fr;
+    padding-block: var(--space-2xl) var(--section);
+  }
+  .case > * {
+    grid-column: 2;
+  }
+
+  /* One shared left axis: header and structural blocks start at the prose
+     column's left edge and extend right. Only media breaks out centred. */
+  .case > .case__back,
+  .case > .case__header {
+    grid-column: 2 / -1;
+  }
+
+  .case__back {
+    font-size: var(--text-sm);
+    font-weight: var(--weight-medium);
+    color: var(--color-ink-muted);
+    transition: color var(--duration-fast) var(--ease-out);
+  }
+  .case__back:hover { color: var(--color-ink); }
+
+  /* Header — the case title is Display LG (one step below the homepage hero). */
+  .case__header {
+    margin-top: var(--space-xl);
+    animation: case-rise var(--duration-slow) var(--ease-out) backwards;
+  }
+  .case__title {
+    font-size: var(--text-display-lg);
+    max-width: 18ch;
+    margin-top: var(--space-md);
+  }
+  .case__status { margin-top: var(--space-lg); }
+
+  @keyframes case-rise {
+    from { opacity: 0; transform: translateY(0.75rem); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Block rhythm — default gap between blocks, with emphasis blocks given more
+     air. This is where density stops being uniform. */
+  .block + .block { margin-top: var(--space-xl); }
+  .block--quote,
+  .block--stat { margin-top: var(--section-tight); margin-bottom: var(--space-lg); }
+  .block--media { margin-top: var(--section); margin-bottom: var(--space-lg); }
+  .case__header + .block { margin-top: var(--section-tight); }
+
+  /* Section heading — a kicker plus a Spectral h2, opened by a hairline. These
+     are what give a long case study its arc. */
+  .block--heading {
+    margin-top: var(--section);
+    padding-top: var(--space-xl);
+    border-top: 1px solid var(--color-hairline);
+  }
+  .block--heading .eyebrow {
+    margin-bottom: var(--space-sm);
+  }
+  .block--heading h2 {
+    font-size: var(--text-display-sm);
+    line-height: var(--leading-tight);
+    letter-spacing: var(--tracking-display);
+    max-width: 24ch;
+  }
+  .block--heading + .block { margin-top: var(--space-lg); }
+
+  /* Narrative */
+  .block--narrative p {
+    font-size: var(--text-lead);
+    line-height: var(--leading-lead);
+    color: var(--color-ink);
+  }
+  .block--narrative p + p {
+    margin-top: var(--space-md);
+  }
+
+  /* Pull quote — Spectral, marked with a short rule above it. */
+  .block--quote {
+    padding-top: var(--space-lg);
+    border-top: 2px solid var(--color-ink);
+  }
+  .block--quote p {
+    font-family: var(--font-display);
+    font-size: var(--text-display-sm);
+    line-height: var(--leading-tight);
+    letter-spacing: var(--tracking-display);
+    color: var(--color-ink);
+    text-wrap: balance;
+  }
+  .block--quote cite {
+    display: block;
+    margin-top: var(--space-md);
+    font-family: var(--font-body);
+    font-style: normal;
+    font-size: var(--text-xs);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    color: var(--color-ink-muted);
+  }
+
+  /* Stat — a single big number. Reads as a lead when a project opens on it. */
+  .block--stat {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2xs);
+  }
+  .stat__value {
+    font-family: var(--font-display);
+    font-size: var(--text-display-lg);
+    line-height: 1;
+    letter-spacing: var(--tracking-display);
+    color: var(--color-ink);
+  }
+  .stat__label {
+    font-size: var(--text-sm);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    color: var(--color-ink-muted);
+    max-width: 28ch;
+  }
+
+  /* Media — the imposing moment. Breaks out well past the text column, close
+     to full-bleed, so the work dominates when it appears. The embed slot for
+     live React prototypes (client:load) or images. */
+  .case > .block--media {
+    grid-column: 1 / -1;
+    justify-self: center;
+    width: min(88rem, calc(100% - 2 * var(--page-gutter)));
+  }
+  .media__frame {
+    aspect-ratio: 16 / 9;
+    display: grid;
+    place-items: center;
+    background: var(--color-surface);
+    border: 1px solid var(--color-hairline);
+    border-radius: 12px;
+  }
+  .media__label {
+    font-size: var(--text-xs);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    color: var(--color-ink-faint);
+  }
+  /* With a real image the frame adapts: landscape media fills the breakout
+     width; portrait shots (phone screens) sit centred at a readable height on
+     the surface panel instead of stretching to fill it. */
+  .media__frame--image {
+    aspect-ratio: auto;
+    display: flex;
+    justify-content: center;
+    padding: var(--space-xl) var(--space-md);
+  }
+  .media__frame--image img {
+    display: block;
+    width: auto;
+    max-width: 100%;
+    max-height: 46rem;
+    height: auto;
+    border-radius: 18px;
+  }
+  .block--media figcaption {
+    margin-top: var(--space-sm);
+    font-size: var(--text-sm);
+    color: var(--color-ink-faint);
+    text-align: center;
+  }
+
+  /* Overview — the at-a-glance strip under the case header. Wide: it's the
+     skim layer, set apart from the prose column. */
+  .case > .block--overview {
+    grid-column: 2 / -1;
+    width: min(61rem, calc(100% - var(--page-gutter)));
+    margin-top: var(--section-tight);
+    padding-top: var(--space-lg);
+    border-top: 1px solid var(--color-hairline);
+    display: grid;
+    grid-template-columns: minmax(0, 22rem) 1fr;
+    gap: var(--space-xl) var(--space-3xl);
+    align-items: start;
+  }
+  .overview__cols {
+    margin: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-lg) var(--space-lg);
+  }
+  .overview__col dt {
+    font-size: var(--text-xs);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    color: var(--color-ink-faint);
+  }
+  .overview__col dd {
+    margin: var(--space-3xs) 0 0;
+    font-size: var(--text-sm);
+    font-weight: var(--weight-medium);
+    color: var(--color-ink);
+    line-height: 1.4;
+  }
+  .overview__body {
+    font-size: var(--text-lead);
+    line-height: var(--leading-lead);
+    color: var(--color-ink);
+    max-width: 52ch;
+  }
+  .overview__lead {
+    font-weight: var(--weight-semibold);
+  }
+  @media (max-width: 48rem) {
+    .block--overview { grid-template-columns: 1fr; gap: var(--space-lg); }
+  }
+
+  /* Stat row — 2-4 stats sharing one ruled row. */
+  .case > .block--statrow {
+    grid-column: 2 / -1;
+    width: min(61rem, calc(100% - var(--page-gutter)));
+    margin-block: var(--section-tight) var(--space-lg);
+    padding-top: var(--space-lg);
+    border-top: 2px solid var(--color-ink);
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+    gap: var(--space-lg) var(--space-xl);
+  }
+  .statrow__item dd {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: var(--text-display-md);
+    line-height: 1;
+    letter-spacing: var(--tracking-display);
+    color: var(--color-ink);
+  }
+  .statrow__item dt {
+    margin-top: var(--space-xs);
+    font-size: var(--text-xs);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    color: var(--color-ink-muted);
+    max-width: 24ch;
+    line-height: 1.5;
+  }
+
+  /* Callout — bordered evidence aside. */
+  .block--callout {
+    border: 1px solid var(--color-hairline-strong);
+    border-radius: 12px;
+    padding: var(--space-lg) var(--space-lg);
+    background: var(--color-surface);
+  }
+  .block--callout .eyebrow { margin-bottom: var(--space-sm); }
+  .callout__body {
+    font-size: var(--text-body);
+    line-height: var(--leading-body);
+    color: var(--color-ink);
+  }
+  .callout__body + .callout__body { margin-top: var(--space-sm); }
+
+  /* Principle — oversized numeral + display title. The old portfolio's
+     strongest pattern, rebuilt in the site's type. */
+  .case > .block--principle {
+    grid-column: 2 / -1;
+    width: min(61rem, calc(100% - var(--page-gutter)));
+    margin-top: var(--section);
+    padding-top: var(--space-xl);
+    border-top: 1px solid var(--color-hairline);
+    display: grid;
+    grid-template-columns: minmax(0, 14rem) minmax(0, 42rem);
+    gap: var(--space-lg) var(--space-2xl);
+  }
+  .principle__num {
+    font-family: var(--font-display);
+    font-size: clamp(4rem, 3rem + 4vw, 7.5rem);
+    line-height: 0.9;
+    letter-spacing: var(--tracking-display);
+    color: var(--color-ink-faint);
+  }
+  .principle__content h3 {
+    font-size: var(--text-display-sm);
+    line-height: var(--leading-tight);
+    letter-spacing: var(--tracking-display);
+    max-width: 24ch;
+  }
+  .principle__content p {
+    margin-top: var(--space-md);
+    font-size: var(--text-lead);
+    line-height: var(--leading-lead);
+    color: var(--color-ink);
+  }
+  @media (max-width: 48rem) {
+    .block--principle { grid-template-columns: 1fr; gap: var(--space-sm); }
+    .principle__num { font-size: 3.5rem; }
+  }
+
+  /* Duo — two images side by side, sharing the media breakout. */
+  .case > .block--duo {
+    grid-column: 1 / -1;
+    justify-self: center;
+    width: min(88rem, calc(100% - 2 * var(--page-gutter)));
+    margin-top: var(--section);
+    margin-bottom: var(--space-lg);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-md);
+    align-items: start;
+  }
+  .duo__frame {
+    background: var(--color-surface);
+    border: 1px solid var(--color-hairline);
+    border-radius: 12px;
+    padding: var(--space-md);
+    display: flex;
+    justify-content: center;
+  }
+  .duo__frame img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+  }
+  .duo__frame--empty {
+    aspect-ratio: 4 / 3;
+    display: grid;
+    place-items: center;
+  }
+  .block--duo figcaption {
+    margin-top: var(--space-sm);
+    font-size: var(--text-sm);
+    color: var(--color-ink-faint);
+    text-align: center;
+  }
+  @media (max-width: 48rem) {
+    .block--duo { grid-template-columns: 1fr; }
+  }
+
+  /* Pairs — label/value rows for maps and inventories. */
+  .block--pairs { margin-top: var(--space-xl); }
+  .pairs__kicker { margin-bottom: var(--space-md); }
+  .pairs__grid { margin: 0; }
+  .pairs__row {
+    display: grid;
+    grid-template-columns: minmax(0, 14rem) 1fr;
+    gap: var(--space-md);
+    padding-block: var(--space-sm);
+    border-top: 1px solid var(--color-hairline);
+  }
+  .pairs__row dt {
+    font-size: var(--text-sm);
+    font-weight: var(--weight-semibold);
+    color: var(--color-ink);
+    line-height: 1.5;
+  }
+  .pairs__row dd {
+    margin: 0;
+    font-size: var(--text-sm);
+    color: var(--color-ink-muted);
+    line-height: 1.5;
+  }
+  @media (max-width: 40rem) {
+    .pairs__row { grid-template-columns: 1fr; gap: var(--space-3xs); }
+  }
+
+  /* Companion cross-link — closes every methodology page. */
+  .companion {
+    margin-top: var(--section);
+    padding-top: var(--space-xl);
+    border-top: 1px solid var(--color-hairline);
+  }
+  .companion .eyebrow { margin-bottom: var(--space-sm); }
+  .companion__link {
+    font-family: var(--font-display);
+    font-size: var(--text-display-sm);
+    line-height: var(--leading-tight);
+    letter-spacing: var(--tracking-display);
+    color: var(--color-ink);
+    border-bottom: 1px solid var(--color-hairline-strong);
+    transition: border-color var(--duration) var(--ease-out);
+  }
+  .companion__link:hover { border-bottom-color: var(--color-ink); }
+  .companion__note {
+    margin-top: var(--space-sm);
+    font-size: var(--text-body);
+    color: var(--color-ink-muted);
+    max-width: 52ch;
+  }
+</style>
