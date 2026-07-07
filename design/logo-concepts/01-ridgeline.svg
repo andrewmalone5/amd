@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- 01 Ridgeline — peak (A) over wave (m); closest evolution of the current mark -->
+  <g fill="none" stroke="#1C1A17" stroke-width="9" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M15 61 L50 13 L85 61"/>
+    <path d="M28 85 C28 66 50 66 50 85 C50 66 72 66 72 85"/>
+  </g>
+</svg>

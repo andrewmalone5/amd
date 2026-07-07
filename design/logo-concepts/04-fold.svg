@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- 04 Fold — one strip folded into a peak; the return face carries the depth -->
+  <path d="M14 84 L33 84 L61 25 L47 13 Z" fill="#1C1A17"/>
+  <path d="M47 13 L61 25 L86 84 L68 84 Z" fill="#1C1A17" opacity="0.55"/>
+</svg>

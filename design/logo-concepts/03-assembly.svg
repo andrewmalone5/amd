@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- 03 Assembly — geometry kit: triangle (A) and dome (m) on a shared baseline -->
+  <g fill="#1C1A17">
+    <path d="M6 78 L29 22 L52 78 Z"/>
+    <path d="M58 78 A18 18 0 0 1 94 78 Z"/>
+  </g>
+</svg>

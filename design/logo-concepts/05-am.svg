@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 100">
+  <!-- 05 am. — lowercase initials drawn as geometry, closed with a full stop -->
+  <g fill="none" stroke="#1C1A17" stroke-width="8" stroke-linecap="round">
+    <circle cx="27" cy="62" r="16"/>
+    <path d="M43 46 L43 78"/>
+    <path d="M60 78 L60 50"/>
+    <path d="M60 62 C60 47 75 47 75 62 L75 78"/>
+    <path d="M75 62 C75 47 90 47 90 62 L90 78"/>
+  </g>
+  <circle cx="106" cy="76.5" r="5.5" fill="#1C1A17"/>
+</svg>
