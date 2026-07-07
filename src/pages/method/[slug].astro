@@ -383,17 +383,20 @@ const { method } = Astro.props;
     line-height: 1.5;
   }
 
-  /* Callout — bordered evidence aside. */
+  /* Callout — an aside set in the serif, indented off the prose axis. No box,
+     no border: the register change is the container. */
   .block--callout {
-    border: 1px solid var(--color-hairline-strong);
-    border-radius: 12px;
-    padding: var(--space-lg) var(--space-lg);
-    background: var(--color-surface);
+    padding-left: var(--space-md);
   }
-  .block--callout .eyebrow { margin-bottom: var(--space-sm); }
+  .block--callout .eyebrow {
+    margin-bottom: var(--space-sm);
+    color: var(--color-ink-faint);
+  }
   .callout__body {
-    font-size: var(--text-body);
-    line-height: var(--leading-body);
+    font-family: var(--font-display);
+    font-size: 1.3125rem;
+    line-height: 1.55;
+    letter-spacing: var(--tracking-tight);
     color: var(--color-ink);
   }
   .callout__body + .callout__body { margin-top: var(--space-sm); }
