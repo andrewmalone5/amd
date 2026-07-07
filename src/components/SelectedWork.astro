@@ -218,13 +218,24 @@ const other = projects.filter((p) => p.secondary);
     margin-left: var(--space-sm);
   }
 
-  /* Stack below the point where the split gets cramped: image first, story under. */
+  /* Stack below the point where the split gets cramped: image first, story under.
+     The even-row selectors below are as specific as the base ones, so they win
+     the cascade and both odd and even rows collapse to a single column. */
   @media (max-width: 56rem) {
-    .work {
+    .work,
+    li:nth-child(even) .work {
       grid-template-columns: 1fr;
     }
     li:nth-child(even) .work__media { order: 0; }
     .work__index { margin-bottom: var(--space-sm); }
     .work-list { gap: var(--section-tight); }
+
+    /* Other projects: title on its own line, meta beneath it. */
+    .other__item { display: block; }
+    .other__meta {
+      display: block;
+      margin-left: 0;
+      margin-top: var(--space-2xs);
+    }
   }
 </style>

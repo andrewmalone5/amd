@@ -31,15 +31,20 @@ const links = [
       type="button"
       aria-expanded="false"
       aria-controls="mobile-nav"
+      aria-label="Open menu"
     >
-      <span class="nav-toggle__label" data-open="Close" data-closed="Menu">Menu</span>
+      <span class="nav-toggle__bars" aria-hidden="true"><span></span><span></span></span>
     </button>
   </div>
 
   <nav id="mobile-nav" class="nav-mobile" aria-label="Primary (mobile)">
+    <a class="nav-mobile__wordmark" href={home}>{wordmark}</a>
+    <button class="nav-mobile__close" type="button" aria-label="Close menu">
+      <svg width="26" height="26" viewBox="0 0 26 26" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M6 6l14 14M20 6L6 20"/></svg>
+    </button>
     <ul>
-      {links.map((l) => (
-        <li><a href={l.href}>{l.label}</a></li>
+      {links.map((l, i) => (
+        <li style={`--i: ${i}`}><a href={l.href}>{l.label}</a></li>
       ))}
     </ul>
   </nav>
@@ -114,64 +119,113 @@ const links = [
   .nav-desktop a:hover { color: var(--color-ink); }
   .nav-desktop a:hover::after { transform: scaleX(1); }
 
-  /* Mobile toggle -------------------------------------------------------- */
+  /* Mobile toggle — a two-bar hamburger. ---------------------------------- */
   .nav-toggle {
     display: none;
     background: none;
     border: 0;
-    padding: var(--space-2xs) 0;
+    padding: var(--space-2xs);
+    margin-right: calc(-1 * var(--space-2xs));
     cursor: pointer;
-    font-size: var(--text-sm);
-    font-weight: var(--weight-medium);
-    letter-spacing: var(--tracking-label);
-    text-transform: uppercase;
     color: var(--color-ink);
   }
+  .nav-toggle__bars {
+    display: block;
+    width: 26px;
+  }
+  .nav-toggle__bars span {
+    display: block;
+    height: 1.6px;
+    background: currentColor;
+    border-radius: 2px;
+  }
+  .nav-toggle__bars span + span { margin-top: 6px; }
 
-  /* Mobile panel --------------------------------------------------------- */
+  /* Mobile panel — full-viewport overlay. -------------------------------- */
   .nav-mobile {
     display: none;
     position: fixed;
-    inset: 3.75rem 0 auto 0; /* sits just under the header row */
+    inset: 0;
+    z-index: 60;
     background: var(--color-paper);
-    border-bottom: 1px solid var(--color-hairline);
-    padding: var(--space-xl) var(--page-gutter) var(--space-2xl);
+    padding: var(--space-sm) var(--page-gutter) var(--space-2xl);
     opacity: 0;
-    transform: translateY(-0.75rem);
     pointer-events: none;
-    transition:
-      opacity var(--duration) var(--ease-out),
-      transform var(--duration) var(--ease-out);
+    transition: opacity var(--duration) var(--ease-out);
   }
-  .nav-mobile ul { list-style: none; padding: 0; display: flex; flex-direction: column; gap: var(--space-md); }
+  .nav-mobile a.nav-mobile__wordmark {
+    position: absolute;
+    top: var(--space-sm);
+    left: var(--page-gutter);
+    font-family: var(--font-body);
+    font-size: 1.0625rem;
+    font-weight: var(--weight-semibold);
+    letter-spacing: -0.01em;
+    color: var(--color-ink);
+    line-height: 3.4rem;
+  }
+  .nav-mobile__close {
+    position: absolute;
+    top: var(--space-sm);
+    right: calc(var(--page-gutter) - var(--space-2xs));
+    padding: var(--space-2xs);
+    background: none;
+    border: 0;
+    color: var(--color-ink);
+    cursor: pointer;
+    line-height: 0;
+  }
+  .nav-mobile ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: var(--space-lg);
+  }
+  .nav-mobile li {
+    opacity: 0;
+    transform: translateY(0.75rem);
+  }
   .nav-mobile a {
     font-family: var(--font-display);
-    font-size: var(--text-display-sm);
+    font-size: var(--text-display-md);
+    line-height: 1.1;
     letter-spacing: var(--tracking-display);
     color: var(--color-ink);
   }
 
-  /* Below the breakpoint: swap desktop nav for the toggle + panel. */
+  /* Below the breakpoint: swap desktop nav for the toggle + overlay. */
   @media (max-width: 48rem) {
     .nav-desktop { display: none; }
     .nav-toggle { display: inline-flex; align-items: center; }
     .nav-mobile { display: block; }
-    .site-header.nav-open {
-      background: var(--color-paper);
-      border-bottom-color: transparent;
-    }
     .site-header.nav-open .nav-mobile {
       opacity: 1;
-      transform: translateY(0);
       pointer-events: auto;
     }
+    /* Links rise in, staggered, once the overlay is open. */
+    .site-header.nav-open .nav-mobile li {
+      opacity: 1;
+      transform: translateY(0);
+      transition:
+        opacity var(--duration-slow) var(--ease-out),
+        transform var(--duration-slow) var(--ease-out);
+      transition-delay: calc(120ms + var(--i) * 70ms);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .nav-mobile li { opacity: 1; transform: none; }
   }
 </style>
 
 <script>
   const header = document.querySelector<HTMLElement>('[data-header]');
   const toggle = document.querySelector<HTMLButtonElement>('.nav-toggle');
-  const label = document.querySelector<HTMLElement>('.nav-toggle__label');
+  const close = document.querySelector<HTMLButtonElement>('.nav-mobile__close');
   const panel = document.getElementById('mobile-nav');
 
   // Hairline fades in once the page moves.
@@ -182,16 +236,21 @@ const links = [
   const setOpen = (open: boolean) => {
     header?.classList.toggle('nav-open', open);
     toggle?.setAttribute('aria-expanded', String(open));
-    if (label) label.textContent = open ? label.dataset.open! : label.dataset.closed!;
     document.body.style.overflow = open ? 'hidden' : '';
   };
 
-  toggle?.addEventListener('click', () => {
-    setOpen(!header?.classList.contains('nav-open'));
-  });
+  toggle?.addEventListener('click', () => setOpen(true));
+  close?.addEventListener('click', () => setOpen(false));
 
   // Close after choosing a destination.
-  panel?.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => setOpen(false)));
+  panel?.querySelectorAll('a:not(.nav-mobile__wordmark)').forEach((a) =>
+    a.addEventListener('click', () => setOpen(false))
+  );
+
+  // Escape closes the overlay.
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') setOpen(false);
+  });
 
   // Close if the viewport grows past the mobile breakpoint.
   window.matchMedia('(min-width: 48rem)').addEventListener('change', (e) => {
