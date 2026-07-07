@@ -226,7 +226,7 @@ export const projects: Project[] = [
     year: '2025–present',
     status: 'In progress',
     summary:
-      'When AI in the Back Office was an open question with no evidence base, I ran the 118-seller study that set Back Market’s AI posture: suggest-and-confirm, adopted verbatim into the 2026 vision. Now turning that posture into a proactive assistant.',
+      'When AI in the Back Office was an open question with no evidence base, I ran the 118-seller study that set Back Market’s AI posture: suggest and confirm, adopted verbatim into the 2026 vision. Now turning that posture into a proactive assistant.',
     blocks: [
       {
         type: 'overview',
@@ -283,7 +283,7 @@ export const projects: Project[] = [
       {
         type: 'narrative',
         body:
-          'The suggest-and-confirm posture was cited verbatim in the Seller XP Vision 2026 as the 2026 strategy, using the study’s specific data points and naming the study directly. The report also broke a stalled AI prioritization process that had been waiting on seller-validation evidence, producing the three confirmed Phase 1 features, and it seeded the workstreams that followed: a competitive benchmark and the Head of Product’s commitment of development resources for a chatbot-to-BackFunds integration.\n\nThis is decision-impact, and I claim it as exactly that. The work changed what got built and the company’s stated posture. Whether suggest-and-confirm drives adoption once the features ship is the test still ahead, and I treat the 51.8% finding as a hypothesis the shipped product will prove or break, not a conclusion already proven.',
+          'The suggest-and-confirm posture was cited verbatim in the Seller XP Vision 2026 as the 2026 strategy, using the study’s specific data points and naming the study directly. The report also broke a stalled AI prioritization process that had been waiting on seller-validation evidence, producing the three confirmed Phase 1 features, and it seeded the workstreams that followed: a competitive benchmark and the Head of Product’s commitment of development resources for a chatbot-to-BackFunds integration.\n\nThis is decision-impact, and I claim it as exactly that. The work changed what got built and the company’s stated posture. Whether suggest and confirm drives adoption once the features ship is the test still ahead, and I treat the 51.8% finding as a hypothesis the shipped product will prove or break, not a conclusion already proven.',
       },
       {
         type: 'media',
@@ -296,7 +296,7 @@ export const projects: Project[] = [
       {
         type: 'narrative',
         body:
-          'The posture then had to become product. I lead the design side of that: a competitive benchmark of AI seller-assistant capabilities across nine platforms (Amazon, Shopify, eBay, Walmart, Etsy and others), mapped against Back Market’s own vision, and a coded prototype built as two concepts side by side. Concept one is the current state: a reactive Q&A assistant that searches the support centre and answers. Concept two is where we want to be: a proactive assistant that surfaces things grounded in the seller’s actual data.\n\nSix proactive scenarios are fully built as clickable states, and every one follows the same shape: a proactive message grounded in real seller data, then follow-up branches the seller chooses. A BackFunds introduction pegged to the seller’s actual pending payout. A payout-tier answer with the specific next step. A GMV drop traced to delisted iPhone models, with a link to relist. A quality flag with the concrete consequence stated. The consistency is the argument: suggest-and-confirm applied as a system, not case by case.',
+          'The posture then had to become product. I lead the design side of that: a competitive benchmark of AI seller-assistant capabilities across nine platforms (Amazon, Shopify, eBay, Walmart, Etsy and others), mapped against Back Market’s own vision, and a coded prototype built as two concepts side by side. Concept one is the current state: a reactive Q&A assistant that searches the support centre and answers. Concept two is where we want to be: a proactive assistant that surfaces things grounded in the seller’s actual data.\n\nSix proactive scenarios are fully built as clickable states, and every one follows the same shape: a proactive message grounded in real seller data, then follow-up branches the seller chooses. A BackFunds introduction pegged to the seller’s actual pending payout. A payout-tier answer with the specific next step. A GMV drop traced to delisted iPhone models, with a link to relist. A quality flag with the concrete consequence stated. The consistency is the argument: suggest and confirm applied as a system, not case by case.',
       },
       {
         type: 'media',
@@ -341,9 +341,8 @@ export const projects: Project[] = [
     client: 'Back Market',
     discipline: 'Seller Back Office',
     year: '2026',
-    status: 'In progress',
     summary:
-      'The Back Office homepage is the first page every seller sees, top three in the product by traffic, and it had not been anyone’s priority since 2022: flagged incomplete, shipping placeholder content, chartered against a goal nobody ever measured. I am building the case, and the redesign.',
+      'The Back Office homepage is the first page every seller sees, top three in the product by traffic, and it had not been anyone’s priority since 2022. Flagged incomplete, shipping placeholder content, chartered against a goal nobody measured. I am building the case, and the redesign.',
     blocks: [
       {
         type: 'overview',
@@ -523,9 +522,8 @@ export const projects: Project[] = [
     client: 'Back Market',
     discipline: 'Seller Incentives',
     year: '2025–present',
-    status: 'In progress',
     summary:
-      'Deals pay sellers a commission discount for hitting competitive prices. The first Back Office release shipped to spec, and its core action drew 0.2% of clicks. I own the seller-facing layer: this is the diagnosis, and the margin-first redesign built from it.',
+      'Deals pay sellers a commission discount for hitting competitive prices. The first Back Office release shipped to spec, and its core action drew 0.2% of clicks. I own the seller-facing layer, so the diagnosis, and the margin-first redesign built from it, are mine too.',
     blocks: [
       {
         type: 'overview',
