@@ -10,7 +10,14 @@ export type Block =
   | { type: 'narrative'; body: string } // body may contain \n\n paragraph breaks
   | { type: 'quote'; text: string; cite?: string }
   | { type: 'stat'; value: string; label: string }
-  | { type: 'media'; label: string; caption?: string; image?: string }; // image: path under /public; placeholder frame until set
+  | { type: 'media'; label: string; caption?: string; image?: string } // image: path under /public; placeholder frame until set
+  // Flagship-case blocks:
+  | { type: 'overview'; columns: { label: string; value: string }[]; body: string } // at-a-glance strip under the header
+  | { type: 'statRow'; stats: { value: string; label: string }[] } // 2-4 stats on one ruled row
+  | { type: 'callout'; kicker: string; body: string } // bordered evidence aside
+  | { type: 'principle'; num: string; title: string; body: string } // oversized numeral + display title
+  | { type: 'duo'; items: { image?: string; label: string; caption?: string }[] } // two images side by side
+  | { type: 'pairs'; kicker?: string; items: { label: string; value: string }[] }; // label/value grid (dependency map)
 
 export interface Project {
   num: string;
@@ -302,78 +309,166 @@ export const projects: Project[] = [
     summary:
       'The Back Office homepage is the first page every seller sees, top three in the product by traffic, and it had not been anyone’s priority since 2022: flagged incomplete, shipping placeholder content, chartered against a goal nobody ever measured. I am building the case, and the redesign.',
     blocks: [
-      // Lead: the paradox, stated plainly.
+      {
+        type: 'overview',
+        columns: [
+          { label: 'Role', value: 'Senior Product Designer, self-initiated' },
+          { label: 'Timeline', value: '2026, in progress' },
+          { label: 'Working with', value: 'The squad’s PM and lead designer, plus seven content-owning teams' },
+          { label: 'Status', value: 'Case built, direction proposed' },
+        ],
+        body:
+          'The Back Office homepage is the first page every seller sees and one of the most visited in the product. It was also flagged incomplete, shipping placeholder text, chartered against a goal nobody ever measured, and absent from the roadmap. I audited it, built the evidence case, prototyped three directions, and proposed the success metrics the page has never had.',
+      },
+
+      { type: 'heading', kicker: 'The problem', text: 'The page nobody prioritized' },
       {
         type: 'narrative',
         body:
           'Every seller who logs into Back Market’s Back Office lands on the same page first. The homepage sits in the top three most-visited pages in the entire product, hundreds of thousands of views a quarter in its largest market alone, and it is the only page every seller persona shares: operations managers, finance directors, e-commerce managers, all of them start their day here.\n\nIt was also on nobody’s roadmap. The team’s own scope tracking flagged it as incomplete. Its latest iteration shipped with placeholder text still in the design file. And its founding purpose, reducing the volume of email Back Market sends sellers, had never actually been measured. Three revamps since 2022 had each added more to the page without anyone stepping back to ask what it was for. So I stepped back.',
       },
       {
-        type: 'stat',
-        value: '1M+',
-        label: 'seller emails a month the page was chartered to reduce. The link was never measured.',
+        type: 'statRow',
+        stats: [
+          { value: 'Top 3', label: 'by raw traffic across the entire Back Office' },
+          { value: '1M+', label: 'monthly seller emails it was chartered to reduce, never measured' },
+          { value: '0', label: 'success metrics tied to the page when I started' },
+          { value: '3', label: 'revamps since 2022, each adding without asking why' },
+        ],
       },
 
-      { type: 'heading', kicker: 'The problem', text: 'Three revamps deep, and still unfinished' },
+      { type: 'heading', kicker: 'The history', text: 'Three revamps deep, and still unfinished' },
       {
         type: 'narrative',
         body:
-          'The page’s history explains its shape. A 2022 replatforming pass gave the old dashboard a greeting, alerts, and sales recaps. A 2024 revamp rebuilt it as stacked content blocks. The current iteration layered on more: a task list, sales insights, an opportunities section, a listings leaderboard by country, a wallet card, customer reviews, trade-in counts, a financing promo, a feedback form. Nine cards deep, on a page whose own spec warns against “too much content” and asks the team to limit scrolling to reach key information.\n\nNobody decided the page should look like this. It accumulated. Because the homepage is guaranteed traffic, it became the place every team put things, and because that traffic arrives no matter what the page contains, nothing on it ever had to prove it earned the slot.',
+          'The page’s history explains its shape. A 2022 replatforming pass gave the old dashboard a greeting, alerts, and sales recaps. A 2024 revamp rebuilt it as stacked content blocks. The current iteration layered on more: a task list, sales insights, an opportunities section, a listings leaderboard by country, a wallet card, customer reviews, trade-in counts, a financing promo, a feedback form. Nine cards deep.\n\nNobody decided the page should look like this. It accumulated. Because the homepage is guaranteed traffic, it became the place every team put things, and because that traffic arrives no matter what the page contains, nothing on it ever had to prove it earned the slot.',
       },
       {
-        type: 'stat',
-        value: '0',
-        label: 'success metrics tied to the homepage when I started. Reach was tracked; value was not.',
+        type: 'callout',
+        kicker: 'From the team’s own spec',
+        body:
+          'The living spec has warned about overload since 2023: “avoid having too much things” and “limit the need to scroll to access key information.” The shipped page stacks nine cards, and several tiles in its most recent design file still read “XX Lorum ipsum dolor sit amet.” The warning and the outcome sit in the same document.',
       },
 
       { type: 'heading', kicker: 'The insight', text: 'High traffic had made the page unaccountable' },
       {
         type: 'narrative',
         body:
-          'The homepage kept losing prioritization contests for a structural reason: with no metric connecting the page to an outcome, every proposed improvement got filed as cosmetic. The nearest roadmap item carried the annotation “UX improvement, no direct GMV or compliance impact identified.” That framing was self-fulfilling. The one goal the page was chartered against, cutting a seven-figure monthly email volume, had no measurement wired to it, so the page could neither succeed nor fail.\n\nMeanwhile the page is not a blank canvas. At least seven teams hold a stake in it: an embedded-finance promo card, a proposed AI assistant with six proactive scenarios targeting this surface, an opportunities section still carrying unfinished placeholder tiles, wallet and payouts, listings, customer reviews, and an operations-managed announcement banner that has to stay editable without an engineering deploy. A redesign here is not a visual refresh. It is a negotiation about what earns a place on the product’s front door.',
+          'The homepage kept losing prioritization contests for a structural reason: with no metric connecting the page to an outcome, every proposed improvement got filed as cosmetic. The one goal the page was chartered against, cutting a seven-figure monthly email volume, had no measurement wired to it, so the page could neither succeed nor fail.',
+      },
+      {
+        type: 'quote',
+        text: 'UX improvement, no direct GMV or compliance impact identified.',
+        cite: 'The nearest homepage item on the 2026 roadmap. The framing was self-fulfilling.',
+      },
+
+      { type: 'heading', kicker: 'The scope', text: 'A negotiation, not a refresh' },
+      {
+        type: 'narrative',
+        body:
+          'The page is not a blank canvas. At least seven teams hold a stake in it, which means a redesign here is not a visual refresh: it is a negotiation about what earns a place on the product’s front door, in what order, and under what visual weight. Before designing anything, I mapped every claim.',
+      },
+      {
+        type: 'pairs',
+        kicker: 'Who holds a slot, and what it must do',
+        items: [
+          { label: 'Embedded finance', value: 'A promo card already in production, with a four-state lifecycle designed and only the simplest state built.' },
+          { label: 'AI assistant', value: 'Six proactive scenarios designed to surface on this page. None integrated yet.' },
+          { label: 'Opportunities', value: 'A multi-tile section from two owning teams, still carrying unfinished placeholder content.' },
+          { label: 'Wallet and payouts', value: 'The answer to the seller’s most-asked question, currently mid-page.' },
+          { label: 'Listings', value: 'A per-country leaderboard tied to the marketplace’s winning-offer mechanics.' },
+          { label: 'Customer reviews', value: 'A long-standing block with a real owner and no measured value.' },
+          { label: 'Seller Operations', value: 'An announcement banner that must stay editable without an engineering deploy.' },
+        ],
       },
 
       { type: 'heading', kicker: 'The move', text: 'Building the case before opening the canvas' },
       {
         type: 'narrative',
         body:
-          'This is self-initiated work, and the case study starts where the project actually started: with evidence, not screens. I reconstructed four years of the page’s history across specs, pull requests, and analytics. I audited the live design file block by block, which is how the placeholder content and the dropped blocks surfaced. I mapped every team with a claim on the page and what each actually needs from its slot. And I documented the metric gap directly, because the redesign’s first deliverable is not a layout, it is a definition of success the team can hold the page to.\n\nThe pitch reframes the work from “make the homepage better” to three decisions: what this page is for, what earns a place on it under that purpose, and which measurable behaviours, task completion and click-through on the highest-value actions, replace an email-reduction goal that was never wired up.',
+          'This is self-initiated work, and it started where it had to: with evidence, not screens. I reconstructed four years of the page’s history across specs, pull requests, and analytics. I audited the live design file block by block, which is how the placeholder content and the dropped blocks surfaced. And I documented the metric gap directly, because the redesign’s first deliverable is not a layout. It is a definition of success the team can hold the page to.\n\nThe pitch reframes the work from “make the homepage better” to three decisions: what this page is for, what earns a place on it under that purpose, and which measurable behaviours replace an email-reduction goal that was never wired up.',
       },
       { type: 'heading', kicker: 'The exploration', text: 'Three concepts, one direction' },
       {
         type: 'narrative',
         body:
-          'With the case built, I explored the answer as three working prototypes, each testing a different point on the spectrum between focus and familiarity. All three hold the same non-negotiables: the operations banner stays editable without a deploy, the payout answer stays above the fold, and every timely item states why it appeared.\n\nThe first concept tested radical focus: three ranked tasks, a “for you today” layer with stated reasons, and everything else demoted to signals in a rail. The second pushed to the AI-native end: the page as a composed morning briefing with one ranked stream, built on the suggest-and-confirm posture my seller research had set for the company. Both taught something, and both asked sellers to give up the mental map they already had.',
+          'With the case built, I explored the answer as three working prototypes, each testing a different point on the spectrum between focus and familiarity. All three hold the same non-negotiables: the operations banner stays editable without a deploy, the payout answer stays above the fold, and every timely item states why it appeared.',
+      },
+      {
+        type: 'principle',
+        num: '01',
+        title: 'The focused day',
+        body:
+          'What it tested: radical focus. Three ranked tasks with their consequences spelled out, a “for you today” layer with stated reasons, everything else demoted to signals in a rail.\n\nWhat it taught: consequence-first task framing works everywhere. But collapsing nine blocks to five asks seven content owners to give up slots on day one, a negotiation this concept loses before it starts.',
       },
       {
         type: 'media',
         label: 'Concept 1, the focused day',
         image: '/work/homepage/concept-focused.png',
-        caption: 'Concept 1, the focused day: three ranked tasks, a timely layer with stated reasons, signals in the rail.',
+        caption: 'Concept 1: three ranked tasks, a timely layer with stated reasons, signals in the rail.',
+      },
+      {
+        type: 'principle',
+        num: '02',
+        title: 'The briefing',
+        body:
+          'What it tested: the AI-native end. The page as a composed morning briefing, one stream ranked by what it costs the seller to ignore, drafted actions waiting on approval, delegation under seller-set rules. Built on the suggest-and-confirm posture my seller research set for the company.\n\nWhat it taught: this is the destination, not the next step. It assumes trust the product has not yet earned, and it asks sellers to give up the mental map they navigate by today.',
       },
       {
         type: 'media',
         label: 'Concept 2, the briefing',
         image: '/work/homepage/concept-briefing.png',
-        caption: 'Concept 2, the briefing: the page composed as three sentences and one ranked stream, with delegation under seller-set rules.',
+        caption: 'Concept 2: three composed sentences and one ranked stream, with delegation under seller-set rules.',
       },
       {
-        type: 'narrative',
+        type: 'principle',
+        num: '03',
+        title: 'The data board, the proposed direction',
         body:
-          'The proposed direction keeps the structure sellers already navigate and changes what each block is made of. Every content owner keeps a slot, but every slot has to show movement at a glance: the sales card becomes a week-over-week trend, listings become a BackBox share you can read in a second, trade-in becomes four bars, reviews become a distribution. Text chunks became charts; nine competing panels became a board you can scan in one pass. The task list leads, and the one compliance blocker in it is the only red on the page.',
+          'What it proposes: keep the structure sellers already navigate and change what each block is made of. Every content owner keeps a slot, but every slot must show movement at a glance: sales become a week-over-week trend, listings a winning-offer share, trade-in four bars, reviews a distribution. Text chunks become charts.\n\nWhy it wins: it converts the political problem into a design system. Nobody loses their slot, but every slot now has a job a metric can see, and the task list leads with the page’s only red reserved for the one thing that blocks payouts.',
       },
       {
         type: 'media',
         label: 'The proposed direction',
         image: '/work/homepage/direction-masonry.png',
-        caption: 'The proposed direction: a data-forward masonry board. Every block keeps its owner and earns its place by showing movement, not text.',
+        caption: 'The proposed direction: a data-forward board. Every block keeps its owner and earns its place by showing movement, not text.',
+      },
+
+      { type: 'heading', kicker: 'Principles', text: 'The calls I’d make again' },
+      {
+        type: 'principle',
+        num: '01',
+        title: 'On unsanctioned work, evidence goes first',
+        body:
+          'Nobody commissioned this. That means the first deliverable is not a design, it is a case: four years of history, an audit of the live file, a dependency map, and a metric gap named in the team’s own terms. A concept without that case is an opinion. A concept on top of it is a plan.',
+      },
+      {
+        type: 'principle',
+        num: '02',
+        title: 'A metric the page can fail is the real redesign',
+        body:
+          'The homepage survived four years of neglect precisely because it could not fail: reach was tracked, value was not. Proposing task completion and click-through on the highest-value actions matters more than any layout, because it makes every future argument about the page winnable by evidence instead of seniority.',
+      },
+      {
+        type: 'principle',
+        num: '03',
+        title: 'Keep the mental map, change the material',
+        body:
+          'The radical concepts read better in a portfolio; the data board ships. Sellers keep the structure they know and the content owners keep their slots, but every block trades prose for signal. Familiar structure, new material: that is the version seven stakeholders can say yes to.',
       },
 
       { type: 'heading', kicker: 'Where it stands', text: 'In flight' },
       {
         type: 'narrative',
         body:
-          'The audit is complete, the concepts are built, and the case is being made to the squad’s product and design leadership now, with the data-forward board as the recommended direction and defined success metrics attached: task completion and click-through on the highest-value actions, in place of an email-reduction goal that was never wired up.\n\nThis page will grow as the work ships. That is deliberate: the strongest part of this story so far is not a redesign, it is noticing that the most-visited page in the product had quietly become the least examined, and doing something about it.',
+          'The audit is complete, the concepts are built, and the case is being made to the squad’s product and design leadership now, with the data board as the recommended direction and the success metrics attached.\n\nThis page will grow as the work ships. That is deliberate: the strongest part of this story so far is not a redesign, it is noticing that the most-visited page in the product had quietly become the least examined, and doing something about it.',
+      },
+
+      { type: 'heading', kicker: 'Reflection', text: 'What I’d do differently so far' },
+      {
+        type: 'narrative',
+        body:
+          'I would have brought the seven content owners in during the exploration, not after it. The dependency map told me what each team has on the page; it did not tell me what each team would fight for, and that conversation shapes the design more than any audit.\n\nI would also have shipped something small first. The live placeholder tiles could have been fixed in a week, and a small, visible win buys more permission for a structural pitch than a well-argued document does.',
       },
     ],
   },
