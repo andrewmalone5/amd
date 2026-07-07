@@ -109,6 +109,6 @@
      ------------------------------------------------------------------------ */
   --measure:      66ch;                          /* max readable line length   */
   --width-text:   40rem;                         /* 640 — narrow prose column  */
-  --width-wide:   70rem;                         /* 1120 — hero / work list    */
+  --width-wide:   80rem;                         /* 1280 — hero / work list    */
   --page-gutter:  clamp(1.5rem, 6vw, 4rem);      /* breathing room at the edge */
 }

@@ -60,14 +60,14 @@ import { withBase } from '../lib/url';
   /* image | story — the image carries the row. */
   .work {
     display: grid;
-    grid-template-columns: minmax(0, 8fr) minmax(0, 4fr);
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
     gap: var(--space-md) var(--space-2xl);
     align-items: center;
     color: inherit;
   }
-  /* Alternate sides on even rows: story left, image right, image keeps 8fr. */
+  /* Alternate sides on even rows: story left, image right, image keeps 7fr. */
   li:nth-child(even) .work {
-    grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
   }
   li:nth-child(even) .work__media { order: 2; }
 
