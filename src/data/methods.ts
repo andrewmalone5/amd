@@ -8,11 +8,19 @@
 import type { Block } from './projects';
 
 /**
- * Methodology pages get two blocks the case studies don't: the interactive
- * story arc and the fill-in sentence template, both rendered live by their
- * own components instead of shipped as images.
+ * Methodology pages get blocks the case studies don't: live artifacts
+ * rendered by their own components instead of shipped as images. Story arc
+ * and sentence template belong to narrative-first-design; drift, gauntlet,
+ * annotated brief and borrowed time belong to solve-the-right-problem.
  */
-export type MethodBlock = Block | { type: 'storyArc' } | { type: 'sentenceTemplate' };
+export type MethodBlock =
+  | Block
+  | { type: 'storyArc' }
+  | { type: 'sentenceTemplate' }
+  | { type: 'drift' }
+  | { type: 'gauntlet' }
+  | { type: 'annotatedBrief' }
+  | { type: 'borrowedTime' };
 
 export interface Method {
   slug: string;
@@ -41,34 +49,17 @@ export const methods: Method[] = [
       {
         type: 'narrative',
         body:
-          'You can have everything going for a project and still lose this way. The brief says build X, so everyone builds X. But X is what someone upstream thought the user needed, filtered through a few layers of interpretation before it ever reached the team. Nobody paused to check whether it still held, because pausing feels like slowing down.\n\nWhen I dig into a failed launch, it’s almost never one dramatic mistake. It’s one of three quiet ones.',
+          'You can have everything going for a project and still lose this way. The brief says build X, so everyone builds X, because X is what someone upstream thought the user needed, months ago. When I dig into a failed launch, it’s almost never one dramatic mistake. It’s one of three quiet ones, and they all live in the same picture: the brief holds still while reality keeps moving.',
       },
-      {
-        type: 'pairs',
-        kicker: 'The three quiet failures',
-        items: [
-          { label: 'Requirements drift from reality', value: 'The brief was written months ago and the context has moved on. Nobody revalidates it, so the team ships a faithful answer to an expired question.' },
-          { label: 'Success is undefined until it’s too late', value: 'Ask five people what success looks like and you’ll get five answers. If the team can’t agree before launch, the metric gets invented after it.' },
-          { label: 'Disciplines work in sequence, not in parallel', value: 'Design hands to engineering, engineering discovers constraints, scope quietly changes. Nobody sat in the same room and agreed what they were building before the work started.' },
-        ],
-      },
+      { type: 'drift' },
 
       { type: 'heading', kicker: 'The practice', text: 'Five questions I ask before I open Figma' },
       {
         type: 'narrative',
         body:
-          'There’s no canvas, no template, nothing to download. Just five questions I bring into every kickoff and every brief review, and they’ve killed more bad projects than any process I’ve run.',
+          'There’s no canvas, no template, nothing to download. Just five questions a brief has to survive, and they’ve killed more bad projects than any process I’ve run.',
       },
-      {
-        type: 'pairs',
-        items: [
-          { label: '01 What problem are we actually solving?', value: 'Not the feature request. The thing that hurts if we do nothing. If the team can’t state it without naming the solution, there’s no problem statement yet.' },
-          { label: '02 How do we know this is the right problem?', value: 'What’s under the brief: user research, support tickets, analytics? Or one loud voice in a meeting three months ago?' },
-          { label: '03 What does success look like, and for whom?', value: 'A number, a behaviour, and a person. If the metric is missing, the first deliverable is the metric.' },
-          { label: '04 What are we NOT building?', value: 'Scope creep starts when this never gets said out loud. Naming what’s out is the cheapest protection a project gets.' },
-          { label: '05 Who needs to be in the room for this to work?', value: 'If engineering and the metric owner aren’t aligned before pixels, their constraints arrive later, dressed as change requests.' },
-        ],
-      },
+      { type: 'gauntlet' },
 
       { type: 'heading', kicker: 'The key insight', text: 'Pushing back on a brief is doing the job' },
       {
@@ -87,26 +78,16 @@ export const methods: Method[] = [
       {
         type: 'narrative',
         body:
-          'A brief landed asking us to improve Back Office navigation. Sellers were struggling to find their tools, so the ask was a cleaner layout and a better-organised menu. Reasonable, plausible, and it fell apart on question two. The analytics didn’t show sellers lost in menus. They showed sellers leaving the homepage without acting at all.',
+          'A brief landed asking us to improve Back Office navigation. Sellers were struggling to find their tools, so the ask was a cleaner layout and a better-organised menu. Reasonable, plausible, and here’s what happened when the questions got to it.',
       },
-      {
-        type: 'media',
-        label: 'The questions, applied',
-        image: '/method/brief-annotated.png',
-        caption: 'The five questions run against the navigation brief. It didn’t survive question two.',
-      },
-      {
-        type: 'callout',
-        kicker: 'What actually changed',
-        body:
-          'The brief wanted us to optimise a journey that wasn’t happening. So instead of reorganising navigation, we redesigned the homepage around what a seller needs the moment they log in: the actions waiting for them, not a tidier menu of every tool that exists. A better navigation structure would have solved nothing.',
-      },
+      { type: 'annotatedBrief' },
 
       { type: 'heading', kicker: 'Why it works', text: 'Teams that skip problem definition don’t save time. They borrow it.' },
+      { type: 'borrowedTime' },
       {
         type: 'narrative',
         body:
-          'The time you skip at the start comes back with interest. It comes back as rework when the real constraints surface, and as a design direction people stop trusting because it keeps changing. Asked early, the same questions cost an afternoon.\n\nThe best version of this discipline isn’t me asking the questions. It’s the team beating me to them.',
+          'The interest gets paid in more than weeks. It’s paid in a design direction people stop trusting because it keeps changing. Asked early, the same questions cost an afternoon.\n\nThe best version of this discipline isn’t me asking the questions. It’s the team beating me to them.',
       },
     ],
   },
