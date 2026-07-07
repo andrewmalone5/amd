@@ -29,7 +29,10 @@ export type Block =
   | { type: 'callout'; kicker: string; body: string } // bordered evidence aside
   | { type: 'principle'; num: string; title: string; body: string } // oversized numeral + display title
   | { type: 'duo'; items: { image?: string; label: string; caption?: string }[] } // two images side by side
-  | { type: 'pairs'; kicker?: string; items: { label: string; value: string }[] }; // label/value grid (dependency map)
+  | { type: 'pairs'; kicker?: string; items: { label: string; value: string }[] } // label/value grid (dependency map)
+  // Bespoke story artifacts: live scroll-animated components, one per story.
+  // Each name maps to a component in src/components/case/.
+  | { type: 'artifact'; name: 'deals-sliver' | 'care-between-visits' };
 
 export interface Project {
   num: string;
@@ -556,15 +559,9 @@ export const projects: Project[] = [
         body:
           'The canvas holding the shipped design in the team’s Figma file is named “legacy, Deals, delete in Q4 26.” The file was flagging its own replacement before anyone had made the case for one.',
       },
-      {
-        type: 'statRow',
-        stats: [
-          { value: '0.2%', label: 'of row-action clicks went to the deal action after launch' },
-          { value: '60%', label: 'went to Save, the default row action' },
-          { value: '40%', label: 'went to Win BackBox, the generic pricing action' },
-          { value: '10 a day', label: 'deal CSVs downloaded, the workaround sellers actually used' },
-        ],
-      },
+      // The launch numbers, drawn at true scale: two big bars, a pause, and a
+      // 2px line for the one action the page exists to drive.
+      { type: 'artifact', name: 'deals-sliver' },
 
       { type: 'heading', kicker: 'The diagnosis', text: 'The mechanism worked. The interface didn’t.' },
       {
@@ -656,6 +653,9 @@ export const projects: Project[] = [
         body:
           'Infocare’s desktop platform handled scheduling, records, and clinical workflows well. What it couldn’t address was what happened to patients after they left the building. Without a connection to their care plan between visits, patients missed medications, forgot instructions, and drifted. Clinicians absorbed the cost as administrative overhead.\n\nInfocare had tried to solve this with email. It hadn’t worked. Patients in chronic care tend to have complex and variable digital literacy, and a generic email from a clinic name they half-recognised wasn’t moving the needle. The brief was to design something that felt personal, trustworthy, and easy to use. It was also the company’s first patient-facing product, which made it a reputational bet as much as a design brief.',
       },
+      // The gap itself, drawn: two timelines between the same pair of visits,
+      // empty before, the app's touchpoints landing in it after.
+      { type: 'artifact', name: 'care-between-visits' },
       {
         type: 'stat',
         value: '1 in 3',

@@ -6,6 +6,8 @@
 // A content grid keeps text at a readable measure while media breaks out wider.
 // Spacing varies by block type, so the rhythm reads as edited rather than gridded.
 import SiteLayout from '../../layouts/SiteLayout.astro';
+import DealsSliver from '../../components/case/DealsSliver.astro';
+import BetweenVisits from '../../components/case/BetweenVisits.astro';
 import { projects } from '../../data/projects';
 import { withBase } from '../../lib/url';
 
@@ -121,6 +123,8 @@ const { project } = Astro.props;
             </figure>
           ))}
         </div>
+      ) : b.type === 'artifact' ? (
+        b.name === 'deals-sliver' ? <DealsSliver /> : b.name === 'care-between-visits' ? <BetweenVisits /> : null
       ) : b.type === 'pairs' ? (
         <div class="block block--pairs">
           {b.kicker && <p class="eyebrow pairs__kicker">{b.kicker}</p>}
@@ -508,4 +512,13 @@ const { project } = Astro.props;
     .pairs__row { grid-template-columns: 1fr; gap: var(--space-3xs); }
   }
 
+
+  /* Placement for the bespoke story artifacts (component roots, so :global).
+     They share the wide text axis with overview and stat rows. */
+  .case > :global(.block--sliver),
+  .case > :global(.block--between) {
+    grid-column: 2 / -1;
+    width: min(61rem, calc(100% - var(--page-gutter)));
+    margin-block: var(--section-tight) var(--space-lg);
+  }
 </style>
