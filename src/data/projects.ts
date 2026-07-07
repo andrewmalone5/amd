@@ -40,6 +40,8 @@ export interface Project {
   year: string;
   status?: string;
   anchor?: boolean;
+  /** True: listed quietly under "Other Projects" instead of the four highlights. */
+  secondary?: boolean;
   summary: string;
   image?: string; // thumbnail for the Selected Work list; falls back to a placeholder
   blocks: Block[];
@@ -629,6 +631,7 @@ export const projects: Project[] = [
   {
     num: '05',
     slug: 'care-gap',
+    secondary: true,
     image: '/work/soteria/thumb-4x3.png',
     title: 'Closing the gap between appointments.',
     client: 'Infocare Healthcare',
