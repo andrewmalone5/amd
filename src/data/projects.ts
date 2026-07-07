@@ -481,7 +481,7 @@ export const projects: Project[] = [
     discipline: 'Mobile App',
     year: '2022',
     summary:
-      'Patients drift from their care plans when there’s nothing connecting them between clinic visits. SoteriaMe was designed to close that gap: building the habits and trust that keep patients engaged with their treatment when no one is watching.',
+      'Patients drift from their care plans when there’s nothing connecting them between clinic visits. I designed SoteriaMe to close that gap: building the habits and trust that keep patients engaged with their treatment when no one is watching.',
     blocks: [
       // Lead: the problem and the stakes.
       {
@@ -506,7 +506,7 @@ export const projects: Project[] = [
       {
         type: 'narrative',
         body:
-          'GDPR and clinical governance frameworks limited direct patient access from the start. The approach relied on triangulation: eight interviews with consented patients through Infocare’s clinical partners, four clinician workshops across three clinical sites, desk research and competitive analysis, and prototype testing with internal clinical advisors.\n\nRunning clinicians as the primary research lens filled a gap that direct patient access couldn’t. Clinicians carry daily working knowledge of what patients forget to say in appointments, where they disengage, and what they misunderstand. That knowledge fed directly into the information architecture.',
+          'GDPR and clinical governance frameworks limited direct patient access from the start. I triangulated instead: eight interviews with consented patients through Infocare’s clinical partners, four clinician workshops across three clinical sites, desk research and competitive analysis, and prototype testing with internal clinical advisors.\n\nRunning clinicians as my primary research lens filled a gap that direct patient access couldn’t. Clinicians carry daily working knowledge of what patients forget to say in appointments, where they disengage, and what they misunderstand. That knowledge fed directly into the information architecture.',
       },
       {
         type: 'media',
@@ -537,7 +537,7 @@ export const projects: Project[] = [
       {
         type: 'narrative',
         body:
-          'Early wireframes tried to surface everything at once: medications, appointments, symptom history, messages, wellness tips. Clinical advisors confirmed what the research implied: patients often arrive at the tool with cognitive load already high, and a dashboard that required scanning before acting was going to be abandoned.\n\nThe answer was to drop persistent navigation entirely. The dashboard became the single hub, the next appointment the primary action, and every other view one tap from home.',
+          'Early wireframes tried to surface everything at once: medications, appointments, symptom history, messages, wellness tips. Clinical advisors confirmed what the research implied: patients often arrive at the tool with cognitive load already high, and a dashboard that required scanning before acting was going to be abandoned.\n\nMy answer was to drop persistent navigation entirely. The dashboard became the single hub, the next appointment the primary action, and every other view one tap from home.',
       },
       {
         type: 'media',
@@ -548,7 +548,7 @@ export const projects: Project[] = [
       {
         type: 'narrative',
         body:
-          'The conventional fix for data anxiety is a consent screen at onboarding, which treats trust as a legal requirement and puts all the weight on a moment when patients are already overwhelmed. Instead, persistent plain-language visibility labels sit at every point where patients enter data: “Shared with your care team,” or “Only you can see this.” Those small typographic decisions changed patient behaviour more than any structural design change in the product.',
+          'The conventional fix for data anxiety is a consent screen at onboarding, which treats trust as a legal requirement and puts all the weight on a moment when patients are already overwhelmed. Instead, I put persistent plain-language visibility labels at every point where patients enter data: “Shared with your care team,” or “Only you can see this.” Those small typographic decisions changed patient behaviour more than any structural design change in the product.',
       },
       {
         type: 'media',
@@ -559,7 +559,7 @@ export const projects: Project[] = [
       {
         type: 'narrative',
         body:
-          'The patients using SoteriaMe were managing chronic conditions, often older, often carrying multiple diagnoses. WCAG AA was treated as a floor. The symptom severity scale originally used colour only: red, amber, green, clean and immediately legible to anyone with normal colour vision. Redesigning it to use colour, icon, and label together meant abandoning the cleaner version, but it was the only design that worked for patients with colour vision deficiencies. A more minimal scale would have failed them silently, and we would never have seen it in testing.',
+          'The patients using SoteriaMe were managing chronic conditions, often older, often carrying multiple diagnoses. I treated WCAG AA as a floor. The symptom severity scale originally used colour only: red, amber, green, clean and immediately legible to anyone with normal colour vision. I redesigned it to use colour, icon, and label together, abandoning the cleaner version, because it was the only design that worked for patients with colour vision deficiencies. A more minimal scale would have failed them silently, and the failure would never have surfaced in testing.',
       },
       {
         type: 'media',
@@ -573,7 +573,7 @@ export const projects: Project[] = [
       {
         type: 'narrative',
         body:
-          'Round one put four clinical advisors (a GP, a specialist nurse, a clinical informatics lead, and patient experience) through the full prototype against scripted scenarios, briefed to flag anything clinically inaccurate, structurally confusing, or likely to cause patient harm by omission. Two issues were marked blockers and rebuilt before round two.\n\nRound two was patient testing: five participants aged 34 to 67, all managing chronic conditions, think-aloud protocol, three tasks with no prompting. Small numbers, treated as small numbers. What they showed was still direct.',
+          'I put four clinical advisors (a GP, a specialist nurse, a clinical informatics lead, and patient experience) through the full prototype against scripted scenarios, briefed to flag anything clinically inaccurate, structurally confusing, or likely to cause patient harm by omission. Two issues were marked blockers and rebuilt before round two.\n\nRound two was patient testing: five participants aged 34 to 67, all managing chronic conditions, think-aloud protocol, three tasks with no prompting. Small numbers, treated as small numbers. What they showed was still direct.',
       },
       {
         type: 'stat',
