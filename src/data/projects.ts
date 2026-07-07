@@ -284,22 +284,78 @@ export const projects: Project[] = [
     ],
   },
   {
+    // HONESTY MARKERS: self-initiated, in-progress work, framed as such. Facts
+    // verified against internal sources July 2026: rank #3 by raw views (Q1 2026,
+    // France), "All profiles" tag, 1M+ emails/month goal stated in the living spec
+    // and never measured, scope table flags the page incomplete (May 2026),
+    // placeholder tiles in the production design file, not on the 2026 roadmap.
+    // Colleagues are roles only. Softened per standing rule: exact view counts
+    // become "hundreds of thousands of views a quarter in its largest market".
     num: '03',
     slug: 'back-office-homepage',
     image: '/work/back-office-homepage.svg',
-    title: 'Making the homepage worth opening',
+    title: 'Every seller lands here. Nobody prioritized it.',
     client: 'Back Market',
     discipline: 'Seller Back Office',
-    year: '2024–25',
+    year: '2026',
+    status: 'In progress',
     summary:
-      'Sellers had stopped using the Back Office homepage entirely, bookmarking around it to reach Orders and Insights directly. I redesigned the content layer to answer a seller’s first-60-seconds questions. By mid-2025, the #1 most-visited page in the product.',
+      'The Back Office homepage is the first page every seller sees, top three in the product by traffic, and it had not been anyone’s priority since 2022: flagged incomplete, shipping placeholder content, chartered against a goal nobody ever measured. I am building the case, and the redesign.',
     blocks: [
+      // Lead: the paradox, stated plainly.
       {
         type: 'narrative',
         body:
-          'Sellers had stopped using the Back Office homepage entirely, bookmarking around it to reach Orders and Insights directly. I redesigned the content layer to answer a seller’s first-60-seconds questions. By mid-2025, the #1 most-visited page in the product.',
+          'Every seller who logs into Back Market’s Back Office lands on the same page first. The homepage sits in the top three most-visited pages in the entire product, hundreds of thousands of views a quarter in its largest market alone, and it is the only page every seller persona shares: operations managers, finance directors, e-commerce managers, all of them start their day here.\n\nIt was also on nobody’s roadmap. The team’s own scope tracking flagged it as incomplete. Its latest iteration shipped with placeholder text still in the design file. And its founding purpose, reducing the volume of email Back Market sends sellers, had never actually been measured. Three revamps since 2022 had each added more to the page without anyone stepping back to ask what it was for. So I stepped back.',
       },
-      { type: 'media', label: 'Screenshot', caption: 'Screenshot placeholder.' },
+      {
+        type: 'stat',
+        value: '1M+',
+        label: 'seller emails a month the page was chartered to reduce. The link was never measured.',
+      },
+
+      { type: 'heading', kicker: 'The problem', text: 'Three revamps deep, and still unfinished' },
+      {
+        type: 'narrative',
+        body:
+          'The page’s history explains its shape. A 2022 replatforming pass gave the old dashboard a greeting, alerts, and sales recaps. A 2024 revamp rebuilt it as stacked content blocks. The current iteration layered on more: a task list, sales insights, an opportunities section, a listings leaderboard by country, a wallet card, customer reviews, trade-in counts, a financing promo, a feedback form. Nine cards deep, on a page whose own spec warns against “too much content” and asks the team to limit scrolling to reach key information.\n\nNobody decided the page should look like this. It accumulated. Because the homepage is guaranteed traffic, it became the place every team put things, and because that traffic arrives no matter what the page contains, nothing on it ever had to prove it earned the slot.',
+      },
+      {
+        type: 'stat',
+        value: '0',
+        label: 'success metrics tied to the homepage when I started. Reach was tracked; value was not.',
+      },
+
+      { type: 'heading', kicker: 'The insight', text: 'High traffic had made the page unaccountable' },
+      {
+        type: 'narrative',
+        body:
+          'The homepage kept losing prioritization contests for a structural reason: with no metric connecting the page to an outcome, every proposed improvement got filed as cosmetic. The nearest roadmap item carried the annotation “UX improvement, no direct GMV or compliance impact identified.” That framing was self-fulfilling. The one goal the page was chartered against, cutting a seven-figure monthly email volume, had no measurement wired to it, so the page could neither succeed nor fail.\n\nMeanwhile the page is not a blank canvas. At least seven teams hold a stake in it: an embedded-finance promo card, a proposed AI assistant with six proactive scenarios targeting this surface, an opportunities section still carrying unfinished placeholder tiles, wallet and payouts, listings, customer reviews, and an operations-managed announcement banner that has to stay editable without an engineering deploy. A redesign here is not a visual refresh. It is a negotiation about what earns a place on the product’s front door.',
+      },
+
+      { type: 'heading', kicker: 'The move', text: 'Building the case before opening the canvas' },
+      {
+        type: 'narrative',
+        body:
+          'This is self-initiated work, and the case study starts where the project actually started: with evidence, not screens. I reconstructed four years of the page’s history across specs, pull requests, and analytics. I audited the live design file block by block, which is how the placeholder content and the dropped blocks surfaced. I mapped every team with a claim on the page and what each actually needs from its slot. And I documented the metric gap directly, because the redesign’s first deliverable is not a layout, it is a definition of success the team can hold the page to.\n\nThe pitch reframes the work from “make the homepage better” to three decisions: what this page is for, what earns a place on it under that purpose, and which measurable behaviours, task completion and click-through on the highest-value actions, replace an email-reduction goal that was never wired up.',
+      },
+      {
+        type: 'media',
+        label: 'Current homepage, annotated audit',
+        caption: 'Placeholder: the current nine-card homepage, annotated block by block.',
+      },
+      {
+        type: 'media',
+        label: 'Dependency map',
+        caption: 'Placeholder: every team with a claim on the page, and what each needs from its slot.',
+      },
+
+      { type: 'heading', kicker: 'Where it stands', text: 'In flight' },
+      {
+        type: 'narrative',
+        body:
+          'The audit is complete and the case is being made to the squad’s product and design leadership now. The design principles for the redesign are set: one obvious next action for the seller instead of nine equal cards, signals over inventory, and timely content earning its position through relevance rather than accumulated real estate.\n\nThis page will grow as the work ships. That is deliberate: the strongest part of this story so far is not a redesign, it is noticing that the most-shared page in the product had quietly become the least examined, and doing something about it.',
+      },
     ],
   },
   {
