@@ -6,17 +6,16 @@ import About from '../components/About.astro';
 ---
 
 <SiteLayout title="Andrew Malone, Senior Product Designer">
-  <!-- HERO — leads with the positioning statement, the largest type on the site. -->
+  <!-- HERO — the statement runs the full measure, largest type on the site.
+       Beneath it, an offset row: meta anchoring bottom-left, intro on the right. -->
   <section class="hero column--wide" id="intro">
-    <div class="hero__grid">
-      <h1 class="hero__statement">Designing systems that turn <em>complexity into clarity.</em></h1>
-      <div class="hero__aside">
-        <p class="hero__intro">I&rsquo;m a product designer drawn to how complex systems work, and to making them understandable to the people who depend on them. I work best on hard problems, across teams, where design shapes more than the interface.</p>
-        <div class="hero__meta">
-          <p class="hero__current">Currently <strong>Senior Product Designer</strong> at <a href="https://www.backmarket.com" target="_blank" rel="noopener">Back Market</a></p>
-          <p class="hero__location">Berlin, Germany</p>
-        </div>
+    <h1 class="hero__statement">Designing systems that turn <em>complexity into clarity.</em></h1>
+    <div class="hero__row">
+      <div class="hero__meta">
+        <p class="hero__current">Currently <strong>Senior Product Designer</strong> at <a href="https://www.backmarket.com" target="_blank" rel="noopener">Back Market</a></p>
+        <p class="hero__location">Berlin, Germany</p>
       </div>
+      <p class="hero__intro">I&rsquo;m a product designer drawn to how complex systems work, and to making them understandable to the people who depend on them. I work best on hard problems, across teams, where design shapes more than the interface.</p>
     </div>
   </section>
 
@@ -30,22 +29,15 @@ import About from '../components/About.astro';
 <style>
   /* HERO ---------------------------------------------------------------- */
   .hero {
-    padding-block: var(--space-xl) var(--section);
+    padding-block: var(--space-2xl) var(--section);
   }
-  /* Two columns: the statement carries the left, the intro and role sit in a
-     narrower right-hand column aligned to the statement's baseline, so the
-     full width is composed instead of stacking against the left edge. */
-  .hero__grid {
-    display: grid;
-    grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
-    gap: var(--space-lg) var(--space-3xl);
-    align-items: end;
-  }
+  /* The statement takes the full measure and balances to about three lines.
+     19ch is tuned to this exact sentence — retune if the copy changes. */
   .hero__statement {
-    font-size: clamp(2.5rem, 1.4rem + 3.8vw, 5rem);
-    line-height: 1.04;
+    font-size: clamp(2.75rem, 1.5rem + 4.8vw, 6rem);
+    line-height: 1.05;
     letter-spacing: var(--tracking-display);
-    max-width: 14ch;
+    max-width: 19ch;
   }
   /* The payoff phrase, set in italic and eased back a tone — the one two-tone
      moment, echoing the existing site. */
@@ -53,24 +45,35 @@ import About from '../components/About.astro';
     font-style: italic;
     color: var(--color-ink-muted);
   }
+
+  /* The supporting row: role meta anchors bottom-left, the intro sits in a
+     right-hand column, its last line level with the meta. */
+  .hero__row {
+    margin-top: var(--space-2xl);
+    display: grid;
+    grid-template-columns: 1fr minmax(0, 36rem);
+    gap: var(--space-lg) var(--space-2xl);
+    align-items: end;
+  }
   .hero__intro {
     font-size: var(--text-lead);
     line-height: var(--leading-lead);
     color: var(--color-ink);
-    max-width: 40ch;
+    max-width: 44ch;
   }
 
   @media (max-width: 56rem) {
-    .hero__grid {
+    .hero__row {
       grid-template-columns: 1fr;
       align-items: start;
     }
-    .hero__statement { max-width: 18ch; }
+    /* Stacked: intro reads first, meta closes. */
+    .hero__meta { order: 2; }
+    .hero__intro { order: 1; }
   }
 
-  /* Currently / location metadata, below the intro. */
+  /* Currently / location metadata. */
   .hero__meta {
-    margin-top: var(--space-xl);
     display: flex;
     flex-direction: column;
     gap: var(--space-xs);
