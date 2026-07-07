@@ -32,6 +32,21 @@ Tile won on ground (it owns its shape in a tab bar); Daybreak won on story
 | 15 | `15-summit.svg` | The peak in front of the morning sun, separated by a sliver of paper. Most pictorial. |
 | 16 | `16-meridian.svg` | A wide half-sun rising through the wave. Low, horizontal, calm — header-first. |
 
+## Round three — riffs on the original badge
+
+Back to the source: the triangular peak (A) and wave (M) inside a keyline
+circle. Six ways to keep everything the current logo says while making it
+hold at any size — the closest riff first, the loosest last.
+
+| # | File | Concept |
+|---|------|---------|
+| 17 | `17-monoline.svg` | The faithful redraw: same three elements on one confident stroke weight, round terminals, nothing crossing. Pair with a simplified favicon below 24px. |
+| 18 | `18-seal.svg` | The original inverted: a solid disc with the peak and wave cut clean through. Finally survives a tab bar. |
+| 19 | `19-breakout.svg` | The peak outgrows its frame, bursting through the keyline circle with the wave riding inside its base. |
+| 20 | `20-current.svg` | The wave closes the circle as its bottom arc, solid peak inside — every element earns its place. |
+| 21 | `21-range.svg` | A and M merged into one unbroken skyline — a sharp zigzag in the circle, the A's peak tallest. |
+| 22 | `22-orbit.svg` | The circle becomes a tilted orbit ring passing behind the solid peak — the flat badge given depth. |
+
 ## Next step
 
 Pick one and it gets refined and wired in: header lockup next to the

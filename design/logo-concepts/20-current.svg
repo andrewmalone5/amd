@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- 20 Current — the wave closes the circle as its bottom arc; solid peak inside -->
+  <g fill="none" stroke="#1C1A17" stroke-width="8" stroke-linecap="round">
+    <path d="M18 72 A40 40 0 1 1 82 72"/>
+    <path d="M18 72 C29 64 39 64 50 72 C61 80 71 80 82 72"/>
+  </g>
+  <path d="M34 66 L50 34 L66 66 Z" fill="#1C1A17"/>
+</svg>

@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- 18 Seal — the original inverted: solid disc with the peak and wave cut through -->
+  <defs>
+    <mask id="cut">
+      <rect width="100" height="100" fill="#fff"/>
+      <path d="M29 62 L50 30 L71 62" fill="none" stroke="#000" stroke-width="9"
+            stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M32 73 C38 68 44 68 50 73 C56 78 62 78 68 73" fill="none" stroke="#000"
+            stroke-width="9" stroke-linecap="round"/>
+    </mask>
+  </defs>
+  <circle cx="50" cy="50" r="44" fill="#1C1A17" mask="url(#cut)"/>
+</svg>
