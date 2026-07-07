@@ -1,9 +1,8 @@
 ---
-// Site footer = the contact moment. Copy is Andrew's, from the existing site.
-// The LinkedIn URL is a placeholder — set it below. Button is styled to the
-// ink palette rather than LinkedIn-blue to stay in the system.
+// Site footer = the contact moment. Button is styled to the ink palette
+// rather than LinkedIn-blue to stay in the system.
 const linkedin = 'https://www.linkedin.com/in/andrewmalonedesign/';
-const year = 2025;
+const year = 2026;
 
 interface Props {
   /** True on case-study pages: just the meta line, no contact CTA. */
@@ -16,10 +15,9 @@ const { minimal = false } = Astro.props;
   <div class="site-footer__inner">
     {!minimal && (
       <>
-        <p class="eyebrow">Contact</p>
         <p class="site-footer__cta">Get in touch.</p>
         <p class="site-footer__body">
-          I care about working on things that leave people genuinely better off. If that&rsquo;s
+          I care about working on things that leave people better off. If that&rsquo;s
           what you&rsquo;re building, I&rsquo;d love to talk.
         </p>
 
@@ -39,9 +37,8 @@ const { minimal = false } = Astro.props;
 </footer>
 
 <style>
-  .site-footer {
+  .site-footer--minimal {
     border-top: 1px solid var(--color-hairline);
-    margin-top: var(--section-loose);
   }
 
   /* Centred close, echoing the display treatment of the hero. */
@@ -58,7 +55,7 @@ const { minimal = false } = Astro.props;
     font-size: var(--text-display-md);
     line-height: var(--leading-tight);
     letter-spacing: var(--tracking-display);
-    margin-block: var(--space-md) var(--space-lg);
+    margin-bottom: var(--space-lg);
   }
 
   .site-footer__body {

@@ -2,18 +2,15 @@
 // How I Work — a statement of principles, deliberately built to read as a
 // different kind of thing from Selected Work. No numbers, no tags, no hover
 // cards, no links out. Horizontal title|elaboration split instead of a vertical
-// index, and Spectral italic titles to mark these as voice rather than
-// inventory. Copy is the persona verbatim.
+// index, and Spectral italic titles to mark these as voice rather than inventory.
 const principles = [
   {
-    kicker: 'Process / Methodology',
-    title: 'Narrative-First Design',
-    body: 'A framework for aligning teams on the user story before any design begins, and why plot point 4 is the one most teams skip.',
+    title: 'Narrative-first design',
+    body: 'Before any screens, I get the team aligned on the user’s story: who they are, what they came to do, and where it breaks down. Most disagreements about design turn out to be disagreements about the story.',
   },
   {
-    kicker: 'Process / Methodology',
-    title: 'Solve the Right Problem',
-    body: 'Five questions I ask before opening Figma, because good execution of the wrong thing is still failure.',
+    title: 'Solve the right problem',
+    body: 'A short list of questions I ask before opening Figma. Good execution of the wrong thing is still failure, and the cheapest time to find out is before the work starts.',
   },
 ];
 ---
@@ -24,10 +21,7 @@ const principles = [
   <div class="principles">
     {principles.map((p) => (
       <article class="principle">
-        <div class="principle__lead">
-          <p class="eyebrow principle__kicker">{p.kicker}</p>
-          <h3 class="principle__title">{p.title}</h3>
-        </div>
+        <h3 class="principle__title">{p.title}</h3>
         <p class="principle__body">{p.body}</p>
       </article>
     ))}
@@ -36,8 +30,7 @@ const principles = [
 
 <style>
   .how {
-    padding-block: var(--section-loose);
-    border-top: 1px solid var(--color-hairline);
+    padding-block: var(--section);
   }
   .how__label {
     margin-bottom: var(--space-2xl);
@@ -46,6 +39,7 @@ const principles = [
   .principles {
     display: flex;
     flex-direction: column;
+    gap: var(--space-2xl);
   }
 
   /* The differentiator: a horizontal split — belief on the left, elaboration on
@@ -55,17 +49,8 @@ const principles = [
     grid-template-columns: minmax(0, 20rem) 1fr;
     gap: var(--space-xl);
     align-items: start;
-    padding-block: var(--space-2xl);
-    border-top: 1px solid var(--color-hairline);
-  }
-  .principle:first-child {
-    border-top: 0;
-    padding-top: 0;
   }
 
-  .principle__kicker {
-    margin-bottom: var(--space-sm);
-  }
   .principle__title {
     font-family: var(--font-display);
     font-style: italic;
@@ -87,7 +72,6 @@ const principles = [
     .principle {
       grid-template-columns: 1fr;
       gap: var(--space-sm);
-      padding-block: var(--space-xl);
     }
   }
 </style>

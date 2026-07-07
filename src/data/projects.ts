@@ -299,7 +299,7 @@ export const projects: Project[] = [
         body:
           'Sellers had stopped using the Back Office homepage entirely, bookmarking around it to reach Orders and Insights directly. I redesigned the content layer to answer a seller’s first-60-seconds questions. By mid-2025, the #1 most-visited page in the product.',
       },
-      { type: 'media', label: 'Screenshot', caption: 'Placeholder — add a screenshot.' },
+      { type: 'media', label: 'Screenshot', caption: 'Screenshot placeholder.' },
     ],
   },
   {
