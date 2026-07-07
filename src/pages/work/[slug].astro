@@ -153,6 +153,14 @@ const { project } = Astro.props;
     grid-column: 2;
   }
 
+  /* Back link and header take the wide measure; prose stays at 42rem. */
+  .case > .case__back,
+  .case > .case__header {
+    grid-column: 1 / -1;
+    justify-self: center;
+    width: min(80rem, calc(100% - 2 * var(--page-gutter)));
+  }
+
   .case__back {
     font-size: var(--text-sm);
     font-weight: var(--weight-medium);
@@ -310,7 +318,7 @@ const { project } = Astro.props;
   .case > .block--overview {
     grid-column: 1 / -1;
     justify-self: center;
-    width: min(70rem, calc(100% - 2 * var(--page-gutter)));
+    width: min(80rem, calc(100% - 2 * var(--page-gutter)));
     margin-top: var(--section-tight);
     padding-top: var(--space-lg);
     border-top: 1px solid var(--color-hairline);
@@ -355,7 +363,7 @@ const { project } = Astro.props;
   .case > .block--statrow {
     grid-column: 1 / -1;
     justify-self: center;
-    width: min(70rem, calc(100% - 2 * var(--page-gutter)));
+    width: min(80rem, calc(100% - 2 * var(--page-gutter)));
     margin-block: var(--section-tight) var(--space-lg);
     padding-top: var(--space-lg);
     border-top: 2px solid var(--color-ink);
@@ -401,7 +409,7 @@ const { project } = Astro.props;
   .case > .block--principle {
     grid-column: 1 / -1;
     justify-self: center;
-    width: min(70rem, calc(100% - 2 * var(--page-gutter)));
+    width: min(80rem, calc(100% - 2 * var(--page-gutter)));
     margin-top: var(--section);
     padding-top: var(--space-xl);
     border-top: 1px solid var(--color-hairline);
