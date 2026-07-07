@@ -126,7 +126,9 @@ const nodes = [
     transition: opacity var(--duration-slow) var(--ease-out) 0.9s;
   }
 
-  /* Hovering a question lights its node; the rest of the arc steps back. */
+  /* Hovering a question lights its node; the rest of the arc steps back.
+     Driven by JS classes, not :hover chains, so moving between questions
+     hands the highlight over instead of flashing everything back. */
   .arc__node.is-hot circle {
     fill: var(--color-ink);
     transform: scale(1.3);
@@ -135,6 +137,7 @@ const nodes = [
   [data-arc].has-focus .arc__node:not(.is-hot) { opacity: 0.35; }
   [data-arc].has-focus .arc__crisis-label { opacity: 0.35; }
   [data-arc].has-focus .arc__node--crisis.is-hot ~ .arc__crisis-label { opacity: 1; }
+  [data-arc].has-focus .plot:not(.is-hot) { opacity: 0.45; }
 
   /* The questions, beneath their plot points. */
   .arc__plots {
@@ -180,7 +183,6 @@ const nodes = [
     transition: transform var(--duration-slow) var(--ease-out);
     transition-delay: var(--d);
   }
-  [data-arc].is-in .arc__plots:hover .plot:not(:hover) { opacity: 0.45; }
 
   .plot__n {
     font-size: var(--text-xs);
@@ -210,6 +212,17 @@ const nodes = [
     color: var(--color-ink-muted);
   }
 
+  /* Once the entrance has played, the stagger delays come off and everything
+     responds at hover speed. Without this, every dim and highlight replays
+     the entrance choreography — the far nodes lag by over a second. */
+  [data-arc].is-settled .arc__node,
+  [data-arc].is-settled .arc__node circle,
+  [data-arc].is-settled .arc__crisis-label,
+  [data-arc].is-settled .plot {
+    transition-delay: 0s;
+    transition-duration: var(--duration-fast);
+  }
+
   @media (max-width: 64rem) {
     .arc__plots { grid-template-columns: 1fr 1fr; gap: var(--space-md) var(--space-lg); }
   }
@@ -234,12 +247,14 @@ const nodes = [
 <script>
   const arc = document.querySelector<HTMLElement>('[data-arc]');
   if (arc) {
-    // Draw the arc once it's properly in view.
+    // Draw the arc once it's properly in view; ~1.8s later the entrance is
+    // done and .is-settled switches every transition to hover speed.
     new IntersectionObserver(
       (entries, io) => {
         for (const e of entries) {
           if (e.isIntersecting) {
             arc.classList.add('is-in');
+            setTimeout(() => arc.classList.add('is-settled'), 1800);
             io.disconnect();
           }
         }
@@ -247,17 +262,23 @@ const nodes = [
       { threshold: 0.35 }
     ).observe(arc);
 
-    // Hovering a question lights its plot point on the curve.
-    arc.querySelectorAll<HTMLElement>('.plot').forEach((plot) => {
-      const node = arc.querySelector(`.arc__node[data-node="${plot.dataset.node}"]`);
-      plot.addEventListener('mouseenter', () => {
-        node?.classList.add('is-hot');
-        arc.classList.add('has-focus');
-      });
-      plot.addEventListener('mouseleave', () => {
-        node?.classList.remove('is-hot');
+    // One focus at a time: entering a question (or a plot point on the curve)
+    // hands the highlight over; it only clears on leaving the group entirely.
+    const focus = (i: string | undefined) => {
+      arc.querySelectorAll('.is-hot').forEach((el) => el.classList.remove('is-hot'));
+      if (i === undefined) {
         arc.classList.remove('has-focus');
-      });
+        return;
+      }
+      arc.querySelectorAll(`[data-node="${i}"]`).forEach((el) => el.classList.add('is-hot'));
+      arc.classList.add('has-focus');
+    };
+
+    arc.querySelectorAll<HTMLElement>('.plot, .arc__node').forEach((el) => {
+      el.addEventListener('mouseenter', () => focus(el.dataset.node));
+    });
+    arc.querySelectorAll('.arc__plots, svg').forEach((group) => {
+      group.addEventListener('mouseleave', () => focus(undefined));
     });
   }
 </script>
