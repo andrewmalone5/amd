@@ -6,16 +6,14 @@ import About from '../components/About.astro';
 ---
 
 <SiteLayout title="Andrew Malone, Senior Product Designer">
-  <!-- HERO — the statement runs the full measure, largest type on the site.
-       Beneath it, an offset row: meta anchoring bottom-left, intro on the right. -->
+  <!-- HERO — one left axis, read straight down: statement, intro, role meta.
+       No side columns; hierarchy comes from scale, not placement. -->
   <section class="hero column--wide" id="intro">
     <h1 class="hero__statement">Designing systems that turn <em>complexity into clarity.</em></h1>
-    <div class="hero__row">
-      <div class="hero__meta">
-        <p class="hero__current">Currently <strong>Senior Product Designer</strong> at <a href="https://www.backmarket.com" target="_blank" rel="noopener">Back Market</a></p>
-        <p class="hero__location">Berlin, Germany</p>
-      </div>
-      <p class="hero__intro">I&rsquo;m a product designer drawn to how complex systems work, and to making them understandable to the people who depend on them. I work best on hard problems, across teams, where design shapes more than the interface.</p>
+    <p class="hero__intro">I&rsquo;m a product designer drawn to how complex systems work, and to making them understandable to the people who depend on them. I work best on hard problems, across teams, where design shapes more than the interface.</p>
+    <div class="hero__meta">
+      <p class="hero__current">Currently <strong>Senior Product Designer</strong> at <a href="https://www.backmarket.com" target="_blank" rel="noopener">Back Market</a></p>
+      <p class="hero__location">Berlin, Germany</p>
     </div>
   </section>
 
@@ -46,37 +44,21 @@ import About from '../components/About.astro';
     color: var(--color-ink-muted);
   }
 
-  /* The supporting row: role meta anchors bottom-left, the intro sits in a
-     right-hand column, its last line level with the meta. */
-  .hero__row {
-    margin-top: var(--space-2xl);
-    display: grid;
-    grid-template-columns: 1fr minmax(0, 36rem);
-    gap: var(--space-lg) var(--space-2xl);
-    align-items: end;
-  }
   .hero__intro {
+    margin-top: var(--space-xl);
     font-size: var(--text-lead);
     line-height: var(--leading-lead);
     color: var(--color-ink);
-    max-width: 44ch;
+    max-width: 50ch;
   }
 
-  @media (max-width: 56rem) {
-    .hero__row {
-      grid-template-columns: 1fr;
-      align-items: start;
-    }
-    /* Stacked: intro reads first, meta closes. */
-    .hero__meta { order: 2; }
-    .hero__intro { order: 1; }
-  }
-
-  /* Currently / location metadata. */
+  /* Currently / location metadata — one quiet row closing the hero. */
   .hero__meta {
+    margin-top: var(--space-xl);
     display: flex;
-    flex-direction: column;
-    gap: var(--space-xs);
+    flex-wrap: wrap;
+    column-gap: var(--space-2xl);
+    row-gap: var(--space-xs);
   }
   .hero__current,
   .hero__location {
