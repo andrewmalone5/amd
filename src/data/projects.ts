@@ -37,7 +37,7 @@ export const projects: Project[] = [
   {
     num: '01',
     slug: 'backfunds',
-    image: '/work/backfunds.svg',
+    image: '/work/backfunds-hero.png',
     title: 'Getting sellers paid tomorrow, not next week',
     client: 'Back Market',
     discipline: 'Embedded Finance',
@@ -195,7 +195,7 @@ export const projects: Project[] = [
   {
     num: '02',
     slug: 'ai-seller-back-office',
-    image: '/work/ai-seller-back-office.svg',
+    image: '/work/ai-assistant-hero.png',
     title: 'AI suggests. The seller decides.',
     client: 'Back Market',
     discipline: 'AI Strategy',
@@ -473,7 +473,127 @@ export const projects: Project[] = [
     ],
   },
   {
+    // HONESTY MARKERS: the honest-failure arc, per decision July 2026. Verified
+    // facts: 0.2% deal-action click share vs 60% Save / 40% Win BackBox, ~10 CSV
+    // downloads/day, Figma canvas flagged legacy, volume-incentive PRD unresolved
+    // with blank success metrics, API channel unbuilt while most GMV is
+    // API-integrated. Softened per standing rule: campaign costs, GMV figures,
+    // commission percentages, ROI, and absolute click counts are omitted or made
+    // relative. Colleagues are roles only. Prototype data was illustrative and is
+    // framed as such.
     num: '04',
+    slug: 'deals-programme',
+    title: 'Commission rates don’t move sellers. Margin math does.',
+    client: 'Back Market',
+    discipline: 'Seller Incentives',
+    year: '2025–present',
+    status: 'In progress',
+    summary:
+      'Deals pay sellers a commission discount for hitting competitive prices. The first Back Office release shipped to spec, and its core action drew 0.2% of clicks. I own the seller-facing layer: this is the diagnosis, and the margin-first redesign built from it.',
+    blocks: [
+      {
+        type: 'overview',
+        columns: [
+          { label: 'Role', value: 'Senior Product Designer, Design and Content owner' },
+          { label: 'Timeline', value: '2025 to present' },
+          { label: 'Working with', value: 'Product, engineering, data science, finance engineering, seller success' },
+          { label: 'Status', value: 'V1 shipped, redesign in flight' },
+        ],
+        body:
+          'Deals offer sellers a commission discount for pricing key products at competitive targets. The first Back Office release shipped to spec in late 2025, and its core action drew 0.2% of listing-page action clicks. This case study is about owning that number: diagnosing why a working mechanism had a failing interface, and redesigning it around the seller’s real question, which is margin, not commission.',
+      },
+
+      { type: 'heading', kicker: 'The problem', text: 'A pricing mechanism nobody could see' },
+      {
+        type: 'narrative',
+        body:
+          'A Deal is a time-limited commission discount for a seller who prices a specific product at or below a target Back Market sets, with extra discount tiers unlocked by sales volume. Nothing is automatic: the seller sees the target and chooses. Deals exist because Back Market’s cost of selling runs structurally higher than the marketplaces it competes with, and holding competitive prices on hero products needs a lever. Of the three incentive mechanisms the company ran, deals won the 2025 bet: the target price is controlled directly, only compliant orders cost anything, and any seller can take part.\n\nFor its first year the whole programme ran by hand. Data teams recalculated target prices every two weeks, and seller managers emailed CSVs and chased sellers one by one. Workable for a fifteen-seller pilot; impossible at the scale the programme was heading for. My brief, as design and content owner alongside the squad’s PM: give deals a home in the Back Office.',
+      },
+
+      { type: 'heading', kicker: 'What shipped', text: 'A banner, a filter, and a button that never says deal' },
+      {
+        type: 'narrative',
+        body:
+          'The late-2025 release put deals into the listings page: a banner with a how-it-works drawer, a deal-price column in each product row, opportunity badges, and a CSV download. It shipped exactly as specified, on time, reusing an existing data pipeline. And it carried a flaw you can see in a screenshot before any analytics load: the deal signal shares one crowded column with two other badge types, the pricing cap that silently adjusts a target price is invisible in the row, and the row’s only button carries the same generic label no matter what is on offer. The one action that mattered never says deal.',
+      },
+      {
+        type: 'callout',
+        kicker: 'From the design file',
+        body:
+          'The canvas holding the shipped design in the team’s Figma file is named “legacy, Deals, delete in Q4 26.” The file was flagging its own replacement before anyone had made the case for one.',
+      },
+      {
+        type: 'statRow',
+        stats: [
+          { value: '0.2%', label: 'of row-action clicks went to the deal action after launch' },
+          { value: '60%', label: 'went to Save, the default row action' },
+          { value: '40%', label: 'went to Win BackBox, the generic pricing action' },
+          { value: '10 a day', label: 'deal CSVs downloaded, the workaround sellers actually used' },
+        ],
+      },
+
+      { type: 'heading', kicker: 'The diagnosis', text: 'The mechanism worked. The interface didn’t.' },
+      {
+        type: 'narrative',
+        body:
+          'The programme itself was healthy: sellers joined, meaningful volume moved at deal prices, and the UK arm, run with heavy hands-on support from seller managers, sustained strong adoption. That contrast is what makes 0.2% a design number rather than a demand number. When a human explained a deal, sellers took it. When the interface explained it, they didn’t.\n\nThe shipped screens answer the wrong question. They say “here is a discount.” The seller’s question is “do I make more money?” A commission point is an abstraction; the price cut needed to earn it is concrete and immediate. Without the margin math, caution wins, and the CSV, walked through with a human, stays the real interface.',
+      },
+      {
+        type: 'quote',
+        text: 'Highlight the cases where a seller makes more money by matching the deal price.',
+        cite: 'The open ask from a working session with the business stakeholder, late 2025',
+      },
+
+      { type: 'heading', kicker: 'The redesign', text: 'From discount labels to margin math' },
+      {
+        type: 'narrative',
+        body:
+          'I didn’t start from a blank page. I had already built a coded exploration of the adjacent problem, three working concepts on margin visibility for the listings page, with deals modelled as a case inside them. The redesign continues that direction: every market row computes what the seller would actually earn under each available move, the recommended move is stated with its reason in one plain sentence, and the deal action finally gets its own name.',
+      },
+      {
+        type: 'principle',
+        num: '01',
+        title: 'Show the margin, not the discount',
+        body:
+          'Projected margin for the current price and the deal price, side by side, with the calculation one tap away. A commission point means nothing to a seller until it becomes euros per unit; the moment it does, the decision mostly makes itself.',
+      },
+      {
+        type: 'principle',
+        num: '02',
+        title: 'Recommend, and say why',
+        body:
+          'One recommended move per market, with the reason in a sentence: the deal earns more here because the commission saving outweighs the price cut. It answers the business stakeholder’s open ask directly, and it is the suggest-and-confirm posture from my AI research applied to pricing: the system proposes, the seller decides.',
+      },
+      {
+        type: 'principle',
+        num: '03',
+        title: 'Let sellers automate the choice',
+        body:
+          'The same margin logic wired into the existing repricing automation, behind a seller-set guardrail: optimise for earnings within my price range. For sellers who trust it, the manual click disappears entirely. Built as working prototypes on illustrative data, waiting on the live pricing feed and a seller validation round.',
+      },
+      {
+        type: 'media',
+        label: 'Redesign concepts',
+        caption: 'Concept mockups in progress: the margin-first row, the reasoned recommendation, and the earnings-aware automation.',
+      },
+
+      { type: 'heading', kicker: 'The open chapter', text: 'Volume incentives, honestly unresolved' },
+      {
+        type: 'narrative',
+        body:
+          'The second half of the programme, volume tiers that stack further commission discounts on top of price deals, is still being negotiated: the mechanism itself, its granularity, even whether a threshold applies retroactively. The PRD’s success-metric section is currently blank. I am designing into that ambiguity deliberately, holding the rule the first release should have had: no surface ships until it can answer the seller’s margin question.\n\nOne more honest note on distribution: the channel that shipped first is not where most of the volume flows. The majority of marketplace sales run through API-integrated sellers who never open this page, and deal visibility in the API does not exist yet. The redesign is one chapter of a longer distribution problem, and the case study will say so as long as that stays true.',
+      },
+
+      { type: 'heading', kicker: 'Where it stands', text: 'In flight' },
+      {
+        type: 'narrative',
+        body:
+          'The evidence case is made, the direction is set, and the concepts run as coded prototypes. What I would defend hardest from this project so far: shipping to spec is not the finish line. The first release did everything the brief asked and still failed its users quietly. The 0.2% is not a number to hide. It is the most useful design input the programme ever produced, and the reason the second pass is aimed at margin instead of discounts.',
+      },
+    ],
+  },
+  {
+    num: '05',
     slug: 'care-gap',
     image: '/work/soteria/thumb-4x3.png',
     title: 'Closing the gap between appointments.',
