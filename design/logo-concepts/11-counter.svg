@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- 11 Counter — a triangular A cut from the tile, its counter left floating inside -->
+  <defs>
+    <mask id="cut">
+      <rect width="100" height="100" fill="#fff"/>
+      <path d="M50 26 L76 74 L24 74 Z" fill="#000"/>
+      <path d="M50 45 L61.5 66 L38.5 66 Z" fill="#fff"/>
+    </mask>
+  </defs>
+  <rect x="6" y="6" width="88" height="88" rx="26" fill="#1C1A17" mask="url(#cut)"/>
+</svg>

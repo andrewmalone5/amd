@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- 15 Summit — the peak in front of the morning sun, separated by a sliver of paper -->
+  <defs>
+    <mask id="cut">
+      <rect width="100" height="100" fill="#fff"/>
+      <path d="M14 84 L46 26 L78 84 Z" fill="#000" stroke="#000" stroke-width="9"
+            stroke-linejoin="round"/>
+    </mask>
+  </defs>
+  <circle cx="64" cy="37" r="21" fill="#1C1A17" mask="url(#cut)"/>
+  <path d="M14 84 L46 26 L78 84 Z" fill="#1C1A17"/>
+</svg>

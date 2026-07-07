@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- 12 Eclipse — Daybreak with the wave at the equator: an even split of dome and bowl -->
+  <defs>
+    <mask id="cut">
+      <rect width="100" height="100" fill="#fff"/>
+      <path d="M2 50 C16 43 32 43 48 50 C64 57 80 57 98 50" fill="none" stroke="#000"
+            stroke-width="9" stroke-linecap="round"/>
+    </mask>
+  </defs>
+  <circle cx="50" cy="50" r="40" fill="#1C1A17" mask="url(#cut)"/>
+</svg>
