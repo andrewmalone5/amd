@@ -293,7 +293,7 @@ export const projects: Project[] = [
     // become "hundreds of thousands of views a quarter in its largest market".
     num: '03',
     slug: 'back-office-homepage',
-    image: '/work/back-office-homepage.svg',
+    image: '/work/homepage/direction-masonry.png',
     title: 'Every seller lands here. Nobody prioritized it.',
     client: 'Back Market',
     discipline: 'Seller Back Office',
@@ -339,22 +339,41 @@ export const projects: Project[] = [
         body:
           'This is self-initiated work, and the case study starts where the project actually started: with evidence, not screens. I reconstructed four years of the page’s history across specs, pull requests, and analytics. I audited the live design file block by block, which is how the placeholder content and the dropped blocks surfaced. I mapped every team with a claim on the page and what each actually needs from its slot. And I documented the metric gap directly, because the redesign’s first deliverable is not a layout, it is a definition of success the team can hold the page to.\n\nThe pitch reframes the work from “make the homepage better” to three decisions: what this page is for, what earns a place on it under that purpose, and which measurable behaviours, task completion and click-through on the highest-value actions, replace an email-reduction goal that was never wired up.',
       },
+      { type: 'heading', kicker: 'The exploration', text: 'Three concepts, one direction' },
       {
-        type: 'media',
-        label: 'Current homepage, annotated audit',
-        caption: 'Placeholder: the current nine-card homepage, annotated block by block.',
+        type: 'narrative',
+        body:
+          'With the case built, I explored the answer as three working prototypes, each testing a different point on the spectrum between focus and familiarity. All three hold the same non-negotiables: the operations banner stays editable without a deploy, the payout answer stays above the fold, and every timely item states why it appeared.\n\nThe first concept tested radical focus: three ranked tasks, a “for you today” layer with stated reasons, and everything else demoted to signals in a rail. The second pushed to the AI-native end: the page as a composed morning briefing with one ranked stream, built on the suggest-and-confirm posture my seller research had set for the company. Both taught something, and both asked sellers to give up the mental map they already had.',
       },
       {
         type: 'media',
-        label: 'Dependency map',
-        caption: 'Placeholder: every team with a claim on the page, and what each needs from its slot.',
+        label: 'Concept 1, the focused day',
+        image: '/work/homepage/concept-focused.png',
+        caption: 'Concept 1, the focused day: three ranked tasks, a timely layer with stated reasons, signals in the rail.',
+      },
+      {
+        type: 'media',
+        label: 'Concept 2, the briefing',
+        image: '/work/homepage/concept-briefing.png',
+        caption: 'Concept 2, the briefing: the page composed as three sentences and one ranked stream, with delegation under seller-set rules.',
+      },
+      {
+        type: 'narrative',
+        body:
+          'The proposed direction keeps the structure sellers already navigate and changes what each block is made of. Every content owner keeps a slot, but every slot has to show movement at a glance: the sales card becomes a week-over-week trend, listings become a BackBox share you can read in a second, trade-in becomes four bars, reviews become a distribution. Text chunks became charts; nine competing panels became a board you can scan in one pass. The task list leads, and the one compliance blocker in it is the only red on the page.',
+      },
+      {
+        type: 'media',
+        label: 'The proposed direction',
+        image: '/work/homepage/direction-masonry.png',
+        caption: 'The proposed direction: a data-forward masonry board. Every block keeps its owner and earns its place by showing movement, not text.',
       },
 
       { type: 'heading', kicker: 'Where it stands', text: 'In flight' },
       {
         type: 'narrative',
         body:
-          'The audit is complete and the case is being made to the squad’s product and design leadership now. The design principles for the redesign are set: one obvious next action for the seller instead of nine equal cards, signals over inventory, and timely content earning its position through relevance rather than accumulated real estate.\n\nThis page will grow as the work ships. That is deliberate: the strongest part of this story so far is not a redesign, it is noticing that the most-shared page in the product had quietly become the least examined, and doing something about it.',
+          'The audit is complete, the concepts are built, and the case is being made to the squad’s product and design leadership now, with the data-forward board as the recommended direction and defined success metrics attached: task completion and click-through on the highest-value actions, in place of an email-reduction goal that was never wired up.\n\nThis page will grow as the work ships. That is deliberate: the strongest part of this story so far is not a redesign, it is noticing that the most-visited page in the product had quietly become the least examined, and doing something about it.',
       },
     ],
   },
