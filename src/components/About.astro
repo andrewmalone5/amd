@@ -4,10 +4,10 @@
 // Spectral, the one long-form serif moment on the site.
 import { withBase } from '../lib/url';
 const portrait = '/andrew-portrait.webp';
-const headline = 'An Irishman in Berlin.';
+const headline = 'The work before the design work.';
 const paragraphs = [
-  'Ten years into a career that started in industrial design and found its home in digital. I took the long route, and I think it shows in how I approach problems.',
-  'I like being early: close to the team, asking the questions that should have been asked sooner, and getting everyone aligned on what we’re actually building before the design work begins.',
+  'That’s the part I’m drawn to: being early, close to the team, asking the questions nobody asked yet, and getting everyone aligned on what we’re actually building.',
+  'An Irishman in Berlin, ten years into a career that started in industrial design and found its home in digital. I took the long route, and I think it shows in how I approach problems.',
   'Away from screens I’m usually behind a camera or training for some goal I’ve set myself. Persistently optimistic about both.',
 ];
 ---
@@ -55,10 +55,13 @@ const paragraphs = [
     display: block;
   }
 
+  /* The headline takes the section-heading scale; the body stays a full step
+     down so the hierarchy is unmistakable. */
   .about__headline {
-    font-size: var(--text-display-sm);
+    font-size: var(--text-display-md);
     line-height: var(--leading-tight);
     letter-spacing: var(--tracking-display);
+    max-width: 16ch;
     margin-bottom: var(--space-lg);
   }
 
@@ -67,8 +70,8 @@ const paragraphs = [
   }
   .about__bio p {
     font-family: var(--font-display);
-    font-size: clamp(1.25rem, 1.1rem + 0.5vw, 1.5rem);
-    line-height: 1.5;
+    font-size: 1.25rem;
+    line-height: 1.55;
     letter-spacing: var(--tracking-tight);
     color: var(--color-ink);
     text-wrap: pretty;
