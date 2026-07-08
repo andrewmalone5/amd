@@ -5,6 +5,10 @@
 import SiteLayout from '../../layouts/SiteLayout.astro';
 import StoryArc from '../../components/method/StoryArc.astro';
 import SentenceTemplate from '../../components/method/SentenceTemplate.astro';
+import DriftDiagram from '../../components/method/DriftDiagram.astro';
+import QuestionGauntlet from '../../components/method/QuestionGauntlet.astro';
+import AnnotatedBrief from '../../components/method/AnnotatedBrief.astro';
+import BorrowedTime from '../../components/method/BorrowedTime.astro';
 import { methods } from '../../data/methods';
 import { withBase } from '../../lib/url';
 
@@ -121,6 +125,14 @@ const { method } = Astro.props;
         <StoryArc />
       ) : b.type === 'sentenceTemplate' ? (
         <SentenceTemplate />
+      ) : b.type === 'drift' ? (
+        <DriftDiagram />
+      ) : b.type === 'gauntlet' ? (
+        <QuestionGauntlet />
+      ) : b.type === 'annotatedBrief' ? (
+        <AnnotatedBrief />
+      ) : b.type === 'borrowedTime' ? (
+        <BorrowedTime />
       ) : b.type === 'pairs' ? (
         <div class="block block--pairs">
           {b.kicker && <p class="eyebrow pairs__kicker">{b.kicker}</p>}
@@ -505,16 +517,21 @@ const { method } = Astro.props;
     .pairs__row { grid-template-columns: 1fr; gap: var(--space-3xs); }
   }
 
-  /* Placement for the two live artifacts (component roots, so :global). The
-     arc takes the full media breakout; the sentence shares the wide text axis. */
-  .case > :global(.block--arc) {
+  /* Placement for the live artifacts (component roots, so :global). Arc,
+     drift and the annotated brief take the full media breakout; sentence,
+     gauntlet and the timelines share the wide text axis. */
+  .case > :global(.block--arc),
+  .case > :global(.block--drift),
+  .case > :global(.block--brief) {
     grid-column: 1 / -1;
     justify-self: center;
     width: min(88rem, calc(100% - 2 * var(--page-gutter)));
     margin-top: var(--section);
     margin-bottom: var(--space-lg);
   }
-  .case > :global(.block--sentence) {
+  .case > :global(.block--sentence),
+  .case > :global(.block--gauntlet),
+  .case > :global(.block--time) {
     grid-column: 2 / -1;
     width: min(61rem, calc(100% - var(--page-gutter)));
     margin-top: var(--section-tight);
@@ -538,11 +555,11 @@ const { method } = Astro.props;
 
 <script>
   // Bring the page to life: blocks rise in as they enter the viewport. The
-  // arc and sentence artifacts run their own choreography, so they're skipped.
+  // live artifacts run their own choreography, so they're skipped.
   const article = document.querySelector('.case');
   if (article && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
     const blocks = article.querySelectorAll(
-      ':scope > *:not(.case__back):not(.case__header):not(.block--arc):not(.block--sentence):not(script)'
+      ':scope > *:not(.case__back):not(.case__header):not(.block--arc):not(.block--sentence):not(.block--drift):not(.block--gauntlet):not(.block--brief):not(.block--time):not(script)'
     );
     const io = new IntersectionObserver(
       (entries) => {

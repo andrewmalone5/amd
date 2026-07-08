@@ -1,0 +1,275 @@
+---
+// The navigation brief, interrogated live instead of shipped as a PNG. The
+// brief sits on the left as a document; the questions land against it one by
+// one on the right. Hovering an annotation lights the exact phrase it
+// interrogates, and the other way round. Then the part a static image could
+// never do: the brief fails question two — its title gets struck through and
+// the verdict rises with the real problem.
+const annotations = [
+  {
+    ref: 'q1',
+    k: 'Q1 / What problem are we solving?',
+    body: '“Redesign the navigation” is a solution, not a problem. What hurts if we do nothing?',
+  },
+  {
+    ref: 'q2',
+    k: 'Q2 / How do we know?',
+    body: 'The analytics don’t show sellers lost in menus. They show sellers leaving the homepage without acting at all.',
+    fatal: true,
+  },
+  {
+    ref: 'q3',
+    k: 'Q3 / What does success look like?',
+    body: '“Find tools faster” has no number, no behaviour, no owner. This gets defined before anything gets designed.',
+  },
+];
+---
+
+<figure class="block block--brief" data-brief>
+  <div class="doc">
+    <p class="eyebrow doc__kicker">Product brief / Q3</p>
+    <h3 class="doc__title">Improve Back Office navigation</h3>
+    <p class="doc__p">
+      Sellers report difficulty finding the tools they need in the Back Office.
+      We should <mark data-ref="q1">redesign the navigation</mark> with a
+      cleaner layout, better visual hierarchy and a more organised menu
+      structure.
+    </p>
+    <p class="doc__p">
+      The current menu has grown organically as features shipped and no longer
+      reflects <mark data-ref="q2">how sellers think about their work</mark>.
+    </p>
+    <p class="doc__p">
+      Deliverables: updated IA, revised menu component, visual refresh of the
+      header. <mark data-ref="q3">Success: sellers find tools faster.</mark>
+    </p>
+  </div>
+
+  <div class="notes">
+    {annotations.map((a, i) => (
+      <div
+        class:list={['note', { 'note--fatal': a.fatal }]}
+        data-ref={a.ref}
+        style={`--d: ${(0.55 + i * 0.55).toFixed(2)}s`}
+      >
+        <p class="note__k">{a.k}</p>
+        <p class="note__body">{a.body}</p>
+      </div>
+    ))}
+
+    <div class="verdict">
+      <p class="eyebrow verdict__k">The verdict</p>
+      <p class="verdict__body">
+        The brief didn’t survive question two. The journey it wanted to
+        optimise wasn’t happening, so we redesigned the homepage instead:
+        the actions waiting for a seller the moment they log in, not a tidier
+        menu of every tool that exists.
+      </p>
+    </div>
+  </div>
+</figure>
+
+<style>
+  .block--brief {
+    margin: 0;
+    display: grid;
+    grid-template-columns: minmax(0, 34rem) minmax(0, 1fr);
+    gap: var(--space-2xl);
+    align-items: start;
+  }
+
+  /* The brief, as a document. The one framed thing on the page: it's an
+     artifact under review, not part of the essay. */
+  .doc {
+    background: var(--color-surface);
+    border: 1px solid var(--color-hairline);
+    border-radius: 14px;
+    box-shadow: var(--shadow-sm);
+    padding: var(--space-xl) var(--space-lg);
+    opacity: 0;
+    transform: translateY(1rem);
+  }
+  [data-brief].is-in .doc {
+    opacity: 1;
+    transform: translateY(0);
+    transition:
+      opacity var(--duration-slow) var(--ease-out),
+      transform var(--duration-slow) var(--ease-out);
+  }
+  .doc__kicker { color: var(--color-ink-faint); }
+  .doc__title {
+    position: relative;
+    margin-top: var(--space-sm);
+    font-family: var(--font-display);
+    font-size: var(--text-display-sm);
+    line-height: var(--leading-tight);
+    letter-spacing: var(--tracking-display);
+    color: var(--color-ink);
+    /* The strike, waiting. Ink arrives when the brief fails. */
+    text-decoration: line-through;
+    text-decoration-color: transparent;
+    text-decoration-thickness: 2px;
+    transition: text-decoration-color var(--duration-slow) var(--ease-out);
+  }
+  [data-brief].is-failed .doc__title {
+    text-decoration-color: var(--color-ink);
+  }
+  .doc__p {
+    margin-top: var(--space-md);
+    font-size: var(--text-sm);
+    line-height: var(--leading-body);
+    color: var(--color-ink-muted);
+  }
+  .doc__p mark {
+    background: transparent;
+    color: var(--color-ink);
+    border-radius: 3px;
+    padding: 0 0.08em;
+    transition:
+      background-color var(--duration-fast) var(--ease-out),
+      color var(--duration-fast) var(--ease-out);
+  }
+
+  /* The annotations: each opens its own rule, drawn downward as it lands. */
+  .note {
+    position: relative;
+    padding-left: var(--space-md);
+    opacity: 0;
+    transform: translateY(0.75rem);
+  }
+  .note + .note { margin-top: var(--space-lg); }
+  .note::before {
+    content: '';
+    position: absolute;
+    top: 0.2rem;
+    bottom: 0.2rem;
+    left: 0;
+    width: 2px;
+    background: var(--color-hairline-strong);
+    transform: scaleY(0);
+    transform-origin: top;
+  }
+  .note--fatal::before {
+    background: var(--color-ink);
+  }
+  [data-brief].is-in .note {
+    opacity: 1;
+    transform: translateY(0);
+    transition:
+      opacity var(--duration-slow) var(--ease-out),
+      transform var(--duration-slow) var(--ease-out);
+    transition-delay: var(--d);
+  }
+  [data-brief].is-in .note::before {
+    transform: scaleY(1);
+    transition: transform var(--duration-slow) var(--ease-out);
+    transition-delay: var(--d);
+  }
+  .note__k {
+    font-size: var(--text-xs);
+    font-weight: var(--weight-medium);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    color: var(--color-ink-faint);
+  }
+  .note--fatal .note__k { color: var(--color-ink); }
+  .note__body {
+    margin-top: var(--space-2xs);
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 1.1875rem;
+    line-height: 1.55;
+    color: var(--color-ink);
+    max-width: 44ch;
+  }
+
+  /* The verdict: rises last, after the strike lands. */
+  .verdict {
+    margin-top: var(--space-xl);
+    padding-top: var(--space-lg);
+    border-top: 2px solid var(--color-ink);
+    opacity: 0;
+    transform: translateY(0.75rem);
+  }
+  [data-brief].is-in .verdict {
+    opacity: 1;
+    transform: translateY(0);
+    transition:
+      opacity var(--duration-slow) var(--ease-out) 2.5s,
+      transform var(--duration-slow) var(--ease-out) 2.5s;
+  }
+  .verdict__k { margin-bottom: var(--space-sm); }
+  .verdict__body {
+    font-family: var(--font-display);
+    font-size: 1.3125rem;
+    line-height: 1.55;
+    letter-spacing: var(--tracking-tight);
+    color: var(--color-ink);
+    max-width: 44ch;
+  }
+
+  /* The hover bridge: an annotation and the phrase it interrogates light
+     together, and everything else steps back. */
+  .doc__p mark.is-hot {
+    background: var(--color-hairline);
+  }
+  .note.is-hot .note__k { color: var(--color-ink); }
+  [data-brief].has-focus .note:not(.is-hot) { opacity: 0.45; }
+
+  /* Post-entrance, focus moves at hover speed. */
+  [data-brief].is-settled .note,
+  [data-brief].is-settled .verdict {
+    transition-delay: 0s;
+    transition-duration: var(--duration-fast);
+  }
+
+  @media (max-width: 64rem) {
+    .block--brief { grid-template-columns: 1fr; gap: var(--space-xl); }
+    .doc { max-width: 34rem; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .doc, .note, .verdict { opacity: 1; transform: none; }
+    .note::before { transform: scaleY(1); }
+    .doc__title { text-decoration-color: var(--color-ink); }
+    [data-brief].is-in .doc,
+    [data-brief].is-in .note,
+    [data-brief].is-in .note::before,
+    [data-brief].is-in .verdict,
+    [data-brief].is-failed .doc__title { transition: none; }
+  }
+</style>
+
+<script>
+  const brief = document.querySelector<HTMLElement>('[data-brief]');
+  if (brief) {
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    new IntersectionObserver(
+      (entries, io) => {
+        for (const e of entries) {
+          if (e.isIntersecting) {
+            brief.classList.add('is-in');
+            // The strike lands just after Q2's annotation finishes arriving.
+            setTimeout(() => brief.classList.add('is-failed'), reduced ? 0 : 1900);
+            setTimeout(() => brief.classList.add('is-settled'), reduced ? 0 : 3300);
+            io.disconnect();
+          }
+        }
+      },
+      { threshold: 0.25 }
+    ).observe(brief);
+
+    // Hovering either side of the bridge lights both.
+    brief.querySelectorAll<HTMLElement>('[data-ref]').forEach((el) => {
+      const twins = brief.querySelectorAll(`[data-ref="${el.dataset.ref}"]`);
+      el.addEventListener('mouseenter', () => {
+        twins.forEach((t) => t.classList.add('is-hot'));
+        brief.classList.add('has-focus');
+      });
+      el.addEventListener('mouseleave', () => {
+        twins.forEach((t) => t.classList.remove('is-hot'));
+        brief.classList.remove('has-focus');
+      });
+    });
+  }
+</script>
