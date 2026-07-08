@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://andrewmalone5.github.io/amd/sitemap-index.xml
