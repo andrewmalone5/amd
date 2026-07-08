@@ -8,6 +8,7 @@
 import SiteLayout from '../../layouts/SiteLayout.astro';
 import DealsSliver from '../../components/case/DealsSliver.astro';
 import BetweenVisits from '../../components/case/BetweenVisits.astro';
+import PayoutTimeline from '../../components/case/PayoutTimeline.astro';
 import { projects } from '../../data/projects';
 import { withBase } from '../../lib/url';
 
@@ -124,7 +125,7 @@ const { project } = Astro.props;
           ))}
         </div>
       ) : b.type === 'artifact' ? (
-        b.name === 'deals-sliver' ? <DealsSliver /> : b.name === 'care-between-visits' ? <BetweenVisits /> : null
+        b.name === 'deals-sliver' ? <DealsSliver /> : b.name === 'care-between-visits' ? <BetweenVisits /> : b.name === 'payout-timeline' ? <PayoutTimeline /> : null
       ) : b.type === 'pairs' ? (
         <div class="block block--pairs">
           {b.kicker && <p class="eyebrow pairs__kicker">{b.kicker}</p>}
@@ -316,24 +317,21 @@ const { project } = Astro.props;
     text-align: center;
   }
 
-  /* Overview — the at-a-glance strip under the case header. Wide: it's the
-     skim layer, set apart from the prose column. */
+  /* Overview — the at-a-glance strip under the case header. The metadata runs
+     as one colophon row across the full width, so uneven values stop tearing
+     the grid; the one-minute version sits beneath at the prose measure. */
   .case > .block--overview {
     grid-column: 2 / -1;
     width: min(61rem, calc(100% - var(--page-gutter)));
     margin-top: var(--section-tight);
     padding-top: var(--space-lg);
     border-top: 1px solid var(--color-hairline);
-    display: grid;
-    grid-template-columns: minmax(0, 22rem) 1fr;
-    gap: var(--space-xl) var(--space-3xl);
-    align-items: start;
   }
   .overview__cols {
     margin: 0;
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: var(--space-lg) var(--space-lg);
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: var(--space-lg) var(--space-xl);
   }
   .overview__col dt {
     font-size: var(--text-xs);
@@ -349,16 +347,17 @@ const { project } = Astro.props;
     line-height: 1.4;
   }
   .overview__body {
+    margin-top: var(--space-xl);
     font-size: var(--text-lead);
     line-height: var(--leading-lead);
     color: var(--color-ink);
-    max-width: 52ch;
+    max-width: 58ch;
   }
   .overview__lead {
     font-weight: var(--weight-semibold);
   }
   @media (max-width: 48rem) {
-    .block--overview { grid-template-columns: 1fr; gap: var(--space-lg); }
+    .overview__cols { grid-template-columns: 1fr 1fr; gap: var(--space-lg); }
   }
 
   /* Stat row — 2-4 stats sharing one ruled row. */
@@ -516,7 +515,8 @@ const { project } = Astro.props;
   /* Placement for the bespoke story artifacts (component roots, so :global).
      They share the wide text axis with overview and stat rows. */
   .case > :global(.block--sliver),
-  .case > :global(.block--between) {
+  .case > :global(.block--between),
+  .case > :global(.block--payout) {
     grid-column: 2 / -1;
     width: min(61rem, calc(100% - var(--page-gutter)));
     margin-block: var(--section-tight) var(--space-lg);

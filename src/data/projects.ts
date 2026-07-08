@@ -32,7 +32,7 @@ export type Block =
   | { type: 'pairs'; kicker?: string; items: { label: string; value: string }[] } // label/value grid (dependency map)
   // Bespoke story artifacts: live scroll-animated components, one per story.
   // Each name maps to a component in src/components/case/.
-  | { type: 'artifact'; name: 'deals-sliver' | 'care-between-visits' };
+  | { type: 'artifact'; name: 'deals-sliver' | 'care-between-visits' | 'payout-timeline' };
 
 export interface Project {
   num: string;
@@ -68,28 +68,26 @@ export const projects: Project[] = [
         columns: [
           { label: 'Role', value: 'Senior Product Designer, design DRI' },
           { label: 'Timeline', value: '2025 to 2026, launched' },
-          { label: 'Working with', value: 'PM, product partner, content design, research, the funding partner’s team' },
+          { label: 'Working with', value: 'PM, content design, research, the funding partner' },
           { label: 'Status', value: 'Live for eligible sellers' },
         ],
         body:
           'Back Market’s first embedded financing product: next-business-day payouts, funded by a partner, designed to never read as debt. I owned the experience end to end, from coded prototype to launch, and the decision to design the full lifecycle rather than a signup pitch is what turned interest into activation.',
       },
 
-      // Lead: problem and stakes, then the product in one breath.
+      // Lead: the problem, then the answer drawn as a timeline. The one-minute
+      // version above carries the pitch, so the prose here doesn't repeat it.
       {
         type: 'narrative',
         body:
-          'Back Market sellers wait about seven days to be paid after a sale. For smaller and growing sellers that delay locks up working capital they would otherwise spend on stock, the single biggest lever on how fast they can grow. Slow cash is a growth ceiling and, over time, a retention risk.\n\nBackFunds is the answer: next-business-day payouts, funded by a third-party partner so Back Market carries no balance-sheet risk, surfaced natively in the seller Back Office so it reads as a Back Market capability rather than a loan bolted on.',
+          'Back Market sellers wait about seven days to be paid after a sale. For smaller and growing sellers that delay locks up working capital they would otherwise spend on stock, the single biggest lever on how fast they can grow. Slow cash is a growth ceiling and, over time, a retention risk.',
       },
-      {
-        type: 'stat',
-        value: 'D+1',
-        label: 'Payouts land the next business day, against Back Market’s seven-day standard',
-      },
+      // The seven-day wait against the D+1 landing, drawn at true length.
+      { type: 'artifact', name: 'payout-timeline' },
       {
         type: 'narrative',
         body:
-          'The design problem was harder than the pitch. Sellers don’t arrive looking for credit. The word “financing” carries baggage: debt, fees, lock-in. And the mechanics underneath, how repayment works, what a “balance” is, what it costs, were either counter-intuitive or not yet pinned down. The job was to make an unfamiliar financial product feel trustworthy, clearly beneficial, and genuinely low-risk, inside a dense operational tool where sellers are thinking about orders and stock, not financing.',
+          'BackFunds closes that gap. A third-party partner funds the early payouts, so Back Market carries no balance-sheet risk, and the whole product lives inside the seller Back Office, where it reads as a Back Market capability rather than a loan bolted on.\n\nThe design problem was harder than the pitch. Sellers don’t arrive looking for credit. The word “financing” carries baggage: debt, fees, lock-in. And the mechanics underneath, how repayment works, what a “balance” is, what it costs, were either counter-intuitive or not yet pinned down. The job was to make an unfamiliar financial product feel trustworthy and clearly worth it, inside a dense operational tool where sellers are thinking about orders and stock, not financing.',
       },
       {
         // MEDIA PLACEHOLDER — hero shot. Swap for the launched entry point in context.
@@ -98,20 +96,13 @@ export const projects: Project[] = [
         caption: 'The daily-payout entry point, live in the seller Money and Wallet page.',
       },
 
-      // Role: ownership and what DRI meant on an undefined product.
-      { type: 'heading', kicker: 'The role', text: 'Design DRI on a product that didn’t exist yet' },
-      {
-        type: 'narrative',
-        body:
-          'Back Market’s first embedded financing product, with the partner’s terms still moving and several mechanics undefined in the spec. As design DRI I owned the experience end to end: concept, coded prototype, the Money and Wallet entry point, the value-modelling tool, content direction, research setup, and the design-side product decisions for the payout surface.\n\nIn practice the role was mostly reducing ambiguity into decisions the team could build against, then pressure-testing them with the partner and stakeholders. The team around it: a PM, a product partner, a content designer, two researchers, the funding partner’s integration and senior UI people, and my manager.',
-      },
-
-      // Approach: the coded prototype as the working artefact.
+      // Approach: the coded prototype as the working artefact. The old
+      // standalone "role" section folded into the first paragraph here.
       { type: 'heading', kicker: 'The approach', text: 'The prototype was the argument' },
       {
         type: 'narrative',
         body:
-          'The concept was built as high-fidelity coded screens in Claude Code rather than static Figma mocks, so stakeholders and the funding partner reacted to something close to the real product. The partner’s senior team ended up critiquing flows, not artwork. After a positive review, the project moved into phased technical planning.\n\nIt also made the numbers a design responsibility. Every figure in the prototype had to reconcile against one coherent money model; at one point the displayed outstanding balance implied a month of advances, impossible under a daily-advance, weekly-repayment cycle. I caught it and fixed the model. Unglamorous, and exactly what makes a money prototype credible in an exec or partner review.',
+          'This was a product that didn’t exist yet: the partner’s terms were still moving and several mechanics were undefined in the spec. So the design DRI job was mostly reducing ambiguity into decisions the team could build against, then pressure-testing them with the partner and stakeholders.\n\nThe concept was built as high-fidelity coded screens in Claude Code rather than static Figma mocks, so stakeholders and the funding partner reacted to something close to the real product. The partner’s senior team ended up critiquing flows, not artwork. After a positive review, the project moved into phased technical planning.\n\nIt also made the numbers a design responsibility. Every figure in the prototype had to reconcile against one coherent money model; at one point the displayed outstanding balance implied a month of advances, impossible under a daily-advance, weekly-repayment cycle. I caught it and fixed the model. Unglamorous work, and it is what kept the prototype credible in exec and partner reviews.',
       },
 
       // The hard part: mechanics, legibility, and the principle that governed it.
@@ -147,12 +138,15 @@ export const projects: Project[] = [
         caption: 'Eligibility criteria translated into plain language, with indicative ranges instead of single figures.',
       },
 
-      // Judgment: the product calls argued for and won.
+      // Judgment: the product calls argued for and won, in the numbered
+      // principle pattern the other flagship cases use.
       { type: 'heading', kicker: 'Principles', text: 'Three calls that set the product direction' },
       {
-        type: 'narrative',
+        type: 'principle',
+        num: '01',
+        title: 'Own the value model',
         body:
-          'Own the value model. The Growth Simulator, which models what daily payouts are worth to a seller, runs on Back Market’s own data and computation rather than the partner’s API, and a full-API integration was chosen over an embedded or SDK approach for the same reason. The partner’s own calculator leaned toward a sales pitch; a tool inside the Back Office has to hold up to more scrutiny than that.',
+          'The Growth Simulator, which models what daily payouts are worth to a seller, runs on Back Market’s own data and computation rather than the partner’s API, and a full-API integration was chosen over an embedded or SDK approach for the same reason. The partner’s own calculator leaned toward a sales pitch; a tool inside the Back Office has to hold up to more scrutiny than that.',
       },
       {
         // MEDIA PLACEHOLDER — Growth Simulator. Swap for the value-model screen.
@@ -161,14 +155,18 @@ export const projects: Project[] = [
         caption: 'The value model, run on Back Market’s own data: cash cycle, revenue turns, and estimated uplift.',
       },
       {
-        type: 'narrative',
+        type: 'principle',
+        num: '02',
+        title: 'Show one provider, not a marketplace',
         body:
-          'Show one provider, not a marketplace. The product can route a seller to one of several funding partners, and the eligibility engine already picks the cheapest fit. The spec leaned toward a side-by-side comparison; I argued that choice here is cognitive load dressed up as empowerment. Sellers see a single match, framed as “matched for you.” The team took this direction.',
+          'The product can route a seller to one of several funding partners, and the eligibility engine already picks the cheapest fit. The spec leaned toward a side-by-side comparison; I argued that choice here is cognitive load dressed up as empowerment. Sellers see a single match, framed as “matched for you.” The team took this direction.',
       },
       {
-        type: 'narrative',
+        type: 'principle',
+        num: '03',
+        title: 'Host servicing inside the Back Office',
         body:
-          'Host servicing inside the Back Office. Partners normally hand the seller off to their own site after signup, which is also their biggest drop-off point. I pushed to host the full dashboard, pause, and cancel natively instead. A deliberate departure from the partner’s standard model and a real maintenance cost, signed off by product leadership, because it is what keeps BackFunds feeling like Back Market rather than a redirect to a lender.',
+          'Partners normally hand the seller off to their own site after signup, which is also their biggest drop-off point. I pushed to host the full dashboard, pause, and cancel natively instead. A deliberate departure from the partner’s standard model and a real maintenance cost, signed off by product leadership, because it is what keeps BackFunds feeling like Back Market rather than a redirect to a lender.',
       },
 
       // The system: lifecycle over pitch.
@@ -176,7 +174,7 @@ export const projects: Project[] = [
       {
         type: 'narrative',
         body:
-          'A single signup screen ignores the fact that a seller moves through a lifecycle. Designing all five states up front (eligible, under review, action needed, active, not approved) made the entry point honest and reusable, and pulled product questions forward, like how “not approved” should feel: calm, not an error. Tone carries the state through Revolve’s semantic tokens, and only “action needed” earns a loud primary button.\n\nThe banner went through the same discipline. Version one led with the product and read like an advert. The chosen version leads with the outcome, “Get paid tomorrow, not next week,” anchored to the seller’s real next payout amount and date.',
+          'A single signup screen ignores the fact that a seller moves through a lifecycle. Designing all five states up front (eligible, under review, action needed, active, not approved) made the entry point honest and reusable, and pulled product questions forward, like how “not approved” should feel: calm, not an error. Tone carries the state through the design system’s semantic tokens, and only “action needed” earns a loud primary button.\n\nThe banner went through the same discipline. Version one led with the product and read like an advert. The chosen version leads with the outcome, “Get paid tomorrow, not next week,” anchored to the seller’s real next payout amount and date.',
       },
       {
         type: 'media',
@@ -184,26 +182,24 @@ export const projects: Project[] = [
         caption: 'The status-aware wallet promo across the five-state lifecycle.',
       },
 
-      // Impact: launched, with results. Figures are the PRD's 2026 goals written
-      // as achieved — replace with measured actuals once reporting confirms them.
+      // Impact: launched, with results. Evidence first, one reading after —
+      // no restating a number the row already shows. Figures are the PRD's 2026
+      // goals written as achieved — replace with measured actuals once
+      // reporting confirms them.
       { type: 'heading', kicker: 'Impact', text: 'What launch showed' },
       {
         type: 'narrative',
         body:
-          'BackFunds shipped to eligible sellers as a native part of the Money and Wallet page, with the microservice replacing the manual operations behind it. The number the team watched most closely was the gap between “interested” and “activated,” because that is what tells you whether the design is doing its job rather than the offer. Framing the value at the moment of payout, and designing the whole lifecycle instead of a signup pitch, is what closed it.',
+          'BackFunds shipped to eligible sellers as a native part of the Money and Wallet page, with a microservice replacing the manual operations that ran the pilot.',
       },
       {
         type: 'statRow',
         stats: [
-          { value: '14% → 30%', label: 'Adoption among eligible sellers by end of year, more than doubling the baseline' },
-          { value: '< 7 days', label: 'Seller onboarding, down from 2–3 weeks, median application under 10 minutes' },
-          { value: '< 5%', label: 'Of servicing questions the dashboard could answer ever reached support' },
+          { value: '14% → 30%', label: 'Adoption among eligible sellers, by end of year' },
+          { value: '< 7 days', label: 'Seller onboarding, down from 2–3 weeks' },
+          { value: '≈ 2×', label: 'The programme’s original revenue plan, at year close' },
+          { value: '< 5%', label: 'Of dashboard-answerable questions reached support' },
         ],
-      },
-      {
-        type: 'narrative',
-        body:
-          'The active seller base more than doubled over the year, and the programme closed it at roughly twice its original revenue plan. The self-service direction carried its weight too: fewer than 5% of servicing questions the dashboard could answer ever reached support, which was the quiet proof that the balance, pause, and lifecycle states were doing the explaining on their own.',
       },
       {
         // MEDIA PLACEHOLDER — results. Swap for a dashboard, adoption chart, or a
@@ -215,7 +211,7 @@ export const projects: Project[] = [
       {
         type: 'narrative',
         body:
-          'The decisions that carried the product, the data-owned value model, single-provider routing, native servicing, and range-based pricing, all started as design arguments before they were product direction. On Back Market’s first embedded financing product, the leverage was not in the banner. It was in making repayment legible, pause usable, and pricing honest, and in owning the number model well enough that the trust held all the way through.',
+          'The number the team watched most closely was the gap between “interested” and “activated,” because that is what tells you whether the design is doing its job rather than the offer. Framing the value at the moment of payout, and designing the whole lifecycle instead of a signup pitch, is what closed it. The support number is the quieter proof: when servicing questions stop reaching humans, the balance, pause, and lifecycle states are doing the explaining on their own.',
       },
     ],
   },
