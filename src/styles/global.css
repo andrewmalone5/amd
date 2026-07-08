@@ -70,6 +70,32 @@ a {
   text-decoration: none;
 }
 
+/* Keyboard focus is always visible: one ink ring, offset off the element so
+   it reads on paper and on the ink-filled button alike. Mouse clicks don't
+   trigger it (:focus-visible), so the aesthetic costs pointer users nothing. */
+:focus-visible {
+  outline: 2px solid var(--color-ink);
+  outline-offset: 4px;
+  border-radius: 2px;
+}
+
+/* Skip link — first tab stop, invisible until focused. */
+.skip-link {
+  position: fixed;
+  top: var(--space-sm);
+  left: var(--space-sm);
+  z-index: 100;
+  padding: 0.6em 1em;
+  background: var(--color-ink);
+  color: var(--color-paper);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  transform: translateY(-150%);
+}
+.skip-link:focus {
+  transform: translateY(0);
+}
+
 ::selection {
   background-color: var(--color-ink);
   color: var(--color-paper);
