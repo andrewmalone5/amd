@@ -63,6 +63,13 @@
   --color-hairline-strong: #CFC9BC;  /* emphasized divider                   */
 
   /* --------------------------------------------------------------------------
+     RADII — two values, print-quiet. Frames barely round; screenshots inside
+     them round a touch more (they depict software). One scale, no drift.
+     ------------------------------------------------------------------------ */
+  --radius-frame:  6px;   /* media frames, duo frames, portrait, cards */
+  --radius-screen: 10px;  /* screenshots and mock UI inside a frame     */
+
+  /* --------------------------------------------------------------------------
      ELEVATION — restrained, warm-tinted. The "lift" is the whole trick:
      a work card rises a little on hover, nothing floats or glows.
      ------------------------------------------------------------------------ */

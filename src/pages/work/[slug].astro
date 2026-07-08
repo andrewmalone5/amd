@@ -57,18 +57,16 @@ const { project } = Astro.props;
           <span class="stat__label">{b.label}</span>
         </div>
       ) : b.type === 'media' ? (
-        <figure class="block block--media">
-          {b.image ? (
+        /* No image yet → no frame. A labeled void reads worse than nothing;
+           the block stays in the data and appears the moment its image lands. */
+        b.image ? (
+          <figure class="block block--media">
             <div class="media__frame media__frame--image">
               <img src={withBase(b.image)} alt={b.label} loading="lazy" />
             </div>
-          ) : (
-            <div class="media__frame">
-              <span class="media__label">{b.label}</span>
-            </div>
-          )}
-          {b.caption && <figcaption>{b.caption}</figcaption>}
-        </figure>
+            {b.caption && <figcaption>{b.caption}</figcaption>}
+          </figure>
+        ) : null
       ) : b.type === 'overview' ? (
         <div class="block block--overview">
           <dl class="overview__cols">
@@ -108,22 +106,18 @@ const { project } = Astro.props;
           </div>
         </section>
       ) : b.type === 'duo' ? (
-        <div class="block block--duo">
-          {b.items.map((item) => (
-            <figure class="duo__item">
-              {item.image ? (
+        b.items.some((item) => item.image) ? (
+          <div class="block block--duo">
+            {b.items.filter((item) => item.image).map((item) => (
+              <figure class="duo__item">
                 <div class="duo__frame">
                   <img src={withBase(item.image)} alt={item.label} loading="lazy" />
                 </div>
-              ) : (
-                <div class="duo__frame duo__frame--empty">
-                  <span class="media__label">{item.label}</span>
-                </div>
-              )}
-              {item.caption && <figcaption>{item.caption}</figcaption>}
-            </figure>
-          ))}
-        </div>
+                {item.caption && <figcaption>{item.caption}</figcaption>}
+              </figure>
+            ))}
+          </div>
+        ) : null
       ) : b.type === 'artifact' ? (
         b.name === 'deals-sliver' ? <DealsSliver /> : b.name === 'care-between-visits' ? <BetweenVisits /> : b.name === 'payout-timeline' ? <PayoutTimeline /> : null
       ) : b.type === 'pairs' ? (
@@ -285,7 +279,7 @@ const { project } = Astro.props;
     place-items: center;
     background: var(--color-surface);
     border: 1px solid var(--color-hairline);
-    border-radius: 12px;
+    border-radius: var(--radius-frame);
   }
   .media__label {
     font-size: var(--text-xs);
@@ -308,7 +302,7 @@ const { project } = Astro.props;
     max-width: 100%;
     max-height: 46rem;
     height: auto;
-    border-radius: 18px;
+    border-radius: var(--radius-screen);
   }
   .block--media figcaption {
     margin-top: var(--space-sm);
@@ -394,8 +388,16 @@ const { project } = Astro.props;
   .block--callout {
     padding-left: var(--space-md);
   }
+  /* The callout cites its source in the same serif voice it speaks in —
+     an italic note, not another tracked-caps label in the page's rhythm. */
   .block--callout .eyebrow {
     margin-bottom: var(--space-sm);
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: var(--text-sm);
+    font-weight: var(--weight-regular);
+    letter-spacing: var(--tracking-tight);
+    text-transform: none;
     color: var(--color-ink-faint);
   }
   .callout__body {
@@ -459,7 +461,7 @@ const { project } = Astro.props;
   .duo__frame {
     background: var(--color-surface);
     border: 1px solid var(--color-hairline);
-    border-radius: 12px;
+    border-radius: var(--radius-frame);
     padding: var(--space-md);
     display: flex;
     justify-content: center;
@@ -468,7 +470,7 @@ const { project } = Astro.props;
     display: block;
     max-width: 100%;
     height: auto;
-    border-radius: 10px;
+    border-radius: var(--radius-screen);
   }
   .duo__frame--empty {
     aspect-ratio: 4 / 3;

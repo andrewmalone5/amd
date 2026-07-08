@@ -7,8 +7,8 @@ import { methods } from '../data/methods';
 import { withBase } from '../lib/url';
 
 const rows = [
-  { title: 'Narrative-first design', slug: 'narrative-first-design' },
-  { title: 'Solve the right problem', slug: 'solve-the-right-problem' },
+  { title: 'Narrative-first design', slug: 'narrative-first-design', go: 'Read the methodology' },
+  { title: 'Solve the right problem', slug: 'solve-the-right-problem', go: 'See the questions' },
 ].map((r) => {
   const m = methods.find((x) => x.slug === r.slug)!;
   return { ...r, body: m.summary };
@@ -24,7 +24,7 @@ const rows = [
         <h3 class="principle__title">{p.title}</h3>
         <div class="principle__body">
           <p>{p.body}</p>
-          <span class="principle__go">Read the methodology<span class="principle__arrow" aria-hidden="true">&nbsp;&rarr;</span></span>
+          <span class="principle__go">{p.go}<span class="principle__arrow" aria-hidden="true">&nbsp;&rarr;</span></span>
         </div>
       </a>
     ))}

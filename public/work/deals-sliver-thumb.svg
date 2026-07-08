@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="400" height="300" role="img" aria-label="Three bars: two large shares at 60 and 40 percent, and the deal action as a 2-pixel sliver.">
+  <rect width="400" height="300" fill="#F6F4EE"/>
+  <!-- 60% — the default action -->
+  <rect x="56" y="78" width="212" height="34" fill="none" stroke="#1C1A17" stroke-width="2"/>
+  <!-- 40% — the generic pricing action -->
+  <rect x="56" y="132" width="141" height="34" fill="none" stroke="#1C1A17" stroke-width="2"/>
+  <!-- 0.2% — the deal action, at true size -->
+  <rect x="56" y="186" width="2.5" height="34" fill="#1C1A17"/>
+  <!-- baseline the bars grow from -->
+  <line x1="56" y1="62" x2="56" y2="236" stroke="#CFC9BC" stroke-width="1.5"/>
+</svg>
