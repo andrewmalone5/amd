@@ -234,9 +234,14 @@ const links = [
   window.addEventListener('scroll', onScroll, { passive: true });
 
   const setOpen = (open: boolean) => {
+    const wasOpen = header?.classList.contains('nav-open') ?? false;
     header?.classList.toggle('nav-open', open);
     toggle?.setAttribute('aria-expanded', String(open));
     document.body.style.overflow = open ? 'hidden' : '';
+    // Keyboard users land inside the overlay on open and back on the
+    // toggle on close, instead of tabbing through the page behind it.
+    if (open) close?.focus();
+    else if (wasOpen) toggle?.focus();
   };
 
   toggle?.addEventListener('click', () => setOpen(true));
