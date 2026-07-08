@@ -54,7 +54,7 @@ export const projects: Project[] = [
   {
     num: '01',
     slug: 'backfunds',
-    image: '/work/backfunds-hero.png',
+    image: '/work/backfunds-hero.webp',
     title: 'Getting sellers paid tomorrow, not next week',
     client: 'Back Market',
     discipline: 'Embedded Finance',
@@ -218,7 +218,7 @@ export const projects: Project[] = [
   {
     num: '02',
     slug: 'ai-seller-back-office',
-    image: '/work/ai-assistant-hero.png',
+    image: '/work/ai-assistant-hero.webp',
     title: 'AI suggests. The seller decides.',
     client: 'Back Market',
     discipline: 'AI Strategy',
@@ -335,7 +335,7 @@ export const projects: Project[] = [
     // become "hundreds of thousands of views a quarter in its largest market".
     num: '03',
     slug: 'back-office-homepage',
-    image: '/work/homepage/direction-masonry.png',
+    image: '/work/homepage/direction-masonry.webp',
     title: 'Every seller lands here. Nobody prioritized it.',
     client: 'Back Market',
     discipline: 'Seller Back Office',
@@ -438,7 +438,7 @@ export const projects: Project[] = [
       {
         type: 'media',
         label: 'Concept 1, the focused day',
-        image: '/work/homepage/concept-focused.png',
+        image: '/work/homepage/concept-focused.webp',
         caption: 'Concept 1: three ranked tasks, a timely layer with stated reasons, signals in the rail.',
       },
       {
@@ -451,7 +451,7 @@ export const projects: Project[] = [
       {
         type: 'media',
         label: 'Concept 2, the briefing',
-        image: '/work/homepage/concept-briefing.png',
+        image: '/work/homepage/concept-briefing.webp',
         caption: 'Concept 2: three composed sentences and one ranked stream, with delegation under seller-set rules.',
       },
       {
@@ -464,7 +464,7 @@ export const projects: Project[] = [
       {
         type: 'media',
         label: 'The proposed direction',
-        image: '/work/homepage/direction-masonry.png',
+        image: '/work/homepage/direction-masonry.webp',
         caption: 'The proposed direction: a data-forward board. Every block keeps its owner and earns its place by showing movement, not text.',
       },
 
@@ -626,7 +626,7 @@ export const projects: Project[] = [
     num: '05',
     slug: 'care-gap',
     secondary: true,
-    image: '/work/soteria/thumb-4x3.png',
+    image: '/work/soteria/thumb-4x3.webp',
     title: 'Closing the gap between appointments.',
     client: 'Infocare Healthcare',
     discipline: 'Mobile App',
@@ -663,7 +663,7 @@ export const projects: Project[] = [
       {
         type: 'media',
         label: 'Home',
-        image: '/work/soteria/01-home.png',
+        image: '/work/soteria/01-home.webp',
         caption: 'The shipped home screen: a single hub, one primary action.',
       },
 
@@ -677,13 +677,13 @@ export const projects: Project[] = [
       {
         type: 'media',
         label: 'Research synthesis',
-        image: '/work/soteria/affinity-map.png',
+        image: '/work/soteria/affinity-map.webp',
         caption: 'The affinity map, reconstructed from the original synthesis: four clusters, and the dot-voted priorities that set the product’s spine.',
       },
       {
         type: 'media',
         label: 'Patient journey',
-        image: '/work/soteria/journey-map.png',
+        image: '/work/soteria/journey-map.webp',
         caption: 'The arc had a clear message: anxiety doesn’t go away, it changes form. Each stage’s design need became a principle.',
       },
       {
@@ -697,7 +697,7 @@ export const projects: Project[] = [
       {
         type: 'media',
         label: 'Concept sketches',
-        image: '/work/soteria/sketches.png',
+        image: '/work/soteria/sketches.webp',
         caption: 'The initial screen inventory: six core views, which meant six navigation items, which was already too much. The shipped product dropped persistent navigation entirely.',
       },
       {
@@ -708,7 +708,7 @@ export const projects: Project[] = [
       {
         type: 'media',
         label: 'The abandoned direction',
-        image: '/work/soteria/before-dashboard.png',
+        image: '/work/soteria/before-dashboard.webp',
         caption: 'The early dashboard concept: profile data, health stats, and notes competing for a patient who arrived with one question.',
       },
       {
@@ -719,7 +719,7 @@ export const projects: Project[] = [
       {
         type: 'media',
         label: 'Log symptoms',
-        image: '/work/soteria/03-log-symptoms.png',
+        image: '/work/soteria/03-log-symptoms.webp',
         caption: 'The trust label at the point of data entry: who can see this, answered before it’s asked.',
       },
       {
@@ -730,7 +730,7 @@ export const projects: Project[] = [
       {
         type: 'media',
         label: 'Symptom history',
-        image: '/work/soteria/02-symptom-history.png',
+        image: '/work/soteria/02-symptom-history.webp',
         caption: 'The shipped severity system: colour, icon, and label together, with chart series distinguished by shape as well as hue.',
       },
 
@@ -751,13 +751,13 @@ export const projects: Project[] = [
       {
         type: 'media',
         label: 'Configure reminder',
-        image: '/work/soteria/04-configure-reminder.png',
+        image: '/work/soteria/04-configure-reminder.webp',
         caption: 'The rebuilt flow: three of five participants failed reminder setup in round one; all five completed it unprompted in round two.',
       },
       {
         type: 'media',
         label: 'Select time',
-        image: '/work/soteria/05-select-time.png',
+        image: '/work/soteria/05-select-time.webp',
         caption: 'Platform-native time selection on Android.',
       },
 
@@ -776,7 +776,7 @@ export const projects: Project[] = [
       {
         type: 'media',
         label: 'Secure messaging',
-        image: '/work/soteria/09-conversation.png',
+        image: '/work/soteria/09-conversation.webp',
         caption: 'The clinician’s side of the bargain: visibility into engagement between visits, without a second inbox.',
       },
       { type: 'heading', kicker: 'Reflection', text: 'What I’d do differently' },

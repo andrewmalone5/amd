@@ -4,6 +4,7 @@
 // column, sides alternating per project. Whole row is one link.
 import { projects } from '../data/projects';
 import { withBase } from '../lib/url';
+import { imgDims } from '../lib/img';
 
 const featured = projects.filter((p) => !p.secondary);
 const other = projects.filter((p) => p.secondary);
@@ -18,7 +19,7 @@ const other = projects.filter((p) => p.secondary);
         <a class="work" href={withBase(`/work/${p.slug}`)}>
           <div class="work__media">
             {p.image ? (
-              <img src={withBase(p.image)} alt={p.title} loading="lazy" />
+              <img src={withBase(p.image)} alt={p.title} loading="lazy" decoding="async" {...imgDims(p.image)} />
             ) : (
               <div class="work__media-ph"><span>Project image</span></div>
             )}
