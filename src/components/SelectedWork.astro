@@ -10,7 +10,7 @@ const other = projects.filter((p) => p.secondary);
 ---
 
 <section id="work" class="selected-work column--wide">
-  <p class="eyebrow selected-work__label">Selected Work</p>
+  <h2 class="ghost-head selected-work__label">Selected Work</h2>
 
   <ol class="work-list">
     {featured.map((p) => (
@@ -44,7 +44,7 @@ const other = projects.filter((p) => p.secondary);
 
   {other.length > 0 && (
     <div class="other">
-      <p class="eyebrow other__label">Other Projects</p>
+      <h2 class="ghost-head other__label">Other Projects</h2>
       <ul class="other-list">
         {other.map((p) => (
           <li>
@@ -64,7 +64,7 @@ const other = projects.filter((p) => p.secondary);
     padding-block: var(--section-tight) var(--section);
   }
   .selected-work__label {
-    margin-bottom: var(--space-2xl);
+    margin-bottom: var(--space-xl);
   }
 
   .work-list {
