@@ -48,6 +48,9 @@
   --weight-regular:  400;
   --weight-medium:   500;
   --weight-semibold: 600;
+  /* Display type has its own weight so a style can bold every heading
+     without touching body text (Oak sets this to 700). */
+  --weight-display:  400;
 
   /* --------------------------------------------------------------------------
      COLOR — warm paper, warm near-black. No stark white, no pure black.
@@ -118,4 +121,67 @@
   --width-text:   40rem;                         /* 640 — narrow prose column  */
   --width-wide:   80rem;                         /* 1280 — hero / work list    */
   --page-gutter:  clamp(1.5rem, 6vw, 4rem);      /* breathing room at the edge */
+}
+
+/* ============================================================================
+   ALTERNATE STYLES — full re-skins riding the same tokens. The layout never
+   changes; paper, ink, faces, weights, and radii do. Applied via
+   data-style on <html>, previewed with the header toggle, persisted in
+   localStorage. Deleting a losing style is deleting its block below.
+   ========================================================================== */
+
+/* OAK — one ultramarine ink on cream. Bold slab headlines, typewriter body,
+   square corners: the design-engineer print shop. */
+:root[data-style='oak'] {
+  --font-display: 'Bitter', Georgia, 'Times New Roman', serif;
+  --font-body: 'IBM Plex Mono', ui-monospace, 'Courier New', monospace;
+
+  --color-paper:           #FAF5E4;
+  --color-surface:         #FFFCF0;
+  --color-ink:             #3A3FB5;
+  --color-ink-muted:       #575CC0;
+  --color-ink-faint:       #9497D6;
+  --color-hairline:        #E9E2C8;
+  --color-hairline-strong: #CFC7A4;
+
+  --weight-display: 700;
+
+  /* Mono runs wide — a step down keeps the measure and the register. */
+  --text-body: 1rem;
+  --text-lead: clamp(1.0625rem, 1rem + 0.35vw, 1.25rem);
+  --text-sm:   0.875rem;
+  --text-xs:   0.75rem;
+  --leading-body: 1.7;
+
+  /* Slab + mono want air, not the serif's tuck. */
+  --tracking-display: -0.012em;
+
+  --radius-frame:  0px;
+  --radius-screen: 3px;
+
+  --shadow-sm:   0 1px 2px rgba(58, 63, 181, 0.06), 0 1px 1px rgba(58, 63, 181, 0.04);
+  --shadow-lift: 0 14px 34px -14px rgba(58, 63, 181, 0.22), 0 4px 10px -6px rgba(58, 63, 181, 0.10);
+}
+
+/* LIMA — thin didone on blush, navy ink. Fashion-editorial warmth. */
+:root[data-style='lima'] {
+  --font-display: 'Bodoni Moda', Didot, 'Bodoni MT', Georgia, serif;
+
+  --color-paper:           #FAF0EA;
+  --color-surface:         #FFF8F4;
+  --color-ink:             #222C55;
+  --color-ink-muted:       #5D6484;
+  --color-ink-faint:       #9AA0B9;
+  --color-hairline:        #F0DFD6;
+  --color-hairline-strong: #DDC8BC;
+
+  /* The didone draws its drama from hairline strokes, not from tightness. */
+  --tracking-display: -0.008em;
+  --leading-display: 1.08;
+
+  --radius-frame:  8px;
+  --radius-screen: 12px;
+
+  --shadow-sm:   0 1px 2px rgba(34, 44, 85, 0.05), 0 1px 1px rgba(34, 44, 85, 0.03);
+  --shadow-lift: 0 14px 34px -14px rgba(34, 44, 85, 0.22), 0 4px 10px -6px rgba(34, 44, 85, 0.10);
 }

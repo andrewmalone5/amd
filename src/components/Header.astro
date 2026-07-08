@@ -26,6 +26,13 @@ const links = [
       </ul>
     </nav>
 
+    {/* Style preview: cycles Editorial → Oak → Lima while a keeper is chosen.
+        Remove this button (and the alternate blocks in tokens.css) once decided. */}
+    <button class="style-toggle" type="button" data-style-toggle>
+      <span class="style-toggle__label" aria-hidden="true">Style</span>
+      <span data-style-name>Editorial</span>
+    </button>
+
     <button
       class="nav-toggle"
       type="button"
@@ -119,6 +126,28 @@ const links = [
   .nav-desktop a:hover { color: var(--color-ink); }
   .nav-desktop a:hover::after { transform: scaleX(1); }
 
+  /* Style preview toggle ---------------------------------------------------- */
+  .style-toggle {
+    background: none;
+    border: 1px solid var(--color-hairline-strong);
+    padding: 0.35em 0.8em;
+    cursor: pointer;
+    font-family: var(--font-body);
+    font-size: var(--text-xs);
+    font-weight: var(--weight-medium);
+    color: var(--color-ink);
+    white-space: nowrap;
+    transition: border-color var(--duration-fast) var(--ease-out);
+  }
+  .style-toggle:hover { border-color: var(--color-ink); }
+  .style-toggle__label {
+    color: var(--color-ink-faint);
+    margin-right: 0.5em;
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    font-size: 0.6875rem;
+  }
+
   /* Mobile toggle — a two-bar hamburger. ---------------------------------- */
   .nav-toggle {
     display: none;
@@ -201,6 +230,9 @@ const links = [
   @media (max-width: 48rem) {
     .nav-desktop { display: none; }
     .nav-toggle { display: inline-flex; align-items: center; }
+    /* The style toggle keeps working on mobile, tucked beside the burger. */
+    .style-toggle { margin-left: auto; }
+    .style-toggle__label { display: none; }
     .nav-mobile { display: block; }
     .site-header.nav-open .nav-mobile {
       opacity: 1;
@@ -255,6 +287,28 @@ const links = [
   // Escape closes the overlay.
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') setOpen(false);
+  });
+
+  // Style preview: cycle Editorial → Oak → Lima. The pre-paint script in the
+  // head applies the saved choice; this button only advances and persists it.
+  const STYLES = ['editorial', 'oak', 'lima'] as const;
+  const NAMES: Record<string, string> = { editorial: 'Editorial', oak: 'Oak', lima: 'Lima' };
+  const styleBtn = document.querySelector<HTMLButtonElement>('[data-style-toggle]');
+  const styleName = document.querySelector<HTMLElement>('[data-style-name]');
+
+  const currentStyle = () => document.documentElement.dataset.style ?? 'editorial';
+  const applyStyle = (s: string) => {
+    if (s === 'editorial') delete document.documentElement.dataset.style;
+    else document.documentElement.dataset.style = s;
+    if (styleName) styleName.textContent = NAMES[s];
+    styleBtn?.setAttribute('aria-label', `Switch site style, current: ${NAMES[s]}`);
+    try { localStorage.setItem('amd-style', s); } catch {}
+  };
+
+  applyStyle(currentStyle()); // sync the label with the pre-paint choice
+  styleBtn?.addEventListener('click', () => {
+    const next = STYLES[(STYLES.indexOf(currentStyle() as (typeof STYLES)[number]) + 1) % STYLES.length];
+    applyStyle(next);
   });
 
   // Close if the viewport grows past the mobile breakpoint.
