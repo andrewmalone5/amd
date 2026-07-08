@@ -32,6 +32,7 @@ const ticks = [
 ---
 
 <figure class="block block--drift" data-drift>
+  <div class="drift__scroller">
   <svg
     viewBox="0 0 1472 330"
     role="img"
@@ -89,6 +90,7 @@ const ticks = [
       <text x="1348" y="132">the gap ships</text>
     </g>
   </svg>
+  </div>
 
   <ul class="drift__legend">
     {failures.map((f, i) => (
@@ -109,6 +111,15 @@ const ticks = [
     display: block;
     width: 100%;
     height: auto;
+  }
+
+  /* The drawing is the content here — no list duplicates it — so at phone
+     width it keeps a legible scale and scrolls sideways instead of shrinking
+     into a sliver. The axis running to the cut edge is the swipe affordance. */
+  .drift__scroller { overflow-x: auto; scrollbar-width: none; }
+  .drift__scroller::-webkit-scrollbar { display: none; }
+  @media (max-width: 48rem) {
+    .drift__scroller svg { min-width: 56rem; }
   }
 
   /* Axis and ticks: quiet scaffolding, first to appear. */
