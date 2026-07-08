@@ -226,8 +226,11 @@ const nodes = [
   @media (max-width: 64rem) {
     .arc__plots { grid-template-columns: 1fr 1fr; gap: var(--space-md) var(--space-lg); }
   }
+  /* Phone width scales the curve below legibility (~50px tall, 3px numerals).
+     The plots list carries every word of it, so the drawing bows out. */
   @media (max-width: 40rem) {
-    .arc__plots { grid-template-columns: 1fr; }
+    svg { display: none; }
+    .arc__plots { grid-template-columns: 1fr; margin-top: 0; }
   }
 
   @media (prefers-reduced-motion: reduce) {

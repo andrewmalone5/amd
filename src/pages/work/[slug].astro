@@ -438,8 +438,9 @@ const { project } = Astro.props;
     line-height: var(--leading-lead);
     color: var(--color-ink);
   }
+  /* Same-specificity selector as the base rule, or the collapse never wins. */
   @media (max-width: 48rem) {
-    .block--principle { grid-template-columns: 1fr; gap: var(--space-sm); }
+    .case > .block--principle { grid-template-columns: 1fr; gap: var(--space-sm); }
     .principle__num { font-size: 3.5rem; }
   }
 
@@ -481,7 +482,7 @@ const { project } = Astro.props;
     text-align: center;
   }
   @media (max-width: 48rem) {
-    .block--duo { grid-template-columns: 1fr; }
+    .case > .block--duo { grid-template-columns: 1fr; }
   }
 
   /* Pairs — label/value rows for maps and inventories. */

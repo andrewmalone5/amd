@@ -362,8 +362,9 @@ const { method } = Astro.props;
   .overview__lead {
     font-weight: var(--weight-semibold);
   }
+  /* Same-specificity selector as the base rule, or the collapse never wins. */
   @media (max-width: 48rem) {
-    .block--overview { grid-template-columns: 1fr; gap: var(--space-lg); }
+    .case > .block--overview { grid-template-columns: 1fr; gap: var(--space-lg); }
   }
 
   /* Stat row — 2-4 stats sharing one ruled row. */
@@ -445,7 +446,7 @@ const { method } = Astro.props;
     color: var(--color-ink);
   }
   @media (max-width: 48rem) {
-    .block--principle { grid-template-columns: 1fr; gap: var(--space-sm); }
+    .case > .block--principle { grid-template-columns: 1fr; gap: var(--space-sm); }
     .principle__num { font-size: 3.5rem; }
   }
 
@@ -487,7 +488,7 @@ const { method } = Astro.props;
     text-align: center;
   }
   @media (max-width: 48rem) {
-    .block--duo { grid-template-columns: 1fr; }
+    .case > .block--duo { grid-template-columns: 1fr; }
   }
 
   /* Pairs — label/value rows for maps and inventories. */
