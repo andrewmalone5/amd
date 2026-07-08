@@ -23,7 +23,7 @@ export function getStaticPaths() {
 const { method } = Astro.props;
 ---
 
-<SiteLayout title={`${method.title} | Andrew Malone`} minimalFooter>
+<SiteLayout title={`${method.title} | Andrew Malone`} description={method.summary} minimalFooter>
   <article class="case">
     <a class="case__back" href={withBase('/#how-i-work')}>&larr;&nbsp;&nbsp;How I Work</a>
 

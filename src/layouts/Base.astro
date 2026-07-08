@@ -1,11 +1,22 @@
 ---
-// Minimal HTML shell: self-hosted fonts + global styles.
+// Minimal HTML shell: self-hosted fonts + global styles + the head metadata
+// every page shares — description, canonical, social card.
 import '../styles/global.css';
+import { withBase } from '../lib/url';
 
 interface Props {
   title?: string;
+  /** Per-page meta description; pages pass their own summary. */
+  description?: string;
 }
-const { title = 'Portfolio' } = Astro.props;
+const {
+  title = 'Portfolio',
+  description = 'Andrew Malone is a senior product designer in Berlin who designs the systems behind the interface — case studies in embedded finance, AI strategy, and seller tools.',
+} = Astro.props;
+
+// Absolute URLs for canonical + social cards; Astro.site carries the domain.
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const ogImage = new URL(withBase('/og.png'), Astro.site).href;
 
 // Self-hosted so the typefaces never fall back to a system font, load without a
 // third-party request, and survive a network the CDN can't reach. Referenced
@@ -36,6 +47,25 @@ const fontFaces = `
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+
+    <link rel="icon" href={`${base}/favicon.png`} type="image/png" />
+    <link rel="apple-touch-icon" href={`${base}/apple-touch-icon.png`} />
+    <link rel="sitemap" href={`${base}/sitemap-index.xml`} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Andrew Malone" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
 
     <link rel="preload" href={`${base}/fonts/hanken-grotesk-var.woff2`} as="font" type="font/woff2" crossorigin />
     <link rel="preload" href={`${base}/fonts/spectral-400.woff2`} as="font" type="font/woff2" crossorigin />
