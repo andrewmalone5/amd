@@ -2,7 +2,7 @@
 // Site footer = the contact moment. Button is styled to the ink palette
 // rather than LinkedIn-blue to stay in the system.
 const linkedin = 'https://www.linkedin.com/in/andrewmalonedesign/';
-const year = 2026;
+const year = new Date().getFullYear(); // stamped at build time
 
 interface Props {
   /** True on case-study pages: just the meta line, no contact CTA. */

@@ -1,0 +1,65 @@
+---
+// The lost-page close. Same voice as the rest of the site: a ghost heading,
+// one plain sentence, and the way back to the work.
+import SiteLayout from '../layouts/SiteLayout.astro';
+import { withBase } from '../lib/url';
+---
+
+<SiteLayout
+  title="Page not found | Andrew Malone"
+  description="This page doesn't exist. The work does — it's one link away."
+  minimalFooter
+>
+  <section class="lost column--wide">
+    <h1 class="ghost-head lost__code">404</h1>
+    <p class="lost__line">
+      There&rsquo;s no page here. Whatever linked you was telling a story
+      this site no longer does.
+    </p>
+    <a class="lost__go" href={withBase('/#work')}>Back to the work<span class="lost__arrow" aria-hidden="true">&nbsp;&rarr;</span></a>
+  </section>
+</SiteLayout>
+
+<style>
+  .lost {
+    /* One viewport, roughly centred; the footer meta line closes it. */
+    min-height: 60vh;
+    padding-block: var(--section) var(--section-loose);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .lost__code {
+    font-size: var(--text-display-xl);
+  }
+  .lost__line {
+    margin-top: var(--space-lg);
+    font-size: var(--text-lead);
+    line-height: var(--leading-lead);
+    color: var(--color-ink-muted);
+    max-width: 44ch;
+  }
+  .lost__go {
+    align-self: flex-start;
+    display: inline-block;
+    margin-top: var(--space-xl);
+    font-size: var(--text-body);
+    font-weight: var(--weight-medium);
+    color: var(--color-ink);
+    border-bottom: 1px solid var(--color-hairline-strong);
+    padding-bottom: 2px;
+    transition: border-color var(--duration) var(--ease-out);
+  }
+  .lost__arrow {
+    display: inline-block;
+    transition: transform var(--duration) var(--ease-out);
+  }
+  .lost__go:hover,
+  .lost__go:focus-visible {
+    border-bottom-color: var(--color-ink);
+  }
+  .lost__go:hover .lost__arrow,
+  .lost__go:focus-visible .lost__arrow {
+    transform: translateX(4px);
+  }
+</style>
