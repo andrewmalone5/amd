@@ -39,6 +39,8 @@ const fontFaces = `
 
     <link rel="preload" href={`${base}/fonts/hanken-grotesk-var.woff2`} as="font" type="font/woff2" crossorigin />
     <link rel="preload" href={`${base}/fonts/spectral-400.woff2`} as="font" type="font/woff2" crossorigin />
+    {/* The italic carries half the hero statement — as render-critical as the roman. */}
+    <link rel="preload" href={`${base}/fonts/spectral-400-italic.woff2`} as="font" type="font/woff2" crossorigin />
     <style set:html={fontFaces}></style>
   </head>
   <body>

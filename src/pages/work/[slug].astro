@@ -11,6 +11,7 @@ import BetweenVisits from '../../components/case/BetweenVisits.astro';
 import PayoutTimeline from '../../components/case/PayoutTimeline.astro';
 import { projects } from '../../data/projects';
 import { withBase } from '../../lib/url';
+import { imgDims } from '../../lib/img';
 
 export function getStaticPaths() {
   return projects.map((p) => ({
@@ -62,7 +63,7 @@ const { project } = Astro.props;
         b.image ? (
           <figure class="block block--media">
             <div class="media__frame media__frame--image">
-              <img src={withBase(b.image)} alt={b.label} loading="lazy" />
+              <img src={withBase(b.image)} alt={b.label} loading="lazy" decoding="async" {...imgDims(b.image)} />
             </div>
             {b.caption && <figcaption>{b.caption}</figcaption>}
           </figure>
@@ -111,7 +112,7 @@ const { project } = Astro.props;
             {b.items.filter((item) => item.image).map((item) => (
               <figure class="duo__item">
                 <div class="duo__frame">
-                  <img src={withBase(item.image)} alt={item.label} loading="lazy" />
+                  <img src={withBase(item.image)} alt={item.label} loading="lazy" decoding="async" {...imgDims(item.image)} />
                 </div>
                 {item.caption && <figcaption>{item.caption}</figcaption>}
               </figure>

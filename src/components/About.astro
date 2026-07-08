@@ -3,6 +3,7 @@
 // half, the bio sits beside it under a short display headline. Prose set in
 // Spectral, the one long-form serif moment on the site.
 import { withBase } from '../lib/url';
+import { imgDims } from '../lib/img';
 const portrait = '/andrew-portrait.webp';
 const headline = 'The work before the design work.';
 const paragraphs = [
@@ -17,7 +18,7 @@ const paragraphs = [
 
   <div class="about__grid">
     <div class="about__portrait">
-      <img src={withBase(portrait)} alt="Andrew Malone" loading="lazy" />
+      <img src={withBase(portrait)} alt="Andrew Malone" loading="lazy" decoding="async" {...imgDims(portrait)} />
     </div>
     <div class="about__bio">
       <h3 class="about__headline">{headline}</h3>
