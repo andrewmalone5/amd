@@ -521,6 +521,9 @@ export const projects: Project[] = [
     client: 'Back Market',
     discipline: 'Seller Incentives',
     year: '2025–present',
+    // The click-share bars from the case's own artifact, as the thumb: the
+    // 60/40 actions outlined, the deal action at its true 0.2% width.
+    image: '/work/deals-sliver-thumb.svg',
     summary:
       'Deals pay sellers a commission discount for hitting competitive prices. The first Back Office release shipped to spec, and its core action drew 0.2% of clicks. I own the seller-facing layer, so the diagnosis, and the margin-first redesign built from it, are mine too.',
     blocks: [
