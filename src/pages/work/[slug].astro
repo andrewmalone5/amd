@@ -282,12 +282,6 @@ const { project } = Astro.props;
     border: 1px solid var(--color-hairline);
     border-radius: var(--radius-frame);
   }
-  .media__label {
-    font-size: var(--text-xs);
-    letter-spacing: var(--tracking-label);
-    text-transform: uppercase;
-    color: var(--color-ink-muted);
-  }
   /* With a real image the frame adapts: landscape media fills the breakout
      width; portrait shots (phone screens) sit centred at a readable height on
      the surface panel instead of stretching to fill it. */
@@ -472,11 +466,6 @@ const { project } = Astro.props;
     max-width: 100%;
     height: auto;
     border-radius: var(--radius-screen);
-  }
-  .duo__frame--empty {
-    aspect-ratio: 4 / 3;
-    display: grid;
-    place-items: center;
   }
   .block--duo figcaption {
     margin-top: var(--space-sm);

@@ -286,12 +286,6 @@ const { method } = Astro.props;
     display: grid;
     place-items: center;
   }
-  .media__label {
-    font-size: var(--text-xs);
-    letter-spacing: var(--tracking-label);
-    text-transform: uppercase;
-    color: var(--color-ink-muted);
-  }
   /* Method artifacts share the page's paper, so images sit frameless — no
      border, no surface panel. (Deliberate divergence from work/[slug].astro,
      where screenshots need the frame to separate from the page.) */
@@ -478,11 +472,6 @@ const { method } = Astro.props;
     max-width: 100%;
     height: auto;
     border-radius: var(--radius-screen);
-  }
-  .duo__frame--empty {
-    aspect-ratio: 4 / 3;
-    display: grid;
-    place-items: center;
   }
   .block--duo figcaption {
     margin-top: var(--space-sm);
