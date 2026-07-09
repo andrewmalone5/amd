@@ -241,35 +241,42 @@ const annotations = [
 </style>
 
 <script>
-  const brief = document.querySelector<HTMLElement>('[data-brief]');
-  if (brief) {
-    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    new IntersectionObserver(
-      (entries, io) => {
-        for (const e of entries) {
-          if (e.isIntersecting) {
-            brief.classList.add('is-in');
-            // The strike lands just after Q2's annotation finishes arriving.
-            setTimeout(() => brief.classList.add('is-failed'), reduced ? 0 : 1900);
-            setTimeout(() => brief.classList.add('is-settled'), reduced ? 0 : 3300);
-            io.disconnect();
+  // Runs per page visit: view-transition navigations rebuild the DOM
+  // without re-executing module scripts, so astro:page-load re-inits.
+  const init = () => {
+    const brief = document.querySelector<HTMLElement>('[data-brief]');
+    if (brief && !brief.dataset.bound) {
+      brief.dataset.bound = '1';
+      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      new IntersectionObserver(
+        (entries, io) => {
+          for (const e of entries) {
+            if (e.isIntersecting) {
+              brief.classList.add('is-in');
+              // The strike lands just after Q2's annotation finishes arriving.
+              setTimeout(() => brief.classList.add('is-failed'), reduced ? 0 : 1900);
+              setTimeout(() => brief.classList.add('is-settled'), reduced ? 0 : 3300);
+              io.disconnect();
+            }
           }
-        }
-      },
-      { threshold: 0.25 }
-    ).observe(brief);
+        },
+        { threshold: 0.25 }
+      ).observe(brief);
 
-    // Hovering either side of the bridge lights both.
-    brief.querySelectorAll<HTMLElement>('[data-ref]').forEach((el) => {
-      const twins = brief.querySelectorAll(`[data-ref="${el.dataset.ref}"]`);
-      el.addEventListener('mouseenter', () => {
-        twins.forEach((t) => t.classList.add('is-hot'));
-        brief.classList.add('has-focus');
+      // Hovering either side of the bridge lights both.
+      brief.querySelectorAll<HTMLElement>('[data-ref]').forEach((el) => {
+        const twins = brief.querySelectorAll(`[data-ref="${el.dataset.ref}"]`);
+        el.addEventListener('mouseenter', () => {
+          twins.forEach((t) => t.classList.add('is-hot'));
+          brief.classList.add('has-focus');
+        });
+        el.addEventListener('mouseleave', () => {
+          twins.forEach((t) => t.classList.remove('is-hot'));
+          brief.classList.remove('has-focus');
+        });
       });
-      el.addEventListener('mouseleave', () => {
-        twins.forEach((t) => t.classList.remove('is-hot'));
-        brief.classList.remove('has-focus');
-      });
-    });
-  }
+    }
+  };
+  init();
+  document.addEventListener('astro:page-load', init);
 </script>

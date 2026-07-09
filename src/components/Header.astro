@@ -256,15 +256,13 @@ const links = [
 </style>
 
 <script>
-  const header = document.querySelector<HTMLElement>('[data-header]');
-  const toggle = document.querySelector<HTMLButtonElement>('.nav-toggle');
-  const close = document.querySelector<HTMLButtonElement>('.nav-mobile__close');
-  const panel = document.getElementById('mobile-nav');
-
-  // Hairline fades in once the page moves.
-  const onScroll = () => header?.classList.toggle('is-scrolled', window.scrollY > 8);
-  onScroll();
-  window.addEventListener('scroll', onScroll, { passive: true });
+  // The header is rebuilt on every view-transition navigation, so element
+  // bindings happen in init() (re-run per page via astro:page-load) while
+  // document- and window-level listeners register once at module scope and
+  // read the current elements through these refs.
+  let header: HTMLElement | null = null;
+  let toggle: HTMLButtonElement | null = null;
+  let close: HTMLButtonElement | null = null;
 
   const setOpen = (open: boolean) => {
     const wasOpen = header?.classList.contains('nav-open') ?? false;
@@ -277,39 +275,65 @@ const links = [
     else if (wasOpen) toggle?.focus();
   };
 
-  toggle?.addEventListener('click', () => setOpen(true));
-  close?.addEventListener('click', () => setOpen(false));
-
-  // Close after choosing a destination.
-  panel?.querySelectorAll('a:not(.nav-mobile__wordmark)').forEach((a) =>
-    a.addEventListener('click', () => setOpen(false))
-  );
-
-  // Escape closes the overlay.
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') setOpen(false);
-  });
-
   // Style preview: flip Editorial ↔ Oakly Editorial. The pre-paint script in
-  // the head applies the saved choice; this button only advances and persists it.
+  // the head applies the saved choice; the button only advances and persists it.
   const STYLES = ['editorial', 'oakly'] as const;
   const NAMES: Record<string, string> = { editorial: 'Editorial', oakly: 'Oakly Editorial' };
-  const styleBtn = document.querySelector<HTMLButtonElement>('[data-style-toggle]');
-  const styleName = document.querySelector<HTMLElement>('[data-style-name]');
-
   const currentStyle = () => document.documentElement.dataset.style ?? 'editorial';
   const applyStyle = (s: string) => {
     if (s === 'editorial') delete document.documentElement.dataset.style;
     else document.documentElement.dataset.style = s;
+    const styleName = document.querySelector<HTMLElement>('[data-style-name]');
     if (styleName) styleName.textContent = NAMES[s];
-    styleBtn?.setAttribute('aria-label', `Switch site style, current: ${NAMES[s]}`);
+    document
+      .querySelector('[data-style-toggle]')
+      ?.setAttribute('aria-label', `Switch site style, current: ${NAMES[s]}`);
     try { localStorage.setItem('amd-style', s); } catch {}
   };
 
-  applyStyle(currentStyle()); // sync the label with the pre-paint choice
-  styleBtn?.addEventListener('click', () => {
-    const next = STYLES[(STYLES.indexOf(currentStyle() as (typeof STYLES)[number]) + 1) % STYLES.length];
-    applyStyle(next);
+  const init = () => {
+    header = document.querySelector<HTMLElement>('[data-header]');
+    if (!header || header.dataset.bound) return;
+    header.dataset.bound = '1';
+    toggle = header.querySelector<HTMLButtonElement>('.nav-toggle');
+    close = header.querySelector<HTMLButtonElement>('.nav-mobile__close');
+
+    header.classList.toggle('is-scrolled', window.scrollY > 8);
+    toggle?.addEventListener('click', () => setOpen(true));
+    close?.addEventListener('click', () => setOpen(false));
+    header
+      .querySelectorAll('#mobile-nav a:not(.nav-mobile__wordmark)')
+      .forEach((a) => a.addEventListener('click', () => setOpen(false)));
+
+    applyStyle(currentStyle()); // sync the label with the pre-paint choice
+    header.querySelector('[data-style-toggle]')?.addEventListener('click', () => {
+      const next = STYLES[(STYLES.indexOf(currentStyle() as (typeof STYLES)[number]) + 1) % STYLES.length];
+      applyStyle(next);
+    });
+  };
+
+  init();
+  document.addEventListener('astro:page-load', init);
+
+  // The view-transition swap rewrites <html> attributes, dropping data-style;
+  // restore the saved choice before the new page paints. Also clear any
+  // scroll lock a mid-navigation open menu left behind.
+  document.addEventListener('astro:after-swap', () => {
+    try {
+      const s = localStorage.getItem('amd-style');
+      if (s === 'oakly') document.documentElement.dataset.style = s;
+    } catch {}
+    document.body.style.overflow = '';
+  });
+
+  // Hairline fades in once the page moves.
+  window.addEventListener('scroll', () => header?.classList.toggle('is-scrolled', window.scrollY > 8), {
+    passive: true,
+  });
+
+  // Escape closes the overlay.
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') setOpen(false);
   });
 
   // Close if the viewport grows past the mobile breakpoint.

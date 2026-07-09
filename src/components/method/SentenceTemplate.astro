@@ -150,25 +150,32 @@ const s = Object.fromEntries(slots.map((x, i) => [x.key, { ...x, d: (0.25 + i * 
 </style>
 
 <script>
-  const root = document.querySelector<HTMLElement>('[data-sentence]');
-  if (root) {
-    new IntersectionObserver(
-      (entries, io) => {
-        for (const e of entries) {
-          if (e.isIntersecting) {
-            root.classList.add('is-in');
-            io.disconnect();
+  // Runs per page visit: view-transition navigations rebuild the DOM
+  // without re-executing module scripts, so astro:page-load re-inits.
+  const init = () => {
+    const root = document.querySelector<HTMLElement>('[data-sentence]');
+    if (root && !root.dataset.bound) {
+      root.dataset.bound = '1';
+      new IntersectionObserver(
+        (entries, io) => {
+          for (const e of entries) {
+            if (e.isIntersecting) {
+              root.classList.add('is-in');
+              io.disconnect();
+            }
           }
-        }
-      },
-      { threshold: 0.3 }
-    ).observe(root);
+        },
+        { threshold: 0.3 }
+      ).observe(root);
 
-    // Hovering a blank lights the phrase that filled it, and the reverse.
-    root.querySelectorAll<HTMLElement>('[data-slot]').forEach((el) => {
-      const twins = root.querySelectorAll(`[data-slot="${el.dataset.slot}"]`);
-      el.addEventListener('mouseenter', () => twins.forEach((t) => t.classList.add('is-hot')));
-      el.addEventListener('mouseleave', () => twins.forEach((t) => t.classList.remove('is-hot')));
-    });
-  }
+      // Hovering a blank lights the phrase that filled it, and the reverse.
+      root.querySelectorAll<HTMLElement>('[data-slot]').forEach((el) => {
+        const twins = root.querySelectorAll(`[data-slot="${el.dataset.slot}"]`);
+        el.addEventListener('mouseenter', () => twins.forEach((t) => t.classList.add('is-hot')));
+        el.addEventListener('mouseleave', () => twins.forEach((t) => t.classList.remove('is-hot')));
+      });
+    }
+  };
+  init();
+  document.addEventListener('astro:page-load', init);
 </script>

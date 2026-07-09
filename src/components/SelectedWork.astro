@@ -27,7 +27,7 @@ const other = projects.filter((p) => p.secondary);
 
           <div class="work__body">
             <span class="work__index">{p.num}</span>
-            <h3 class="work__title">{p.title}</h3>
+            <h3 class="work__title" transition:name={`title-${p.slug}`}>{p.title}</h3>
 
             <p class="work__meta">
               <span>{p.client} / {p.discipline} / {p.year}</span>
@@ -50,7 +50,7 @@ const other = projects.filter((p) => p.secondary);
         {other.map((p) => (
           <li>
             <a class="other__item" href={withBase(`/work/${p.slug}`)}>
-              <span class="other__title">{p.title}</span>
+              <span class="other__title" transition:name={`title-${p.slug}`}>{p.title}</span>
               <span class="other__meta">{p.client}, {p.year}</span>
             </a>
           </li>

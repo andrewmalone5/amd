@@ -181,34 +181,41 @@ const gates = [
 </style>
 
 <script>
-  const gauntlet = document.querySelector<HTMLElement>('[data-gauntlet]');
-  if (gauntlet) {
-    new IntersectionObserver(
-      (entries, io) => {
-        for (const e of entries) {
-          if (e.isIntersecting) {
-            gauntlet.classList.add('is-in');
-            setTimeout(() => gauntlet.classList.add('is-settled'), 2000);
-            io.disconnect();
+  // Runs per page visit: view-transition navigations rebuild the DOM
+  // without re-executing module scripts, so astro:page-load re-inits.
+  const init = () => {
+    const gauntlet = document.querySelector<HTMLElement>('[data-gauntlet]');
+    if (gauntlet && !gauntlet.dataset.bound) {
+      gauntlet.dataset.bound = '1';
+      new IntersectionObserver(
+        (entries, io) => {
+          for (const e of entries) {
+            if (e.isIntersecting) {
+              gauntlet.classList.add('is-in');
+              setTimeout(() => gauntlet.classList.add('is-settled'), 2000);
+              io.disconnect();
+            }
           }
+        },
+        { threshold: 0.2 }
+      ).observe(gauntlet);
+
+      const focus = (gate: Element | undefined) => {
+        gauntlet.querySelectorAll('.is-hot').forEach((el) => el.classList.remove('is-hot'));
+        if (!gate) {
+          gauntlet.classList.remove('has-focus');
+          return;
         }
-      },
-      { threshold: 0.2 }
-    ).observe(gauntlet);
+        gate.classList.add('is-hot');
+        gauntlet.classList.add('has-focus');
+      };
 
-    const focus = (gate: Element | undefined) => {
-      gauntlet.querySelectorAll('.is-hot').forEach((el) => el.classList.remove('is-hot'));
-      if (!gate) {
-        gauntlet.classList.remove('has-focus');
-        return;
-      }
-      gate.classList.add('is-hot');
-      gauntlet.classList.add('has-focus');
-    };
-
-    gauntlet.querySelectorAll<HTMLElement>('.gate').forEach((el) => {
-      el.addEventListener('mouseenter', () => focus(el));
-    });
-    gauntlet.querySelector('.gauntlet')?.addEventListener('mouseleave', () => focus(undefined));
-  }
+      gauntlet.querySelectorAll<HTMLElement>('.gate').forEach((el) => {
+        el.addEventListener('mouseenter', () => focus(el));
+      });
+      gauntlet.querySelector('.gauntlet')?.addEventListener('mouseleave', () => focus(undefined));
+    }
+  };
+  init();
+  document.addEventListener('astro:page-load', init);
 </script>

@@ -1,6 +1,7 @@
 ---
 // Minimal HTML shell: self-hosted fonts + global styles + the head metadata
 // every page shares — description, canonical, social card.
+import { ClientRouter } from 'astro:transitions';
 import '../styles/global.css';
 import { withBase } from '../lib/url';
 
@@ -80,6 +81,11 @@ const fontFaces = `
     {/* The italic carries half the hero statement — as render-critical as the roman. */}
     <link rel="preload" href={`${base}/fonts/spectral-400-italic.woff2`} as="font" type="font/woff2" crossorigin />
     <style set:html={fontFaces}></style>
+
+    {/* View transitions: project titles morph from list row to case headline.
+        Falls back to instant navigation under prefers-reduced-motion and in
+        browsers without the View Transitions API. */}
+    <ClientRouter />
   </head>
   <body>
     <slot />

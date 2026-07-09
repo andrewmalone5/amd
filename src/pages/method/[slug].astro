@@ -29,7 +29,7 @@ const { method } = Astro.props;
 
     <header class="case__header">
       <p class="eyebrow">{method.kicker}</p>
-      <h1 class="case__title">{method.title}</h1>
+      <h1 class="case__title" transition:name={`title-${method.slug}`}>{method.title}</h1>
     </header>
 
     {method.blocks.map((b) =>
@@ -547,38 +547,45 @@ const { method } = Astro.props;
 </style>
 
 <script>
-  // Bring the page to life: blocks rise in as they enter the viewport. The
-  // live artifacts run their own choreography, so they're skipped.
-  const article = document.querySelector('.case');
-  if (article && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    const blocks = article.querySelectorAll(
-      ':scope > *:not(.case__back):not(.case__header):not(.block--arc):not(.block--sentence):not(.block--drift):not(.block--gauntlet):not(.block--brief):not(.block--time):not(script)'
-    );
-    const io = new IntersectionObserver(
-      (entries) => {
-        for (const e of entries) {
-          if (e.isIntersecting) {
-            e.target.classList.add('is-in');
-            io.unobserve(e.target);
+  // Runs per page visit: view-transition navigations rebuild the DOM
+  // without re-executing module scripts, so astro:page-load re-inits.
+  const init = () => {
+    // Bring the page to life: blocks rise in as they enter the viewport. The
+    // live artifacts run their own choreography, so they're skipped.
+    const article = document.querySelector('.case');
+    if (article && !article.dataset.bound && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      article.dataset.bound = '1';
+      const blocks = article.querySelectorAll(
+        ':scope > *:not(.case__back):not(.case__header):not(.block--arc):not(.block--sentence):not(.block--drift):not(.block--gauntlet):not(.block--brief):not(.block--time):not(script)'
+      );
+      const io = new IntersectionObserver(
+        (entries) => {
+          for (const e of entries) {
+            if (e.isIntersecting) {
+              e.target.classList.add('is-in');
+              io.unobserve(e.target);
+            }
           }
-        }
-      },
-      { rootMargin: '0px 0px -10% 0px' }
-    );
-    blocks.forEach((el) => {
-      el.classList.add('will-reveal');
-      io.observe(el);
-    });
-    article.classList.add('reveal');
+        },
+        { rootMargin: '0px 0px -10% 0px' }
+      );
+      blocks.forEach((el) => {
+        el.classList.add('will-reveal');
+        io.observe(el);
+      });
+      article.classList.add('reveal');
 
-    // A block that ends the page can sit below the reveal line forever;
-    // reaching the bottom reveals whatever is left.
-    const onScroll = () => {
-      if (window.innerHeight + window.scrollY >= document.body.scrollHeight - 48) {
-        blocks.forEach((el) => el.classList.add('is-in'));
-        window.removeEventListener('scroll', onScroll);
-      }
-    };
-    window.addEventListener('scroll', onScroll, { passive: true });
-  }
+      // A block that ends the page can sit below the reveal line forever;
+      // reaching the bottom reveals whatever is left.
+      const onScroll = () => {
+        if (window.innerHeight + window.scrollY >= document.body.scrollHeight - 48) {
+          blocks.forEach((el) => el.classList.add('is-in'));
+          window.removeEventListener('scroll', onScroll);
+        }
+      };
+      window.addEventListener('scroll', onScroll, { passive: true });
+    }
+  };
+  init();
+  document.addEventListener('astro:page-load', init);
 </script>
