@@ -101,7 +101,8 @@ const nodes = [
     text-anchor: middle;
     transition: fill var(--duration-fast) var(--ease-out);
   }
-  .arc__node--crisis circle { fill: var(--color-ink); }
+  /* R3: the crisis is the plot point that decides the story. */
+  .arc__node--crisis circle { fill: var(--color-mark); stroke: var(--color-mark); }
   .arc__node--crisis text { fill: var(--color-paper); }
   [data-arc].is-in .arc__node {
     opacity: 1;
@@ -168,7 +169,7 @@ const nodes = [
   }
   .plot--crisis::before {
     height: 2px;
-    background: var(--color-ink);
+    background: var(--color-mark); /* R3 */
   }
   [data-arc].is-in .plot {
     opacity: 1;

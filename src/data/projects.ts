@@ -54,7 +54,8 @@ export const projects: Project[] = [
   {
     num: '01',
     slug: 'backfunds',
-    image: '/work/backfunds-hero.webp',
+    // The argument, drawn: the week-long wait against the D+1 landing.
+    image: '/work/backfunds-timeline-thumb.svg',
     title: 'Getting sellers paid tomorrow, not next week',
     client: 'Back Market',
     discipline: 'Embedded Finance',
@@ -218,7 +219,8 @@ export const projects: Project[] = [
   {
     num: '02',
     slug: 'ai-seller-back-office',
-    image: '/work/ai-assistant-hero.webp',
+    // The argument, drawn: the suggestion continues; the decision is taken.
+    image: '/work/ai-fork-thumb.svg',
     title: 'AI suggests. The seller decides.',
     client: 'Back Market',
     discipline: 'AI Strategy',
@@ -335,7 +337,8 @@ export const projects: Project[] = [
     // become "hundreds of thousands of views a quarter in its largest market".
     num: '03',
     slug: 'back-office-homepage',
-    image: '/work/homepage/direction-masonry.webp',
+    // The argument, drawn: every path lands on one point; the point sits hollow.
+    image: '/work/homepage-landing-thumb.svg',
     title: 'Every seller lands here. Nobody prioritized it.',
     client: 'Back Market',
     discipline: 'Seller Back Office',

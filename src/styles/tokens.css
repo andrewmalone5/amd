@@ -65,12 +65,20 @@
   --color-hairline:        #E4E0D6;  /* precise thin rules                    */
   --color-hairline-strong: #CFC9BC;  /* emphasized divider                   */
 
-  /* The interaction layer — go-links, selection, focus — has its own hooks
-     so a style can recolor what's touchable without repainting the page.
-     Editorial keeps them on ink; Oakly Editorial turns them ultramarine. */
+  /* The accent hooks. Editorial maps them all to ink (no accent — restraint
+     is the point); Oakly Editorial maps them to the violet under three rules:
+       R1 — violet marks what you can ACT on: links, selection, focus.
+       R2 — violet marks measured OUTCOMES: stat values, and the rule that
+            opens a pull-quote (the page's emphasis moments).
+       R3 — violet marks the DECISIVE STROKE in a drawing: one element per
+            artifact (the D+1 landing, the 0.2% sliver, the crisis node,
+            the gap bracket). Never two.
+     Everything else stays ink, in both styles. If violet appears somewhere
+     these rules don't cover, it's a bug, not a flourish. */
   --color-link:            var(--color-ink);
   --color-link-underline:  var(--color-hairline-strong);
   --color-selection:       var(--color-ink);
+  --color-mark:            var(--color-ink);
 
   /* --------------------------------------------------------------------------
      RADII — two values, print-quiet. Frames barely round; screenshots inside
@@ -136,12 +144,13 @@
    folding its values into :root above and deleting the block + toggle.
    ========================================================================== */
 
-/* OAKLY EDITORIAL — Editorial's exact bones, with Oak's ultramarine kept
-   where it carries meaning: the interaction layer. Links speak blue; text
-   selection and keyboard focus flash it; everything at rest stays warm
-   ink on paper. */
+/* OAKLY EDITORIAL — Editorial's exact bones, with Oak's blue warmed into a
+   violet second ink (#463FA0) and applied under the three rules above:
+   action, outcomes, decisive strokes. The page at rest stays warm ink on
+   paper; the violet is what acting, measuring, and deciding look like. */
 :root[data-style='oakly'] {
-  --color-link:           #3A3FB5;
-  --color-link-underline: rgba(58, 63, 181, 0.4);
-  --color-selection:      #3A3FB5;
+  --color-link:           #463FA0;
+  --color-link-underline: rgba(70, 63, 160, 0.4);
+  --color-selection:      #463FA0;
+  --color-mark:           #463FA0;
 }
