@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="400" height="300" role="img" aria-label="Many paths converge on a single point that sits hollow — the page every seller lands on, owned by nobody.">
+  <rect width="400" height="300" fill="#F6F4EE"/>
+  <!-- every seller's path, arriving from everywhere -->
+  <path d="M40 70 C 130 80, 220 110, 296 142" fill="none" stroke="#1C1A17" stroke-width="2"/>
+  <path d="M40 130 C 140 134, 230 142, 296 148" fill="none" stroke="#1C1A17" stroke-width="2"/>
+  <path d="M40 190 C 140 182, 230 168, 296 156" fill="none" stroke="#1C1A17" stroke-width="2"/>
+  <path d="M40 250 C 130 236, 220 190, 296 160" fill="none" stroke="#1C1A17" stroke-width="2"/>
+  <!-- the landing, hollow: high traffic, no owner -->
+  <circle cx="312" cy="150" r="11" fill="#F6F4EE" stroke="#1C1A17" stroke-width="2" stroke-dasharray="3 4"/>
+</svg>

@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="400" height="300" role="img" aria-label="A path reaches a fork: the AI's dashed suggestion continues one way; the seller's solid decision takes the other.">
+  <rect width="400" height="300" fill="#F6F4EE"/>
+  <!-- one path arrives -->
+  <line x1="40" y1="150" x2="176" y2="150" stroke="#1C1A17" stroke-width="2"/>
+  <!-- the suggestion: dashed, continues -->
+  <path d="M184 146 C 240 120, 300 100, 352 92" fill="none" stroke="#9C968C" stroke-width="2" stroke-dasharray="2 7" stroke-linecap="round"/>
+  <!-- the decision: solid, taken -->
+  <path d="M184 154 C 240 180, 300 200, 344 206" fill="none" stroke="#1C1A17" stroke-width="2.5"/>
+  <!-- the seller, at the fork -->
+  <circle cx="180" cy="150" r="7" fill="#F6F4EE" stroke="#1C1A17" stroke-width="2"/>
+  <circle cx="348" cy="207" r="6" fill="#1C1A17"/>
+</svg>

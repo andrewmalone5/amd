@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="400" height="300" role="img" aria-label="Two payout timelines: the standard week-long wait, and BackFunds landing the same money on day one.">
+  <rect width="400" height="300" fill="#F6F4EE"/>
+  <line x1="56" y1="76" x2="56" y2="224" stroke="#CFC9BC" stroke-width="1.5"/>
+  <!-- standard payout: the week, at true length -->
+  <circle cx="56" cy="110" r="6" fill="#1C1A17"/>
+  <line x1="56" y1="110" x2="344" y2="110" stroke="#1C1A17" stroke-width="2"/>
+  <line x1="104" y1="104" x2="104" y2="116" stroke="#CFC9BC" stroke-width="1.5"/>
+  <line x1="152" y1="104" x2="152" y2="116" stroke="#CFC9BC" stroke-width="1.5"/>
+  <line x1="200" y1="104" x2="200" y2="116" stroke="#CFC9BC" stroke-width="1.5"/>
+  <line x1="248" y1="104" x2="248" y2="116" stroke="#CFC9BC" stroke-width="1.5"/>
+  <line x1="296" y1="104" x2="296" y2="116" stroke="#CFC9BC" stroke-width="1.5"/>
+  <circle cx="344" cy="110" r="6" fill="#F6F4EE" stroke="#1C1A17" stroke-width="2"/>
+  <!-- BackFunds: the same money, next business day -->
+  <line x1="56" y1="190" x2="344" y2="190" stroke="#CFC9BC" stroke-width="1.5"/>
+  <circle cx="56" cy="190" r="6" fill="#1C1A17"/>
+  <line x1="56" y1="190" x2="104" y2="190" stroke="#1C1A17" stroke-width="2.5"/>
+  <circle cx="104" cy="190" r="7" fill="#1C1A17"/>
+</svg>

@@ -119,7 +119,7 @@ const pos = (d: number) => 1 + d * 14; // sale at 1%, day seven at 99%
   }
   .pt__dot--sale { left: 1%; }
   .pt__dot--paid-standard { left: 99%; }
-  .pt__dot--paid-fast { left: 15%; }
+  .pt__dot--paid-fast { left: 15%; background: var(--color-mark); }
   [data-payout].is-in .pt__dot {
     opacity: 1;
     transform: translate(-50%, -50%) scale(1);
@@ -146,8 +146,9 @@ const pos = (d: number) => 1 + d * 14; // sale at 1%, day seven at 99%
     transition: opacity var(--duration-slow) var(--ease-out) 2.6s;
   }
 
-  /* The payout, landing on day one: one short quick stroke after the crawl. */
-  .pt__line--fast { width: 14%; }
+  /* The payout, landing on day one: one short quick stroke after the crawl.
+     R3: the decisive stroke — the whole argument — takes the second ink. */
+  .pt__line--fast { width: 14%; background: var(--color-mark); }
   [data-payout].is-in .pt__line--fast {
     transform: scaleX(1);
     transition: transform 0.4s var(--ease-out) 2.8s;

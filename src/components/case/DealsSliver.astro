@@ -70,10 +70,11 @@ const rows = [
   }
 
   /* The deal action at its true size. It arrives late, after the pause. */
+  /* R3: the sliver is the argument — it takes the second ink. */
   .row__bar--sliver {
     width: 2px;
     border: 0;
-    background: var(--color-ink);
+    background: var(--color-mark);
     opacity: 0;
   }
   [data-sliver].is-in .row__bar--sliver {

@@ -224,7 +224,7 @@ const { project } = Astro.props;
   /* Pull quote — Spectral, marked with a short rule above it. */
   .block--quote {
     padding-top: var(--space-lg);
-    border-top: 2px solid var(--color-ink);
+    border-top: 2px solid var(--color-mark); /* R2: emphasis opens in the second ink */
   }
   .block--quote p {
     font-family: var(--font-display);
@@ -256,7 +256,7 @@ const { project } = Astro.props;
     font-size: var(--text-display-lg);
     line-height: 1;
     letter-spacing: var(--tracking-display);
-    color: var(--color-ink);
+    color: var(--color-mark); /* R2: measured outcomes take the second ink */
   }
   .stat__label {
     font-size: var(--text-sm);
@@ -355,7 +355,7 @@ const { project } = Astro.props;
     width: min(61rem, calc(100% - var(--page-gutter)));
     margin-block: var(--section-tight) var(--space-lg);
     padding-top: var(--space-lg);
-    border-top: 2px solid var(--color-ink);
+    border-top: 2px solid var(--color-mark); /* R2 */
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
     gap: var(--space-lg) var(--space-xl);
@@ -366,7 +366,7 @@ const { project } = Astro.props;
     font-size: var(--text-display-md);
     line-height: 1;
     letter-spacing: var(--tracking-display);
-    color: var(--color-ink);
+    color: var(--color-mark); /* R2 */
   }
   .statrow__item dt {
     margin-top: var(--space-xs);
