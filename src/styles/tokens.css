@@ -65,6 +65,13 @@
   --color-hairline:        #E4E0D6;  /* precise thin rules                    */
   --color-hairline-strong: #CFC9BC;  /* emphasized divider                   */
 
+  /* The interaction layer — go-links, selection, focus — has its own hooks
+     so a style can recolor what's touchable without repainting the page.
+     Editorial keeps them on ink; Oakly Editorial turns them ultramarine. */
+  --color-link:            var(--color-ink);
+  --color-link-underline:  var(--color-hairline-strong);
+  --color-selection:       var(--color-ink);
+
   /* --------------------------------------------------------------------------
      RADII — two values, print-quiet. Frames barely round; screenshots inside
      them round a touch more (they depict software). One scale, no drift.
@@ -124,64 +131,17 @@
 }
 
 /* ============================================================================
-   ALTERNATE STYLES — full re-skins riding the same tokens. The layout never
-   changes; paper, ink, faces, weights, and radii do. Applied via
-   data-style on <html>, previewed with the header toggle, persisted in
-   localStorage. Deleting a losing style is deleting its block below.
+   ALTERNATE STYLE — applied via data-style on <html>, previewed with the
+   header toggle, persisted in localStorage. Keeping a winner later means
+   folding its values into :root above and deleting the block + toggle.
    ========================================================================== */
 
-/* OAK — one ultramarine ink on cream. Bold slab headlines, typewriter body,
-   square corners: the design-engineer print shop. */
-:root[data-style='oak'] {
-  --font-display: 'Bitter', Georgia, 'Times New Roman', serif;
-  --font-body: 'IBM Plex Mono', ui-monospace, 'Courier New', monospace;
-
-  --color-paper:           #FAF5E4;
-  --color-surface:         #FFFCF0;
-  --color-ink:             #3A3FB5;
-  --color-ink-muted:       #575CC0;
-  --color-ink-faint:       #9497D6;
-  --color-hairline:        #E9E2C8;
-  --color-hairline-strong: #CFC7A4;
-
-  --weight-display: 700;
-
-  /* Mono runs wide — a step down keeps the measure and the register. */
-  --text-body: 1rem;
-  --text-lead: clamp(1.0625rem, 1rem + 0.35vw, 1.25rem);
-  --text-sm:   0.875rem;
-  --text-xs:   0.75rem;
-  --leading-body: 1.7;
-
-  /* Slab + mono want air, not the serif's tuck. */
-  --tracking-display: -0.012em;
-
-  --radius-frame:  0px;
-  --radius-screen: 3px;
-
-  --shadow-sm:   0 1px 2px rgba(58, 63, 181, 0.06), 0 1px 1px rgba(58, 63, 181, 0.04);
-  --shadow-lift: 0 14px 34px -14px rgba(58, 63, 181, 0.22), 0 4px 10px -6px rgba(58, 63, 181, 0.10);
-}
-
-/* LIMA — thin didone on blush, navy ink. Fashion-editorial warmth. */
-:root[data-style='lima'] {
-  --font-display: 'Bodoni Moda', Didot, 'Bodoni MT', Georgia, serif;
-
-  --color-paper:           #FAF0EA;
-  --color-surface:         #FFF8F4;
-  --color-ink:             #222C55;
-  --color-ink-muted:       #5D6484;
-  --color-ink-faint:       #9AA0B9;
-  --color-hairline:        #F0DFD6;
-  --color-hairline-strong: #DDC8BC;
-
-  /* The didone draws its drama from hairline strokes, not from tightness. */
-  --tracking-display: -0.008em;
-  --leading-display: 1.08;
-
-  --radius-frame:  8px;
-  --radius-screen: 12px;
-
-  --shadow-sm:   0 1px 2px rgba(34, 44, 85, 0.05), 0 1px 1px rgba(34, 44, 85, 0.03);
-  --shadow-lift: 0 14px 34px -14px rgba(34, 44, 85, 0.22), 0 4px 10px -6px rgba(34, 44, 85, 0.10);
+/* OAKLY EDITORIAL — Editorial's exact bones, with Oak's ultramarine kept
+   where it carries meaning: the interaction layer. Links speak blue; text
+   selection and keyboard focus flash it; everything at rest stays warm
+   ink on paper. */
+:root[data-style='oakly'] {
+  --color-link:           #3A3FB5;
+  --color-link-underline: rgba(58, 63, 181, 0.4);
+  --color-selection:      #3A3FB5;
 }

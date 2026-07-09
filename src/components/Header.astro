@@ -26,8 +26,9 @@ const links = [
       </ul>
     </nav>
 
-    {/* Style preview: cycles Editorial → Oak → Lima while a keeper is chosen.
-        Remove this button (and the alternate blocks in tokens.css) once decided. */}
+    {/* Style preview: flips Editorial ↔ Oakly Editorial while a keeper is
+        chosen. Remove this button (and the alternate block in tokens.css)
+        once decided. */}
     <button class="style-toggle" type="button" data-style-toggle>
       <span class="style-toggle__label" aria-hidden="true">Style</span>
       <span data-style-name>Editorial</span>
@@ -289,10 +290,10 @@ const links = [
     if (e.key === 'Escape') setOpen(false);
   });
 
-  // Style preview: cycle Editorial → Oak → Lima. The pre-paint script in the
-  // head applies the saved choice; this button only advances and persists it.
-  const STYLES = ['editorial', 'oak', 'lima'] as const;
-  const NAMES: Record<string, string> = { editorial: 'Editorial', oak: 'Oak', lima: 'Lima' };
+  // Style preview: flip Editorial ↔ Oakly Editorial. The pre-paint script in
+  // the head applies the saved choice; this button only advances and persists it.
+  const STYLES = ['editorial', 'oakly'] as const;
+  const NAMES: Record<string, string> = { editorial: 'Editorial', oakly: 'Oakly Editorial' };
   const styleBtn = document.querySelector<HTMLButtonElement>('[data-style-toggle]');
   const styleName = document.querySelector<HTMLElement>('[data-style-name]');
 
