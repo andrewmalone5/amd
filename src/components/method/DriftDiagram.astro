@@ -368,35 +368,42 @@ const ticks = [
 </style>
 
 <script>
-  const drift = document.querySelector<HTMLElement>('[data-drift]');
-  if (drift) {
-    new IntersectionObserver(
-      (entries, io) => {
-        for (const e of entries) {
-          if (e.isIntersecting) {
-            drift.classList.add('is-in');
-            setTimeout(() => drift.classList.add('is-settled'), 2400);
-            io.disconnect();
+  // Runs per page visit: view-transition navigations rebuild the DOM
+  // without re-executing module scripts, so astro:page-load re-inits.
+  const init = () => {
+    const drift = document.querySelector<HTMLElement>('[data-drift]');
+    if (drift && !drift.dataset.bound) {
+      drift.dataset.bound = '1';
+      new IntersectionObserver(
+        (entries, io) => {
+          for (const e of entries) {
+            if (e.isIntersecting) {
+              drift.classList.add('is-in');
+              setTimeout(() => drift.classList.add('is-settled'), 2400);
+              io.disconnect();
+            }
           }
+        },
+        { threshold: 0.35 }
+      ).observe(drift);
+
+      // One focus at a time, handed over between failures.
+      const focus = (key: string | undefined) => {
+        drift.querySelectorAll('.is-hot').forEach((el) => el.classList.remove('is-hot'));
+        if (key === undefined) {
+          drift.classList.remove('has-focus');
+          return;
         }
-      },
-      { threshold: 0.35 }
-    ).observe(drift);
+        drift.querySelectorAll(`[data-region="${key}"]`).forEach((el) => el.classList.add('is-hot'));
+        drift.classList.add('has-focus');
+      };
 
-    // One focus at a time, handed over between failures.
-    const focus = (key: string | undefined) => {
-      drift.querySelectorAll('.is-hot').forEach((el) => el.classList.remove('is-hot'));
-      if (key === undefined) {
-        drift.classList.remove('has-focus');
-        return;
-      }
-      drift.querySelectorAll(`[data-region="${key}"]`).forEach((el) => el.classList.add('is-hot'));
-      drift.classList.add('has-focus');
-    };
-
-    drift.querySelectorAll<HTMLElement>('.failure').forEach((el) => {
-      el.addEventListener('mouseenter', () => focus(el.dataset.region));
-    });
-    drift.querySelector('.drift__legend')?.addEventListener('mouseleave', () => focus(undefined));
-  }
+      drift.querySelectorAll<HTMLElement>('.failure').forEach((el) => {
+        el.addEventListener('mouseenter', () => focus(el.dataset.region));
+      });
+      drift.querySelector('.drift__legend')?.addEventListener('mouseleave', () => focus(undefined));
+    }
+  };
+  init();
+  document.addEventListener('astro:page-load', init);
 </script>

@@ -225,34 +225,41 @@ const LAUNCH = 76;
 </style>
 
 <script>
-  const time = document.querySelector<HTMLElement>('[data-time]');
-  if (time) {
-    new IntersectionObserver(
-      (entries, io) => {
-        for (const e of entries) {
-          if (e.isIntersecting) {
-            time.classList.add('is-in');
-            setTimeout(() => time.classList.add('is-settled'), 3000);
-            io.disconnect();
+  // Runs per page visit: view-transition navigations rebuild the DOM
+  // without re-executing module scripts, so astro:page-load re-inits.
+  const init = () => {
+    const time = document.querySelector<HTMLElement>('[data-time]');
+    if (time && !time.dataset.bound) {
+      time.dataset.bound = '1';
+      new IntersectionObserver(
+        (entries, io) => {
+          for (const e of entries) {
+            if (e.isIntersecting) {
+              time.classList.add('is-in');
+              setTimeout(() => time.classList.add('is-settled'), 3000);
+              io.disconnect();
+            }
           }
+        },
+        { threshold: 0.4 }
+      ).observe(time);
+
+      const focus = (row: Element | undefined) => {
+        time.querySelectorAll('.is-hot').forEach((el) => el.classList.remove('is-hot'));
+        if (!row) {
+          time.classList.remove('has-focus');
+          return;
         }
-      },
-      { threshold: 0.4 }
-    ).observe(time);
+        row.classList.add('is-hot');
+        time.classList.add('has-focus');
+      };
 
-    const focus = (row: Element | undefined) => {
-      time.querySelectorAll('.is-hot').forEach((el) => el.classList.remove('is-hot'));
-      if (!row) {
-        time.classList.remove('has-focus');
-        return;
-      }
-      row.classList.add('is-hot');
-      time.classList.add('has-focus');
-    };
-
-    time.querySelectorAll<HTMLElement>('.row').forEach((el) => {
-      el.addEventListener('mouseenter', () => focus(el));
-    });
-    time.querySelector('.tl')?.addEventListener('mouseleave', () => focus(undefined));
-  }
+      time.querySelectorAll<HTMLElement>('.row').forEach((el) => {
+        el.addEventListener('mouseenter', () => focus(el));
+      });
+      time.querySelector('.tl')?.addEventListener('mouseleave', () => focus(undefined));
+    }
+  };
+  init();
+  document.addEventListener('astro:page-load', init);
 </script>

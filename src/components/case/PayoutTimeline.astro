@@ -205,18 +205,25 @@ const pos = (d: number) => 1 + d * 14; // sale at 1%, day seven at 99%
 </style>
 
 <script>
-  const el = document.querySelector<HTMLElement>('[data-payout]');
-  if (el) {
-    new IntersectionObserver(
-      (entries, io) => {
-        for (const e of entries) {
-          if (e.isIntersecting) {
-            el.classList.add('is-in');
-            io.disconnect();
+  // Runs per page visit: view-transition navigations rebuild the DOM
+  // without re-executing module scripts, so astro:page-load re-inits.
+  const init = () => {
+    const el = document.querySelector<HTMLElement>('[data-payout]');
+    if (el && !el.dataset.bound) {
+      el.dataset.bound = '1';
+      new IntersectionObserver(
+        (entries, io) => {
+          for (const e of entries) {
+            if (e.isIntersecting) {
+              el.classList.add('is-in');
+              io.disconnect();
+            }
           }
-        }
-      },
-      { threshold: 0.4 }
-    ).observe(el);
-  }
+        },
+        { threshold: 0.4 }
+      ).observe(el);
+    }
+  };
+  init();
+  document.addEventListener('astro:page-load', init);
 </script>

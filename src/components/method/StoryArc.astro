@@ -248,40 +248,47 @@ const nodes = [
 </style>
 
 <script>
-  const arc = document.querySelector<HTMLElement>('[data-arc]');
-  if (arc) {
-    // Draw the arc once it's properly in view; ~1.8s later the entrance is
-    // done and .is-settled switches every transition to hover speed.
-    new IntersectionObserver(
-      (entries, io) => {
-        for (const e of entries) {
-          if (e.isIntersecting) {
-            arc.classList.add('is-in');
-            setTimeout(() => arc.classList.add('is-settled'), 1800);
-            io.disconnect();
+  // Runs per page visit: view-transition navigations rebuild the DOM
+  // without re-executing module scripts, so astro:page-load re-inits.
+  const init = () => {
+    const arc = document.querySelector<HTMLElement>('[data-arc]');
+    if (arc && !arc.dataset.bound) {
+      arc.dataset.bound = '1';
+      // Draw the arc once it's properly in view; ~1.8s later the entrance is
+      // done and .is-settled switches every transition to hover speed.
+      new IntersectionObserver(
+        (entries, io) => {
+          for (const e of entries) {
+            if (e.isIntersecting) {
+              arc.classList.add('is-in');
+              setTimeout(() => arc.classList.add('is-settled'), 1800);
+              io.disconnect();
+            }
           }
+        },
+        { threshold: 0.35 }
+      ).observe(arc);
+
+      // One focus at a time: entering a question (or a plot point on the curve)
+      // hands the highlight over; it only clears on leaving the group entirely.
+      const focus = (i: string | undefined) => {
+        arc.querySelectorAll('.is-hot').forEach((el) => el.classList.remove('is-hot'));
+        if (i === undefined) {
+          arc.classList.remove('has-focus');
+          return;
         }
-      },
-      { threshold: 0.35 }
-    ).observe(arc);
+        arc.querySelectorAll(`[data-node="${i}"]`).forEach((el) => el.classList.add('is-hot'));
+        arc.classList.add('has-focus');
+      };
 
-    // One focus at a time: entering a question (or a plot point on the curve)
-    // hands the highlight over; it only clears on leaving the group entirely.
-    const focus = (i: string | undefined) => {
-      arc.querySelectorAll('.is-hot').forEach((el) => el.classList.remove('is-hot'));
-      if (i === undefined) {
-        arc.classList.remove('has-focus');
-        return;
-      }
-      arc.querySelectorAll(`[data-node="${i}"]`).forEach((el) => el.classList.add('is-hot'));
-      arc.classList.add('has-focus');
-    };
-
-    arc.querySelectorAll<HTMLElement>('.plot, .arc__node').forEach((el) => {
-      el.addEventListener('mouseenter', () => focus(el.dataset.node));
-    });
-    arc.querySelectorAll('.arc__plots, svg').forEach((group) => {
-      group.addEventListener('mouseleave', () => focus(undefined));
-    });
-  }
+      arc.querySelectorAll<HTMLElement>('.plot, .arc__node').forEach((el) => {
+        el.addEventListener('mouseenter', () => focus(el.dataset.node));
+      });
+      arc.querySelectorAll('.arc__plots, svg').forEach((group) => {
+        group.addEventListener('mouseleave', () => focus(undefined));
+      });
+    }
+  };
+  init();
+  document.addEventListener('astro:page-load', init);
 </script>

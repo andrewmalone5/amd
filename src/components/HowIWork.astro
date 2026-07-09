@@ -21,7 +21,7 @@ const rows = [
   <div class="principles">
     {rows.map((p) => (
       <a class="principle" href={withBase(`/method/${p.slug}`)}>
-        <h3 class="principle__title">{p.title}</h3>
+        <h3 class="principle__title" transition:name={`title-${p.slug}`}>{p.title}</h3>
         <div class="principle__body">
           <p>{p.body}</p>
           <span class="principle__go">{p.go}<span class="principle__arrow" aria-hidden="true">&nbsp;&rarr;</span></span>
