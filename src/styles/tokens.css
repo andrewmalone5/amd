@@ -65,20 +65,19 @@
   --color-hairline:        #E4E0D6;  /* precise thin rules                    */
   --color-hairline-strong: #CFC9BC;  /* emphasized divider                   */
 
-  /* The accent hooks. Editorial maps them all to ink (no accent — restraint
-     is the point); Oakly Editorial maps them to the violet under three rules:
+  /* The second ink: a violet (#463FA0) that appears under three rules only —
        R1 — violet marks what you can ACT on: links, selection, focus.
        R2 — violet marks measured OUTCOMES: stat values, and the rule that
             opens a pull-quote (the page's emphasis moments).
        R3 — violet marks the DECISIVE STROKE in a drawing: one element per
             artifact (the D+1 landing, the 0.2% sliver, the crisis node,
             the gap bracket). Never two.
-     Everything else stays ink, in both styles. If violet appears somewhere
-     these rules don't cover, it's a bug, not a flourish. */
-  --color-link:            var(--color-ink);
-  --color-link-underline:  var(--color-hairline-strong);
-  --color-selection:       var(--color-ink);
-  --color-mark:            var(--color-ink);
+     Everything else stays ink. If violet appears somewhere these rules
+     don't cover, it's a bug, not a flourish. */
+  --color-link:            #463FA0;
+  --color-link-underline:  rgba(70, 63, 160, 0.4);
+  --color-selection:       #463FA0;
+  --color-mark:            #463FA0;
 
   /* --------------------------------------------------------------------------
      RADII — two values, print-quiet. Frames barely round; screenshots inside
@@ -138,19 +137,3 @@
   --page-gutter:  clamp(1.5rem, 6vw, 4rem);      /* breathing room at the edge */
 }
 
-/* ============================================================================
-   ALTERNATE STYLE — applied via data-style on <html>, previewed with the
-   header toggle, persisted in localStorage. Keeping a winner later means
-   folding its values into :root above and deleting the block + toggle.
-   ========================================================================== */
-
-/* OAKLY EDITORIAL — Editorial's exact bones, with Oak's blue warmed into a
-   violet second ink (#463FA0) and applied under the three rules above:
-   action, outcomes, decisive strokes. The page at rest stays warm ink on
-   paper; the violet is what acting, measuring, and deciding look like. */
-:root[data-style='oakly'] {
-  --color-link:           #463FA0;
-  --color-link-underline: rgba(70, 63, 160, 0.4);
-  --color-selection:      #463FA0;
-  --color-mark:           #463FA0;
-}

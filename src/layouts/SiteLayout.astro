@@ -10,11 +10,13 @@ interface Props {
   description?: string;
   /** Case-study pages pass true: footer keeps only the meta line, no contact CTA. */
   minimalFooter?: boolean;
+  /** Owner-only pages opt out of search indexing. */
+  noindex?: boolean;
 }
-const { title, description, minimalFooter = false } = Astro.props;
+const { title, description, minimalFooter = false, noindex = false } = Astro.props;
 ---
 
-<Base title={title} description={description}>
+<Base title={title} description={description} noindex={noindex}>
   <a class="skip-link" href="#main">Skip to content</a>
   <Header />
   <main id="main">
