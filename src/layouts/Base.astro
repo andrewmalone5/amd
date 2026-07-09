@@ -9,10 +9,13 @@ interface Props {
   title?: string;
   /** Per-page meta description; pages pass their own summary. */
   description?: string;
+  /** Owner-only pages (the shot list) opt out of search indexing. */
+  noindex?: boolean;
 }
 const {
   title = 'Portfolio',
   description = 'Andrew Malone is a senior product designer in Berlin who designs the systems behind the interface — case studies in embedded finance, AI strategy, and seller tools.',
+  noindex = false,
 } = Astro.props;
 
 // Absolute URLs for canonical + social cards; Astro.site carries the domain.
@@ -47,16 +50,21 @@ const fontFaces = `
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    {/* Style preview: apply the saved style before first paint so toggling
-        between Editorial and Oakly Editorial never flashes the wrong look. */}
+    {/* Shot-list mode (owner tool): ?shotlist turns it on for the session,
+        ?shotlist=0 turns it off. Visitors never see it. */}
     <script is:inline>
       try {
-        var s = localStorage.getItem('amd-style');
-        if (s === 'oakly') document.documentElement.dataset.style = s;
+        var q = new URLSearchParams(location.search);
+        if (q.has('shotlist')) {
+          if (q.get('shotlist') === '0') sessionStorage.removeItem('amd-shotlist');
+          else sessionStorage.setItem('amd-shotlist', '1');
+        }
+        if (sessionStorage.getItem('amd-shotlist')) document.documentElement.dataset.shotlist = '1';
       } catch (e) {}
     </script>
     <title>{title}</title>
     <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
     <link rel="canonical" href={canonical} />
 
     <link rel="icon" href={`${base}/favicon.png`} type="image/png" />

@@ -22,7 +22,7 @@ export type Block =
   | { type: 'narrative'; body: string } // body may contain \n\n paragraph breaks
   | { type: 'quote'; text: string; cite?: string }
   | { type: 'stat'; value: string; label: string }
-  | { type: 'media'; label: string; caption?: string; image?: string } // image: path under /public; placeholder frame until set
+  | { type: 'media'; label: string; caption?: string; image?: string; needs?: { kind: string; what: string } } // image: path under /public. `needs` is the shot list: what asset belongs here, visible only in ?shotlist mode
   // Flagship-case blocks:
   | { type: 'overview'; columns: { label: string; value: string }[]; body: string } // at-a-glance strip under the header
   | { type: 'statRow'; stats: { value: string; label: string }[] } // 2-4 stats on one ruled row
@@ -94,6 +94,7 @@ export const projects: Project[] = [
         // MEDIA PLACEHOLDER — hero shot. Swap for the launched entry point in context.
         type: 'media',
         label: 'BackFunds in the Back Office',
+        needs: { kind: 'Live product', what: 'Full-width screenshot of the live BackFunds entry point in Money & Wallet — desktop, real (anonymised) seller data, ~1600px wide.' },
         caption: 'The daily-payout entry point, live in the seller Money and Wallet page.',
       },
 
@@ -126,6 +127,7 @@ export const projects: Project[] = [
       {
         type: 'media',
         label: 'Scheduled pause',
+        needs: { kind: 'Figma / prototype', what: 'The pause drawer showing a wind-down state mid-flow — the moment repayment reads as passive, not owed. One frame.' },
         caption: 'The pause drawer: wind-down states instead of a zero-balance gate.',
       },
       {
@@ -136,6 +138,7 @@ export const projects: Project[] = [
       {
         type: 'media',
         label: 'Why you qualify',
+        needs: { kind: 'Figma / prototype', what: 'The eligibility panel with plain-language criteria and indicative ranges — the anti-fine-print moment.' },
         caption: 'Eligibility criteria translated into plain language, with indicative ranges instead of single figures.',
       },
 
@@ -153,6 +156,7 @@ export const projects: Project[] = [
         // MEDIA PLACEHOLDER — Growth Simulator. Swap for the value-model screen.
         type: 'media',
         label: 'Growth Simulator',
+        needs: { kind: 'Prototype', what: 'The simulator with a worked example visible: inputs on one side, what daily payouts are worth on the other. Coded-prototype capture is fine.' },
         caption: 'The value model, run on Back Market’s own data: cash cycle, revenue turns, and estimated uplift.',
       },
       {
@@ -180,6 +184,7 @@ export const projects: Project[] = [
       {
         type: 'media',
         label: 'Money & Wallet entry point',
+        needs: { kind: 'Figma', what: 'The five lifecycle states of the wallet promo, side by side or as a compact grid: eligible, active, paused, wind-down, ineligible.' },
         caption: 'The status-aware wallet promo across the five-state lifecycle.',
       },
 
@@ -207,6 +212,7 @@ export const projects: Project[] = [
         // seller quote card.
         type: 'media',
         label: 'Adoption after launch',
+        needs: { kind: 'Data / chart', what: 'Activation and retention across the first quarter post-launch — redraw in site style from the real numbers; relative figures only.' },
         caption: 'Activation and retention across the first quarter post-launch.',
       },
       {
@@ -276,6 +282,7 @@ export const projects: Project[] = [
       {
         type: 'media',
         label: 'Suggest-and-confirm framework',
+        needs: { kind: 'Diagram', what: 'The posture in one picture: what AI proposes, what sellers approve, what stays off-limits. Redraw from the strategy deck, anonymised.' },
         caption: 'The posture in one picture: what AI proposes, what sellers approve, what stays off the table.',
       },
 
@@ -289,6 +296,7 @@ export const projects: Project[] = [
       {
         type: 'media',
         label: 'Vision 2026 citation',
+        needs: { kind: 'Document', what: 'A crop of the strategy document where the posture is cited — the sentence highlighted, everything around it out of frame or blurred.' },
         caption: 'The posture, cited in the company’s strategy document.',
       },
 
@@ -302,6 +310,7 @@ export const projects: Project[] = [
       {
         type: 'media',
         label: 'Two concepts, side by side',
+        needs: { kind: 'Figma', what: 'The reactive assistant next to the proactive vision — the same seller task shown in both, one frame each.' },
         caption: 'The reactive assistant in development, next to the proactive vision it should become.',
       },
 
@@ -315,6 +324,7 @@ export const projects: Project[] = [
       {
         type: 'media',
         label: 'Entry point, before and after',
+        needs: { kind: 'Figma / live', what: 'The chatbot entry before (buried tab, disclaimer first) and after (surfaced, disclaimer demoted) — two crops at the same zoom.' },
         caption: 'The chatbot freed from its tab, with the disclaimer out of the way of the first message.',
       },
 
@@ -607,6 +617,7 @@ export const projects: Project[] = [
       {
         type: 'media',
         label: 'Redesign concepts',
+        needs: { kind: 'Figma', what: 'The margin-first row, the reasoned recommendation, and the one-action deal card — three concept crops; work-in-progress fidelity is fine.' },
         caption: 'Concept mockups in progress: the margin-first row, the reasoned recommendation, and the earnings-aware automation.',
       },
 

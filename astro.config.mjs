@@ -12,5 +12,5 @@ import sitemap from '@astrojs/sitemap';
 export default defineConfig({
   site: 'https://andrewmalone5.github.io',
   base: '/amd',
-  integrations: [sitemap()],
+  integrations: [sitemap({ filter: (page) => !page.includes('/shot-list') })],
 });
