@@ -75,6 +75,23 @@ import About from '../components/About.astro';
     border-bottom: 1px solid var(--color-link-underline);
     transition: border-color var(--duration) var(--ease-out);
   }
+
+  /* Phones: the desktop rhythm (96px pad, 64px gaps) pushes the role/location
+     meta below the fold once browser chrome takes its cut — and that line is
+     the recruiter's first fact. Tighten the hero so the whole statement lands
+     in the first viewport, with the ghost heading peeking in from below as
+     the scroll invitation. */
+  @media (max-width: 48rem) {
+    .hero { padding-block: var(--space-lg) var(--section-tight); }
+    .hero__intro,
+    .hero__meta { margin-top: var(--space-lg); }
+  }
+  /* Short phone viewports (SE-class, or heavy browser chrome): step the two
+     text blocks down one notch so the location line makes it in too. */
+  @media (max-width: 48rem) and (max-height: 42rem) {
+    .hero__statement { font-size: clamp(2.625rem, 0.9rem + 6.4vw, 7.5rem); }
+    .hero__intro { font-size: var(--text-body); }
+  }
   .hero__current a:hover { border-bottom-color: var(--color-link); }
 
   /* Reveal — slow, staggered, eased. Resting state is visible; the keyframe
