@@ -37,11 +37,10 @@ const links = [
     </button>
   </div>
 
+  {/* The overlay carries only the links. Wordmark and toggle are the real
+      header elements floating above it — nothing is duplicated, so nothing
+      can shift while the menu fades in. The burger morphs into the close X. */}
   <nav id="mobile-nav" class="nav-mobile" aria-label="Primary (mobile)">
-    <a class="nav-mobile__wordmark" href={home}>{wordmark}</a>
-    <button class="nav-mobile__close" type="button" aria-label="Close menu">
-      <svg width="26" height="26" viewBox="0 0 26 26" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M6 6l14 14M20 6L6 20"/></svg>
-    </button>
     <ul>
       {links.map((l, i) => (
         <li style={`--i: ${i}`}><a href={l.href}>{l.label}</a></li>
@@ -67,6 +66,12 @@ const links = [
     background: var(--color-paper);
     border-bottom-color: var(--color-hairline);
   }
+  /* Menu open: the overlay is one sheet of paper — the scrolled hairline
+     would read as a stray rule floating on it. */
+  .site-header.nav-open {
+    background: transparent;
+    border-bottom-color: transparent;
+  }
 
   .site-header__inner {
     width: 100%;
@@ -77,6 +82,10 @@ const links = [
     align-items: center;
     justify-content: space-between;
     gap: var(--space-lg);
+    /* Above the mobile overlay: the wordmark and toggle stay put while the
+       menu fades in beneath them. */
+    position: relative;
+    z-index: 70;
   }
 
   .wordmark {
@@ -131,6 +140,8 @@ const links = [
     cursor: pointer;
     color: var(--color-ink);
   }
+  /* Two bars that morph into the close X in place — the toggle is the same
+     element open and closed, so focus and position never move. */
   .nav-toggle__bars {
     display: block;
     width: 26px;
@@ -140,8 +151,15 @@ const links = [
     height: 1.6px;
     background: currentColor;
     border-radius: 2px;
+    transition: transform var(--duration) var(--ease-out);
   }
   .nav-toggle__bars span + span { margin-top: 6px; }
+  .site-header.nav-open .nav-toggle__bars span:first-child {
+    transform: translateY(3.8px) rotate(45deg);
+  }
+  .site-header.nav-open .nav-toggle__bars span:last-child {
+    transform: translateY(-3.8px) rotate(-45deg);
+  }
 
   /* Mobile panel — full-viewport overlay. -------------------------------- */
   .nav-mobile {
@@ -154,28 +172,6 @@ const links = [
     opacity: 0;
     pointer-events: none;
     transition: opacity var(--duration) var(--ease-out);
-  }
-  .nav-mobile a.nav-mobile__wordmark {
-    position: absolute;
-    top: var(--space-sm);
-    left: var(--page-gutter);
-    font-family: var(--font-body);
-    font-size: 1.1875rem;
-    font-weight: var(--weight-semibold);
-    letter-spacing: -0.01em;
-    color: var(--color-ink);
-    line-height: 3.4rem;
-  }
-  .nav-mobile__close {
-    position: absolute;
-    top: var(--space-sm);
-    right: calc(var(--page-gutter) - var(--space-2xs));
-    padding: var(--space-2xs);
-    background: none;
-    border: 0;
-    color: var(--color-ink);
-    cursor: pointer;
-    line-height: 0;
   }
   .nav-mobile ul {
     list-style: none;
@@ -231,17 +227,21 @@ const links = [
   // read the current elements through these refs.
   let header: HTMLElement | null = null;
   let toggle: HTMLButtonElement | null = null;
-  let close: HTMLButtonElement | null = null;
 
   const setOpen = (open: boolean) => {
-    const wasOpen = header?.classList.contains('nav-open') ?? false;
     header?.classList.toggle('nav-open', open);
     toggle?.setAttribute('aria-expanded', String(open));
-    document.body.style.overflow = open ? 'hidden' : '';
-    // Keyboard users land inside the overlay on open and back on the
-    // toggle on close, instead of tabbing through the page behind it.
-    if (open) close?.focus();
-    else if (wasOpen) toggle?.focus();
+    toggle?.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    // Lock scroll without a layout shift: compensate for whatever scrollbar
+    // the lock removes (zero on phones, real on narrow desktop windows).
+    if (open) {
+      const gutter = window.innerWidth - document.documentElement.clientWidth;
+      document.body.style.overflow = 'hidden';
+      document.body.style.paddingRight = gutter > 0 ? `${gutter}px` : '';
+    } else {
+      document.body.style.overflow = '';
+      document.body.style.paddingRight = '';
+    }
   };
 
   const init = () => {
@@ -249,13 +249,12 @@ const links = [
     if (!header || header.dataset.bound) return;
     header.dataset.bound = '1';
     toggle = header.querySelector<HTMLButtonElement>('.nav-toggle');
-    close = header.querySelector<HTMLButtonElement>('.nav-mobile__close');
 
     header.classList.toggle('is-scrolled', window.scrollY > 8);
-    toggle?.addEventListener('click', () => setOpen(true));
-    close?.addEventListener('click', () => setOpen(false));
+    // One button, both directions — it morphs between burger and X in place.
+    toggle?.addEventListener('click', () => setOpen(!header?.classList.contains('nav-open')));
     header
-      .querySelectorAll('#mobile-nav a:not(.nav-mobile__wordmark)')
+      .querySelectorAll('#mobile-nav a')
       .forEach((a) => a.addEventListener('click', () => setOpen(false)));
   };
 
@@ -270,6 +269,7 @@ const links = [
       if (sessionStorage.getItem('amd-shotlist')) document.documentElement.dataset.shotlist = '1';
     } catch {}
     document.body.style.overflow = '';
+    document.body.style.paddingRight = '';
   });
 
   // Hairline fades in once the page moves.
