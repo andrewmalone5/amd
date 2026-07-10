@@ -75,12 +75,16 @@ import About from '../components/About.astro';
     gap: 0.5em;
   }
   .hero__location svg { flex-shrink: 0; }
+  /* Three registers in one line: the label whispers (muted), the role
+     asserts (ink, semibold), the company acts (violet link, semibold —
+     R1: violet marks what you can act on). */
   .hero__current strong {
     color: var(--color-ink);
-    font-weight: var(--weight-medium);
+    font-weight: var(--weight-semibold);
   }
   .hero__current a {
-    color: var(--color-ink);
+    color: var(--color-link);
+    font-weight: var(--weight-semibold);
     border-bottom: 1px solid var(--color-link-underline);
     transition: border-color var(--duration) var(--ease-out);
   }
