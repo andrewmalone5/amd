@@ -56,7 +56,7 @@ export const projects: Project[] = [
     slug: 'backfunds',
     // The argument, drawn: the week-long wait against the D+1 landing.
     image: '/work/backfunds-timeline-thumb.svg',
-    title: 'Getting sellers paid tomorrow, not next week',
+    title: 'Getting sellers paid tomorrow, not next week.',
     client: 'Back Market',
     discipline: 'Embedded Finance',
     year: '2026',
