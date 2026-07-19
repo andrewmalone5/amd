@@ -147,13 +147,17 @@ const { method } = Astro.props;
 
 <style>
   /* Content grid: a readable centre column, with room to break media out wider.
-     Everything defaults to the centre column; media and nav opt into the width. */
+     Everything defaults to the centre column; media and nav opt into the width.
+     The left track is sized to centre the 61rem hanging envelope (the width the
+     wide blocks share), not the prose column — otherwise the right-hanging
+     blocks push the composition off page centre. 61rem must stay in sync with
+     the hanging blocks' width below. */
   .case {
     display: grid;
     grid-template-columns:
-      1fr
+      minmax(var(--page-gutter), calc((100% - 61rem) / 2))
       min(42rem, calc(100% - 2 * var(--page-gutter)))
-      1fr;
+      minmax(var(--page-gutter), 1fr);
     padding-block: var(--space-2xl) var(--section);
   }
   .case > * {
