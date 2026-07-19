@@ -129,7 +129,7 @@ export const projects: Project[] = [
       {
         type: 'media',
         label: 'Winding down',
-        needs: { kind: 'Figma', what: 'The wind-down state of the Daily payouts page: the “BackFunds is winding down” banner with the balance repaying automatically from payouts, status card and history visible. Full page, 2x.' },
+        image: '/work/backfunds/winding-down.webp',
         caption: 'Winding down: the balance repays itself from payouts, and the page says so in the seller’s terms.',
       },
       {
@@ -138,10 +138,11 @@ export const projects: Project[] = [
           'Pause is the clearest example of designing the mechanics rather than the screen. The spec gated “pause” on a zero balance. But an active seller almost always carries a float, so a literal gate would make pause practically unreachable, and the “you can’t pause” wall would become the most common thing sellers hit. Backwards.\n\nI designed a scheduled pause instead: tapping pause stops new advances immediately, the balance winds down from incoming payouts, and the account flips to paused at zero. The backend constraint is honoured and the seller gets a control that actually works. Pause and cancel became structurally parallel: both wind down, pause is resumable, cancel is terminal with a reapply path.',
       },
       {
-        type: 'media',
-        label: 'Pause and cancel, side by side',
-        needs: { kind: 'Figma, two frames', what: 'The pause drawer and the cancel drawer as a pair (will render side by side as a duo): same structure, same balance-left-to-clear, diverging only at the last bullet and the button. 2x each.' },
-        caption: 'Pause and cancel, structurally parallel: both wind down, and only the way back differs.',
+        type: 'duo',
+        items: [
+          { image: '/work/backfunds/pause-drawer.webp', label: 'The pause drawer', caption: 'Pause: the balance winds down, resumable anytime.' },
+          { image: '/work/backfunds/cancel-drawer.webp', label: 'The cancel drawer', caption: 'Cancel: the same wind-down, terminal with a reapply path.' },
+        ],
       },
       {
         type: 'narrative',
@@ -151,7 +152,7 @@ export const projects: Project[] = [
       {
         type: 'media',
         label: 'Why you qualify',
-        needs: { kind: 'Figma', what: 'The eligibility step of the apply flow (“You’re eligible for BackFunds!”): plain-language reasons and the 500 € to 750 € indicative range. 2x.' },
+        image: '/work/backfunds/eligibility-step.webp',
         caption: 'Eligibility in plain language: the reasons a seller recognises, and ranges instead of single figures.',
       },
 
@@ -168,7 +169,7 @@ export const projects: Project[] = [
       {
         type: 'media',
         label: 'Growth Simulator',
-        needs: { kind: 'Figma', what: 'The unlocked simulator with the reconciled worked example: your numbers on top, today vs with BackFunds below, return on the fee last. Use the corrected figures from the realism pass. 2x.' },
+        image: '/work/backfunds/growth-simulator.webp',
         caption: 'The value model, run on Back Market’s own data: cash cycle, revenue turns, and what the fee buys.',
       },
       {
@@ -194,7 +195,7 @@ export const projects: Project[] = [
       {
         type: 'media',
         label: 'Servicing, hosted natively',
-        needs: { kind: 'Figma', what: 'The active state of the Daily payouts page: approved banner, live daily payout card, history, and the native manage section (pause, cancel, support) that would normally live on the partner’s site. Full page, 2x.' },
+        image: '/work/backfunds/active-page.webp',
         caption: 'The whole service lives in the Back Office: dashboard, pause, and cancel, with no redirect to a lender.',
       },
 
@@ -206,10 +207,11 @@ export const projects: Project[] = [
           'A single signup screen ignores the fact that a seller moves through a lifecycle. Designing all five states up front (eligible, under review, action needed, active, not approved) made the entry point honest and reusable, and pulled product questions forward, like how “not approved” should feel: calm, not an error. Tone carries the state through the design system’s semantic tokens, and only “action needed” earns a loud primary button.\n\nThe banner went through the same discipline. Version one led with the product and read like an advert. The chosen version leads with the outcome, “Get paid tomorrow, not next week,” anchored to the seller’s real next payout amount and date.',
       },
       {
-        type: 'media',
-        label: 'The application lifecycle',
-        needs: { kind: 'Figma, two crops', what: 'Under review and action needed as a pair (will render side by side as a duo): crop each to the status banner plus the application-progress card, not the full page chrome. 2x each.' },
-        caption: 'Two of the lifecycle states: calm while under review, loud only when action is needed.',
+        type: 'duo',
+        items: [
+          { image: '/work/backfunds/app-under-review.webp', label: 'Application under review', caption: 'Under review: calm, nothing demanded of the seller.' },
+          { image: '/work/backfunds/app-action-needed.webp', label: 'Application action needed', caption: 'Action needed: the one loud moment in the lifecycle.' },
+        ],
       },
 
       // Impact: launched, with results. Evidence first, one reading after —
