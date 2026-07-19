@@ -12,6 +12,7 @@ import PayoutTimeline from '../../components/case/PayoutTimeline.astro';
 import { projects } from '../../data/projects';
 import { withBase } from '../../lib/url';
 import { imgDims } from '../../lib/img';
+import { showAssetSlots } from '../../config';
 
 export function getStaticPaths() {
   return projects.map((p) => ({
@@ -24,7 +25,7 @@ const { project } = Astro.props;
 ---
 
 <SiteLayout title={`${project.title} | Andrew Malone`} description={project.summary} minimalFooter>
-  <article class="case">
+  <article class:list={['case', { 'case--slots': showAssetSlots }]}>
     <a class="case__back" href={withBase('/#work')}>&larr;&nbsp;&nbsp;Selected Work</a>
 
     <header class="case__header">
@@ -58,9 +59,10 @@ const { project } = Astro.props;
           <span class="stat__label">{b.label}</span>
         </div>
       ) : b.type === 'media' ? (
-        /* No image yet → nothing on the public page. In shot-list mode
-           (?shotlist, owner-only) the slot renders its spec instead: what
-           artifact belongs here and exactly what to capture. */
+        /* No image yet → nothing on the public page, unless showAssetSlots
+           (src/config.ts) keeps the spec card visible in the page flow during
+           the build-out. Shot-list mode (?shotlist, owner-only) shows the same
+           card regardless of the flag. */
         b.image ? (
           <figure class="block block--media">
             <div class="media__frame media__frame--image">
@@ -321,10 +323,12 @@ const { project } = Astro.props;
   }
 
   /* Shot-list cards: hidden from visitors, shown when the owner loads any
-     page with ?shotlist. Dashed frame so a needed asset can never be
-     mistaken for a finished one. */
+     page with ?shotlist — or everywhere while the pre-launch showAssetSlots
+     flag is on. Dashed frame so a needed asset can never be mistaken for a
+     finished one. */
   .block--need { display: none; }
-  :global([data-shotlist]) .block--need { display: block; }
+  :global([data-shotlist]) .block--need,
+  .case--slots .block--need { display: block; }
   .need {
     border: 1.5px dashed var(--color-hairline-strong);
     border-radius: var(--radius-frame);
