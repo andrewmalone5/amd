@@ -30,6 +30,7 @@ const pos = (d: number) => 1 + d * 14; // sale at 1%, day seven at 99%
       <span class="pt__dot pt__dot--sale pt__dot--sale-fast"></span>
       <span class="pt__dot pt__dot--paid-fast"></span>
       <span class="pt__dlabel"><strong>D+1</strong>&ensp;paid the next business day</span>
+      <span class="pt__drift pt__drift--fast">six days of working capital, back in stock</span>
     </div>
     <div class="pt__ends"><span>sale</span><span class="pt__scale">day seven, for scale</span></div>
   </div>
@@ -176,6 +177,21 @@ const pos = (d: number) => 1 + d * 14; // sale at 1%, day seven at 99%
     transition: opacity var(--duration-slow) var(--ease-out) 3.3s;
   }
 
+  /* The fast row's mirrored commentary: the reclaimed week, written across the
+     empty span (15%–99%, so centred on 57%). Lands last, after D+1, so the
+     reader feels the gap before it's named. */
+  .pt__drift--fast {
+    position: absolute;
+    left: 57%;
+    bottom: calc(50% + 0.7rem);
+    transform: translateX(-50%);
+    margin: 0;
+    white-space: nowrap;
+  }
+  [data-payout].is-in .pt__drift--fast {
+    transition: opacity var(--duration-slow) var(--ease-out) 3.9s;
+  }
+
   .pt__ends {
     display: flex;
     justify-content: space-between;
@@ -190,6 +206,10 @@ const pos = (d: number) => 1 + d * 14; // sale at 1%, day seven at 99%
   @media (max-width: 44rem) {
     .pt__drift { text-align: left; margin-bottom: var(--space-sm); }
     .pt__dlabel { left: 1%; transform: none; }
+    /* The centred annotation would collide with the left-anchored D+1 label,
+       so the lane grows a row and the two stack: annotation above, D+1 below. */
+    .pt--fast .pt__lane { height: 4.5rem; }
+    .pt__drift--fast { left: 1%; transform: none; bottom: calc(50% + 2.1rem); }
   }
 
   @media (prefers-reduced-motion: reduce) {
