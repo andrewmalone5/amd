@@ -127,15 +127,21 @@ export const projects: Project[] = [
           'The banner was the easy part. The leverage was in the mechanics, because they are counter-intuitive and parts of them were undefined.\n\nThe seller never wires money back: their early payout is repaid automatically when the normal weekly payout lands and routes to the partner. The “outstanding balance” in the spec is really the float of advances not yet settled, not money the seller owes. A UI that said “you owe a balance” would frighten sellers away from a product with no repayment burden. I worked the mechanics through with the PM, confirmed there is no arrears path, and made the principle above a hard copy rule. Every balance, pause, and cancel screen presents repayment as passive and automatic.',
       },
       {
+        type: 'media',
+        label: 'Winding down',
+        needs: { kind: 'Figma', what: 'The wind-down state of the Daily payouts page: the “BackFunds is winding down” banner with the balance repaying automatically from payouts, status card and history visible. Full page, 2x.' },
+        caption: 'Winding down: the balance repays itself from payouts, and the page says so in the seller’s terms.',
+      },
+      {
         type: 'narrative',
         body:
           'Pause is the clearest example of designing the mechanics rather than the screen. The spec gated “pause” on a zero balance. But an active seller almost always carries a float, so a literal gate would make pause practically unreachable, and the “you can’t pause” wall would become the most common thing sellers hit. Backwards.\n\nI designed a scheduled pause instead: tapping pause stops new advances immediately, the balance winds down from incoming payouts, and the account flips to paused at zero. The backend constraint is honoured and the seller gets a control that actually works. Pause and cancel became structurally parallel: both wind down, pause is resumable, cancel is terminal with a reapply path.',
       },
       {
         type: 'media',
-        label: 'Scheduled pause',
-        needs: { kind: 'Figma / prototype', what: 'The pause drawer showing a wind-down state mid-flow — the moment repayment reads as passive, not owed. One frame.' },
-        caption: 'The pause drawer: wind-down states instead of a zero-balance gate.',
+        label: 'Pause and cancel, side by side',
+        needs: { kind: 'Figma, two frames', what: 'The pause drawer and the cancel drawer as a pair (will render side by side as a duo): same structure, same balance-left-to-clear, diverging only at the last bullet and the button. 2x each.' },
+        caption: 'Pause and cancel, structurally parallel: both wind down, and only the way back differs.',
       },
       {
         type: 'narrative',
@@ -145,8 +151,8 @@ export const projects: Project[] = [
       {
         type: 'media',
         label: 'Why you qualify',
-        needs: { kind: 'Figma / prototype', what: 'The eligibility panel with plain-language criteria and indicative ranges — the anti-fine-print moment.' },
-        caption: 'Eligibility criteria translated into plain language, with indicative ranges instead of single figures.',
+        needs: { kind: 'Figma', what: 'The eligibility step of the apply flow (“You’re eligible for BackFunds!”): plain-language reasons and the 500 € to 750 € indicative range. 2x.' },
+        caption: 'Eligibility in plain language: the reasons a seller recognises, and ranges instead of single figures.',
       },
 
       // Judgment: the product calls argued for and won, in the numbered
@@ -160,11 +166,10 @@ export const projects: Project[] = [
           'The Growth Simulator, which models what daily payouts are worth to a seller, runs on Back Market’s own data and computation rather than the partner’s API, and a full-API integration was chosen over an embedded or SDK approach for the same reason. The partner’s own calculator leaned toward a sales pitch; a tool inside the Back Office has to hold up to more scrutiny than that.',
       },
       {
-        // MEDIA PLACEHOLDER — Growth Simulator. Swap for the value-model screen.
         type: 'media',
         label: 'Growth Simulator',
-        needs: { kind: 'Prototype', what: 'The simulator with a worked example visible: inputs on one side, what daily payouts are worth on the other. Coded-prototype capture is fine.' },
-        caption: 'The value model, run on Back Market’s own data: cash cycle, revenue turns, and estimated uplift.',
+        needs: { kind: 'Figma', what: 'The unlocked simulator with the reconciled worked example: your numbers on top, today vs with BackFunds below, return on the fee last. Use the corrected figures from the realism pass. 2x.' },
+        caption: 'The value model, run on Back Market’s own data: cash cycle, revenue turns, and what the fee buys.',
       },
       {
         type: 'principle',
@@ -174,11 +179,23 @@ export const projects: Project[] = [
           'The product can route a seller to one of several funding partners, and the eligibility engine already picks the cheapest fit. The spec leaned toward a side-by-side comparison; I argued that choice here is cognitive load dressed up as empowerment. Sellers see a single match, framed as “matched for you.” The team took this direction.',
       },
       {
+        type: 'media',
+        label: 'Matched, not a marketplace',
+        needs: { kind: 'Figma', what: 'The partner step of the apply flow: the single Storfund card with the “Your best match” tag and the terms line. 2x.' },
+        caption: 'One provider, matched for you: the comparison table that never shipped.',
+      },
+      {
         type: 'principle',
         num: '03',
         title: 'Host servicing inside the Back Office',
         body:
           'Partners normally hand the seller off to their own site after signup, which is also their biggest drop-off point. I pushed to host the full dashboard, pause, and cancel natively instead. A deliberate departure from the partner’s standard model and a real maintenance cost, signed off by product leadership, because it is what keeps BackFunds feeling like Back Market rather than a redirect to a lender.',
+      },
+      {
+        type: 'media',
+        label: 'Servicing, hosted natively',
+        needs: { kind: 'Figma', what: 'The active state of the Daily payouts page: approved banner, live daily payout card, history, and the native manage section (pause, cancel, support) that would normally live on the partner’s site. Full page, 2x.' },
+        caption: 'The whole service lives in the Back Office: dashboard, pause, and cancel, with no redirect to a lender.',
       },
 
       // The system: lifecycle over pitch.
@@ -190,9 +207,9 @@ export const projects: Project[] = [
       },
       {
         type: 'media',
-        label: 'Money & Wallet entry point',
-        needs: { kind: 'Figma', what: 'The five lifecycle states of the wallet promo, side by side or as a compact grid: eligible, active, paused, wind-down, ineligible.' },
-        caption: 'The status-aware wallet promo across the five-state lifecycle.',
+        label: 'The application lifecycle',
+        needs: { kind: 'Figma, two crops', what: 'Under review and action needed as a pair (will render side by side as a duo): crop each to the status banner plus the application-progress card, not the full page chrome. 2x each.' },
+        caption: 'Two of the lifecycle states: calm while under review, loud only when action is needed.',
       },
 
       // Impact: launched, with results. Evidence first, one reading after —
