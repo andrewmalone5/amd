@@ -22,7 +22,15 @@ export type Block =
   | { type: 'narrative'; body: string } // body may contain \n\n paragraph breaks
   | { type: 'quote'; text: string; cite?: string }
   | { type: 'stat'; value: string; label: string }
-  | { type: 'media'; label: string; caption?: string; image?: string; needs?: { kind: string; what: string } } // image: path under /public. `needs` is the shot list: what asset belongs here, visible only in ?shotlist mode
+  // Media slot. To fill one: drop the file under public/work/ (webp preferred,
+  // ~1600px wide for full-width shots; svg for diagrams), set image to its
+  // /public-relative path (e.g. image: '/work/backfunds/pause-drawer.webp'),
+  // and add the file's pixel dimensions to src/data/image-dims.json under the
+  // same path so the layout reserves its box. With `image` set the slot renders
+  // the asset; without it, it renders a dashed placeholder card while
+  // showAssetSlots (src/config.ts) is on, and nothing once that flag is off
+  // (`needs` — the capture spec — then remains visible only in ?shotlist mode).
+  | { type: 'media'; label: string; caption?: string; image?: string; needs?: { kind: string; what: string } }
   // Flagship-case blocks:
   | { type: 'overview'; columns: { label: string; value: string }[]; body: string } // at-a-glance strip under the header
   | { type: 'statRow'; stats: { value: string; label: string }[] } // 2-4 stats on one ruled row
@@ -56,7 +64,7 @@ export const projects: Project[] = [
     slug: 'backfunds',
     // The argument, drawn: the week-long wait against the D+1 landing.
     image: '/work/backfunds-timeline-thumb.svg',
-    title: 'Getting sellers paid tomorrow, not next week',
+    title: 'Getting sellers paid tomorrow, not next week.',
     client: 'Back Market',
     discipline: 'Embedded Finance',
     year: '2026',
