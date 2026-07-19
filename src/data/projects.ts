@@ -99,10 +99,9 @@ export const projects: Project[] = [
           'BackFunds closes that gap. A third-party partner funds the early payouts, so Back Market carries no balance-sheet risk, and the whole product lives inside the seller Back Office, where it reads as a Back Market capability rather than a loan bolted on.\n\nThe design problem was harder than the pitch. Sellers don’t arrive looking for credit. The word “financing” carries baggage: debt, fees, lock-in. And the mechanics underneath, how repayment works, what a “balance” is, what it costs, were either counter-intuitive or not yet pinned down. The job was to make an unfamiliar financial product feel trustworthy and clearly worth it, inside a dense operational tool where sellers are thinking about orders and stock, not financing.',
       },
       {
-        // MEDIA PLACEHOLDER — hero shot. Swap for the launched entry point in context.
         type: 'media',
         label: 'BackFunds in the Back Office',
-        needs: { kind: 'Live product', what: 'Full-width screenshot of the live BackFunds entry point in Money & Wallet — desktop, real (anonymised) seller data, ~1600px wide.' },
+        image: '/work/backfunds/entry-point-hero.webp',
         caption: 'The daily-payout entry point, live in the seller Money and Wallet page.',
       },
 
