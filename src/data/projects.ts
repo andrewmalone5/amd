@@ -101,7 +101,7 @@ export const projects: Project[] = [
       {
         type: 'media',
         label: 'BackFunds in the Back Office',
-        image: '/work/backfunds/entry-point-hero.webp',
+        image: '/work/backfunds/entry-point-full.webp',
         caption: 'The daily-payout entry point, live in the seller Money and Wallet page.',
       },
 
