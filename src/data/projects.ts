@@ -40,7 +40,7 @@ export type Block =
   | { type: 'pairs'; kicker?: string; items: { label: string; value: string }[] } // label/value grid (dependency map)
   // Bespoke story artifacts: live scroll-animated components, one per story.
   // Each name maps to a component in src/components/case/.
-  | { type: 'artifact'; name: 'deals-sliver' | 'care-between-visits' | 'payout-timeline' };
+  | { type: 'artifact'; name: 'deals-sliver' | 'care-between-visits' | 'payout-timeline' | 'adoption-curve' };
 
 export interface Project {
   num: string;
@@ -233,14 +233,10 @@ export const projects: Project[] = [
           { value: '< 5%', label: 'Of dashboard-answerable questions reached support' },
         ],
       },
-      {
-        // MEDIA PLACEHOLDER — results. Swap for a dashboard, adoption chart, or a
-        // seller quote card.
-        type: 'media',
-        label: 'Adoption after launch',
-        needs: { kind: 'Data / chart', what: 'Activation and retention across the first quarter post-launch — redraw in site style from the real numbers; relative figures only.' },
-        caption: 'Activation and retention across the first quarter post-launch.',
-      },
+      // Adoption drawn in site style: relative shares only, tracking toward the
+      // year figure rather than claiming it. Swap the data series for measured
+      // actuals once reporting confirms them.
+      { type: 'artifact', name: 'adoption-curve' },
       {
         type: 'narrative',
         body:

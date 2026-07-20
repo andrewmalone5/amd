@@ -1,0 +1,211 @@
+---
+// Adoption after launch, drawn rather than screenshotted: two lines across the
+// first quarter, interested above, activated climbing to meet it. Relative
+// shares only, and the activated line starts at the stat row's 14% and ends
+// the quarter tracking toward the 30% year figure, never at it.
+const interested = [25.0, 26.2, 26.8, 27.1, 27.0, 27.4, 27.9, 27.7, 28.1, 28.0, 28.3, 28.1, 28.4];
+const activated = [14.0, 15.1, 15.8, 16.2, 17.1, 17.4, 18.3, 18.6, 19.4, 19.9, 20.6, 21.0, 21.6];
+
+// Plot geometry: 0–30% mapped onto a fixed viewBox.
+const X0 = 40, X1 = 740, Y0 = 270, TOP = 20, MAX = 30;
+const x = (i: number) => X0 + (i / (interested.length - 1)) * (X1 - X0);
+const y = (v: number) => Y0 - (v / MAX) * (Y0 - TOP);
+const path = (series: number[]) => series.map((v, i) => `${i === 0 ? 'M' : 'L'} ${x(i).toFixed(1)} ${y(v).toFixed(1)}`).join(' ');
+
+const gridlines = [10, 20, 30];
+const iEnd = interested[interested.length - 1];
+const aEnd = activated[activated.length - 1];
+---
+
+<div class="block block--adoption" data-adoption>
+  <p class="ad__kicker">Adoption among eligible sellers</p>
+
+  <svg class="ad__chart" viewBox="0 0 884 320" role="img" aria-label="Line chart: across the first quarter after launch, the share of eligible sellers interested in BackFunds holds around 28% while the activated share climbs from 14% to 22%, narrowing the gap.">
+    {gridlines.map((v) => (
+      <>
+        <line class="ad__grid" x1={X0} y1={y(v)} x2={X1} y2={y(v)} />
+        <text class="ad__axis" x={X0 - 8} y={y(v) + 4} text-anchor="end">{v}%</text>
+      </>
+    ))}
+    <line class="ad__base" x1={X0} y1={Y0} x2={X1} y2={Y0} />
+
+    <path class="ad__line ad__line--interested" d={path(interested)} pathLength="1" />
+    <path class="ad__line ad__line--activated" d={path(activated)} pathLength="1" />
+
+    <circle class="ad__dot ad__dot--start" cx={x(0)} cy={y(activated[0])} r="5" />
+    <circle class="ad__dot ad__dot--end-i" cx={x(interested.length - 1)} cy={y(iEnd)} r="5" />
+    <circle class="ad__dot ad__dot--end-a" cx={x(activated.length - 1)} cy={y(aEnd)} r="5" />
+
+    <text class="ad__value ad__value--start" x={x(0) + 10} y={y(activated[0]) - 10}>14%</text>
+    <text class="ad__label ad__label--interested" x={X1 + 14} y={y(iEnd) + 4}>interested, {Math.round(iEnd)}%</text>
+    <text class="ad__label ad__label--activated" x={X1 + 14} y={y(aEnd) + 4}>activated, {Math.round(aEnd)}%</text>
+
+    <text class="ad__drift" x="460" y="78" text-anchor="middle">the interested-to-activated gap, closing week by week</text>
+
+    <text class="ad__axis ad__axis--x" x={X0} y={Y0 + 24} text-anchor="start">launch</text>
+    <text class="ad__axis ad__axis--x" x={X1} y={Y0 + 24} text-anchor="end">week 13</text>
+  </svg>
+
+  <p class="ad__caption">Adoption across the first quarter after launch, as relative shares of eligible sellers.</p>
+</div>
+
+<style>
+  .ad__kicker {
+    font-size: var(--text-xs);
+    font-weight: var(--weight-medium);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    color: var(--color-ink-muted);
+    margin-bottom: var(--space-lg);
+  }
+
+  .ad__chart {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .ad__grid {
+    stroke: var(--color-hairline);
+    stroke-width: 1;
+  }
+  .ad__base {
+    stroke: var(--color-hairline-strong);
+    stroke-width: 1;
+  }
+  .ad__axis {
+    font-family: var(--font-body);
+    font-size: 12px;
+    fill: var(--color-ink-muted);
+  }
+
+  .ad__line {
+    fill: none;
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    stroke-linejoin: round;
+    stroke-linecap: round;
+  }
+  .ad__line--interested {
+    stroke: var(--color-hairline-strong);
+    stroke-width: 1.5;
+  }
+  .ad__line--activated {
+    stroke: var(--color-mark);
+    stroke-width: 2;
+  }
+  [data-adoption].is-in .ad__line--interested {
+    stroke-dashoffset: 0;
+    transition: stroke-dashoffset 1.4s cubic-bezier(0.45, 0, 0.55, 1);
+  }
+  [data-adoption].is-in .ad__line--activated {
+    stroke-dashoffset: 0;
+    transition: stroke-dashoffset 1.6s cubic-bezier(0.45, 0, 0.55, 1) 0.5s;
+  }
+
+  .ad__dot {
+    fill: var(--color-mark);
+    opacity: 0;
+    transform-origin: center;
+    transform-box: fill-box;
+    transform: scale(0.4);
+  }
+  .ad__dot--end-i { fill: var(--color-hairline-strong); }
+  [data-adoption].is-in .ad__dot {
+    opacity: 1;
+    transform: scale(1);
+    transition: opacity var(--duration) var(--ease-out), transform var(--duration) var(--ease-out);
+  }
+  [data-adoption].is-in .ad__dot--start { transition-delay: 0.5s; }
+  [data-adoption].is-in .ad__dot--end-i { transition-delay: 1.4s; }
+  [data-adoption].is-in .ad__dot--end-a { transition-delay: 2.1s; }
+
+  .ad__value {
+    font-family: var(--font-body);
+    font-size: 12px;
+    font-weight: var(--weight-medium);
+    fill: var(--color-mark);
+    opacity: 0;
+  }
+  .ad__label {
+    font-family: var(--font-body);
+    font-size: 12px;
+    fill: var(--color-ink-muted);
+    opacity: 0;
+  }
+  .ad__label--activated {
+    fill: var(--color-mark);
+    font-weight: var(--weight-medium);
+  }
+  [data-adoption].is-in .ad__value,
+  [data-adoption].is-in .ad__label {
+    opacity: 1;
+    transition: opacity var(--duration-slow) var(--ease-out);
+  }
+  [data-adoption].is-in .ad__value--start { transition-delay: 0.7s; }
+  [data-adoption].is-in .ad__label--interested { transition-delay: 1.5s; }
+  [data-adoption].is-in .ad__label--activated { transition-delay: 2.2s; }
+
+  /* The mirrored commentary voice, landing last like the timeline's. */
+  .ad__drift {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 14px;
+    fill: var(--color-ink-muted);
+    opacity: 0;
+  }
+  [data-adoption].is-in .ad__drift {
+    opacity: 1;
+    transition: opacity var(--duration-slow) var(--ease-out) 2.6s;
+  }
+
+  .ad__caption {
+    margin-top: var(--space-sm);
+    font-size: var(--text-sm);
+    color: var(--color-ink-muted);
+    text-align: center;
+  }
+
+  /* Phone: the chart scales down uniformly, so in-chart type is bumped in
+     viewBox units to stay legible at the smaller rendered size. */
+  @media (max-width: 44rem) {
+    .ad__kicker { margin-bottom: var(--space-md); }
+    .ad__axis, .ad__value, .ad__label { font-size: 17px; }
+    .ad__drift { font-size: 19px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ad__line { stroke-dashoffset: 0; }
+    .ad__dot { opacity: 1; transform: scale(1); }
+    .ad__value, .ad__label, .ad__drift { opacity: 1; }
+    [data-adoption].is-in .ad__line,
+    [data-adoption].is-in .ad__dot,
+    [data-adoption].is-in .ad__value,
+    [data-adoption].is-in .ad__label,
+    [data-adoption].is-in .ad__drift { transition: none; }
+  }
+</style>
+
+<script>
+  // Same per-visit init pattern as the payout timeline: view-transition
+  // navigations rebuild the DOM without re-running module scripts.
+  const init = () => {
+    const el = document.querySelector<HTMLElement>('[data-adoption]');
+    if (el && !el.dataset.bound) {
+      el.dataset.bound = '1';
+      new IntersectionObserver(
+        (entries, io) => {
+          for (const e of entries) {
+            if (e.isIntersecting) {
+              el.classList.add('is-in');
+              io.disconnect();
+            }
+          }
+        },
+        { threshold: 0.4 }
+      ).observe(el);
+    }
+  };
+  init();
+  document.addEventListener('astro:page-load', init);
+</script>

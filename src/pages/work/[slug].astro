@@ -9,6 +9,7 @@ import SiteLayout from '../../layouts/SiteLayout.astro';
 import DealsSliver from '../../components/case/DealsSliver.astro';
 import BetweenVisits from '../../components/case/BetweenVisits.astro';
 import PayoutTimeline from '../../components/case/PayoutTimeline.astro';
+import AdoptionCurve from '../../components/case/AdoptionCurve.astro';
 import { projects } from '../../data/projects';
 import { withBase } from '../../lib/url';
 import { imgDims } from '../../lib/img';
@@ -132,7 +133,7 @@ const { project } = Astro.props;
           </div>
         ) : null
       ) : b.type === 'artifact' ? (
-        b.name === 'deals-sliver' ? <DealsSliver /> : b.name === 'care-between-visits' ? <BetweenVisits /> : b.name === 'payout-timeline' ? <PayoutTimeline /> : null
+        b.name === 'deals-sliver' ? <DealsSliver /> : b.name === 'care-between-visits' ? <BetweenVisits /> : b.name === 'payout-timeline' ? <PayoutTimeline /> : b.name === 'adoption-curve' ? <AdoptionCurve /> : null
       ) : b.type === 'pairs' ? (
         <div class="block block--pairs">
           {b.kicker && <p class="eyebrow pairs__kicker">{b.kicker}</p>}
@@ -583,7 +584,8 @@ const { project } = Astro.props;
      They share the wide text axis with overview and stat rows. */
   .case > :global(.block--sliver),
   .case > :global(.block--between),
-  .case > :global(.block--payout) {
+  .case > :global(.block--payout),
+  .case > :global(.block--adoption) {
     grid-column: 2 / -1;
     width: min(61rem, calc(100% - var(--page-gutter)));
     margin-block: var(--section-tight) var(--space-lg);
