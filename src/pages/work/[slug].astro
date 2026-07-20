@@ -65,7 +65,7 @@ const { project } = Astro.props;
            card regardless of the flag. */
         b.image ? (
           <figure class="block block--media">
-            <div class="media__frame media__frame--image">
+            <div class:list={['media__frame', 'media__frame--image', { 'media__frame--tall': (imgDims(b.image).height ?? 0) > (imgDims(b.image).width ?? 1) * 1.15 }]}>
               <img src={withBase(b.image)} alt={b.label} loading="lazy" decoding="async" {...imgDims(b.image)} />
             </div>
             {b.caption && <figcaption>{b.caption}</figcaption>}
@@ -319,6 +319,14 @@ const { project } = Astro.props;
       0 1px 2px rgba(28, 25, 18, 0.05),
       0 32px 64px -40px rgba(28, 25, 18, 0.28);
   }
+  /* Dialog-shaped shots (clearly taller than wide) centre at a readable width
+     instead of stretching across the breakout. Same edge treatment. */
+  .media__frame--tall img {
+    width: auto;
+    max-width: 100%;
+    max-height: 46rem;
+    margin-inline: auto;
+  }
   .block--media figcaption {
     margin-top: var(--space-sm);
     font-size: var(--text-sm);
@@ -516,19 +524,22 @@ const { project } = Astro.props;
     gap: var(--space-md);
     align-items: start;
   }
+  /* Duo items share the bare treatment: no panel, edge and lift on the shot. */
   .duo__frame {
-    background: var(--color-surface);
-    border: 1px solid var(--color-hairline);
-    border-radius: var(--radius-frame);
-    padding: var(--space-md);
     display: flex;
     justify-content: center;
   }
   .duo__frame img {
     display: block;
     max-width: 100%;
+    max-height: 42rem;
+    width: auto;
     height: auto;
-    border-radius: var(--radius-screen);
+    border-radius: var(--radius-frame);
+    border: 1px solid var(--color-hairline);
+    box-shadow:
+      0 1px 2px rgba(28, 25, 18, 0.05),
+      0 32px 64px -40px rgba(28, 25, 18, 0.28);
   }
   .block--duo figcaption {
     margin-top: var(--space-sm);
