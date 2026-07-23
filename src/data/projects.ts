@@ -38,7 +38,7 @@ export type Block =
   | { type: 'statRow'; stats: { value: string; label: string }[] } // 2-4 stats on one ruled row
   | { type: 'callout'; kicker: string; body: string } // bordered evidence aside
   | { type: 'principle'; num: string; title: string; body: string } // oversized numeral + display title
-  | { type: 'duo'; items: { image?: string; label: string; caption?: string }[] } // two images side by side
+  | { type: 'duo'; lead?: string; items: { image?: string; label: string; caption?: string }[] } // two images side by side; lead: optional text column set beside them in one row
   | { type: 'pairs'; kicker?: string; items: { label: string; value: string }[] } // label/value grid (dependency map)
   // Bespoke story artifacts: live scroll-animated components, one per story.
   // Each name maps to a component in src/components/case/.
@@ -136,12 +136,9 @@ export const projects: Project[] = [
         caption: 'Winding down: the balance repays itself from payouts, and the page says so in the seller’s terms.',
       },
       {
-        type: 'narrative',
-        body:
-          'Pause is the clearest example of designing the mechanics rather than the screen. The spec gated “pause” on a zero balance. But an active seller almost always carries a float, so a literal gate would make pause practically unreachable, and the “you can’t pause” wall would become the most common thing sellers hit. Backwards.\n\nI designed a scheduled pause instead: tapping pause stops new advances immediately, the balance winds down from incoming payouts, and the account flips to paused at zero. The backend constraint is honoured and the seller gets a control that actually works. Pause and cancel became structurally parallel: both wind down, pause is resumable, cancel is terminal with a reapply path.',
-      },
-      {
         type: 'duo',
+        lead:
+          'Pause is the clearest example of designing the mechanics rather than the screen. The spec gated “pause” on a zero balance. But an active seller almost always carries a float, so a literal gate would make pause practically unreachable, and the “you can’t pause” wall would become the most common thing sellers hit. Backwards.\n\nI designed a scheduled pause instead: tapping pause stops new advances immediately, the balance winds down from incoming payouts, and the account flips to paused at zero. The backend constraint is honoured and the seller gets a control that actually works. Pause and cancel became structurally parallel: both wind down, pause is resumable, cancel is terminal with a reapply path.',
         items: [
           { image: '/work/backfunds/pause-drawer.webp', label: 'The pause drawer', caption: 'Pause: the balance winds down, resumable anytime.' },
           { image: '/work/backfunds/cancel-drawer.webp', label: 'The cancel drawer', caption: 'Cancel: the same wind-down, terminal with a reapply path.' },

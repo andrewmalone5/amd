@@ -121,7 +121,14 @@ const { project } = Astro.props;
         </section>
       ) : b.type === 'duo' ? (
         b.items.some((item) => item.image) ? (
-          <div class="block block--duo">
+          <div class:list={['block', 'block--duo', { 'block--duo-lead': b.lead }]}>
+            {b.lead && (
+              <div class="duo__lead">
+                {b.lead.split('\n\n').map((para) => (
+                  <p>{para}</p>
+                ))}
+              </div>
+            )}
             {b.items.filter((item) => item.image).map((item) => (
               <figure class="duo__item">
                 <div class="duo__frame">
@@ -550,6 +557,31 @@ const { project } = Astro.props;
   }
   @media (max-width: 48rem) {
     .case > .block--duo { grid-template-columns: 1fr; }
+  }
+
+  /* Duo with a lead: the text column sits in the same row as the two slender
+     drawers, so the argument and the screens it describes read together. The
+     drawer tracks are sized to the shots; the prose takes the rest. */
+  .case > .block--duo-lead {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 21rem) minmax(0, 21rem);
+    gap: var(--space-lg) var(--space-xl);
+    align-items: center;
+  }
+  .duo__lead p {
+    font-size: var(--text-lead);
+    line-height: var(--leading-lead);
+    color: var(--color-ink);
+  }
+  .duo__lead p + p { margin-top: var(--space-md); }
+  /* Narrow: the prose sits above the pair, which stays side by side until the
+     drawers themselves need to stack. */
+  @media (max-width: 60rem) {
+    .case > .block--duo-lead { grid-template-columns: 1fr 1fr; }
+    .duo__lead { grid-column: 1 / -1; margin-bottom: var(--space-xs); }
+  }
+  @media (max-width: 40rem) {
+    .case > .block--duo-lead { grid-template-columns: 1fr; }
+    .duo__lead { grid-column: auto; }
   }
 
   /* Pairs — label/value rows for maps and inventories. */
