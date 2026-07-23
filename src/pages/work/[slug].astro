@@ -48,7 +48,7 @@ function captionLead(caption: string): { lead: string; rest: string } | null {
     {project.blocks.map((b) =>
       b.type === 'heading' ? (
         <header class="block block--heading">
-          {b.kicker && <p class="eyebrow">{b.kicker}</p>}
+          {b.kicker && <p class="ghost-head heading__kicker">{b.kicker}</p>}
           <h2>{b.text}</h2>
         </header>
       ) : b.type === 'narrative' ? (
@@ -265,15 +265,15 @@ function captionLead(caption: string): { lead: string; rest: string } | null {
   .block--media { margin-top: var(--section); margin-bottom: var(--space-lg); }
   .case__header + .block { margin-top: var(--section-tight); }
 
-  /* Section heading — a kicker plus a Spectral h2, opened by a hairline. These
-     are what give a long case study its arc. */
+  /* Section heading — the kicker as a ghost head (the homepage's outlined
+     Spectral, one step down) above the real headline. The big type is the
+     divider, so the old hairline goes. */
   .block--heading {
     margin-top: var(--section);
-    padding-top: var(--space-xl);
-    border-top: 1px solid var(--color-hairline);
   }
-  .block--heading .eyebrow {
-    margin-bottom: var(--space-sm);
+  .block--heading .heading__kicker {
+    font-size: var(--text-display-md);
+    margin-bottom: var(--space-xs);
   }
   .block--heading h2 {
     font-size: var(--text-display-sm);
@@ -296,7 +296,7 @@ function captionLead(caption: string): { lead: string; rest: string } | null {
   /* Pull quote — Spectral, marked with a short rule above it. */
   .block--quote {
     padding-top: var(--space-lg);
-    border-top: 2px solid var(--color-mark); /* R2: emphasis opens in the second ink */
+    border-top: 2px solid var(--color-ink);
   }
   .block--quote p {
     font-family: var(--font-display);
@@ -326,7 +326,7 @@ function captionLead(caption: string): { lead: string; rest: string } | null {
     margin-top: var(--section-tight);
     margin-bottom: var(--space-lg);
     padding-top: var(--space-lg);
-    border-top: 2px solid var(--color-mark);
+    border-top: 2px solid var(--color-ink);
   }
   .block--ledger .eyebrow { margin-bottom: var(--space-sm); }
   .ledger__rule {
@@ -514,8 +514,6 @@ function captionLead(caption: string): { lead: string; rest: string } | null {
     grid-column: 2 / -1;
     width: min(61rem, calc(100% - var(--page-gutter)));
     margin-top: var(--section-tight);
-    padding-top: var(--space-lg);
-    border-top: 1px solid var(--color-hairline);
   }
   .overview__cols {
     margin: 0;
@@ -556,7 +554,7 @@ function captionLead(caption: string): { lead: string; rest: string } | null {
     width: min(61rem, calc(100% - var(--page-gutter)));
     margin-block: var(--section-tight) var(--space-lg);
     padding-top: var(--space-lg);
-    border-top: 2px solid var(--color-mark); /* R2 */
+    border-top: 2px solid var(--color-ink);
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
     gap: var(--space-lg) var(--space-xl);
@@ -611,8 +609,6 @@ function captionLead(caption: string): { lead: string; rest: string } | null {
     grid-column: 2 / -1;
     width: min(61rem, calc(100% - var(--page-gutter)));
     margin-top: var(--section);
-    padding-top: var(--space-xl);
-    border-top: 1px solid var(--color-hairline);
     display: grid;
     grid-template-columns: minmax(0, 14rem) minmax(0, 42rem);
     gap: var(--space-lg) var(--space-2xl);
