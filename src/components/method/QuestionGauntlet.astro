@@ -1,0 +1,221 @@
+---
+// The five questions as a gauntlet a brief has to survive, not a list to read.
+// A rail draws downward through five numbered gates; each gate lands in
+// sequence with the question and what it catches. Hovering a gate focuses it
+// and sharpens its consequence — what happens to the project if the question
+// never gets asked. Frameless, straight on the paper.
+const gates = [
+  {
+    q: 'What problem are we actually solving?',
+    catches: 'Not the feature request. The thing that hurts if we do nothing. If the team can’t state it without naming the solution, there’s no problem statement yet.',
+    skipped: 'Skip it and you build the feature request, while the pain it stood in for ships untouched.',
+  },
+  {
+    q: 'How do we know this is the right problem?',
+    catches: 'What’s under the brief: user research, support tickets, analytics? Or one loud voice in a meeting three months ago?',
+    skipped: 'Skip it and the loudest voice in the room becomes the research.',
+  },
+  {
+    q: 'What does success look like, and for whom?',
+    catches: 'A number, a behaviour, and a person. If the metric is missing, the first deliverable is the metric.',
+    skipped: 'Skip it and the metric gets invented after launch. It always flatters.',
+  },
+  {
+    q: 'What are we NOT building?',
+    catches: 'Scope creep starts when this never gets said out loud. Naming what’s out is the cheapest protection a project gets.',
+    skipped: 'Skip it and scope grows one reasonable request at a time.',
+  },
+  {
+    q: 'Who needs to be in the room for this to work?',
+    catches: 'If engineering and the metric owner aren’t aligned before pixels, their constraints arrive later, dressed as change requests.',
+    skipped: 'Skip it and the constraints arrive anyway, six weeks late and dressed as change requests.',
+  },
+];
+---
+
+<div class="block block--gauntlet" data-gauntlet>
+  <ol class="gauntlet">
+    {gates.map((g, i) => (
+      <li class="gate" style={`--d: ${(0.15 + i * 0.22).toFixed(2)}s`}>
+        <span class="gate__node" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+        <div class="gate__body">
+          <h3 class="gate__q">{g.q}</h3>
+          <p class="gate__catches">{g.catches}</p>
+          <p class="gate__skipped">{g.skipped}</p>
+        </div>
+      </li>
+    ))}
+  </ol>
+</div>
+
+<style>
+  .block--gauntlet {
+    margin: 0;
+  }
+
+  .gauntlet {
+    position: relative;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  /* The rail: draws downward through the gates once the block is in view. */
+  .gauntlet::before {
+    content: '';
+    position: absolute;
+    top: 0.5rem;
+    bottom: 0.5rem;
+    left: 1.375rem;
+    width: 1px;
+    background: var(--color-hairline-strong);
+    transform: scaleY(0);
+    transform-origin: top;
+  }
+  [data-gauntlet].is-in .gauntlet::before {
+    transform: scaleY(1);
+    transition: transform 1.6s var(--ease-out);
+  }
+
+  .gate {
+    position: relative;
+    display: grid;
+    grid-template-columns: 2.75rem 1fr;
+    gap: var(--space-lg);
+    align-items: start;
+    opacity: 0;
+    transform: translateY(0.75rem);
+  }
+  .gate + .gate { margin-top: var(--space-lg); }
+  [data-gauntlet].is-in .gate {
+    opacity: 1;
+    transform: translateY(0);
+    transition:
+      opacity var(--duration-slow) var(--ease-out),
+      transform var(--duration-slow) var(--ease-out);
+    transition-delay: var(--d);
+  }
+
+  /* The gate node: a numbered coin on the rail. Fills with ink on focus. */
+  .gate__node {
+    display: grid;
+    place-items: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border: 1.5px solid var(--color-ink);
+    border-radius: 50%;
+    background: var(--color-paper);
+    font-size: var(--text-xs);
+    font-weight: var(--weight-semibold);
+    letter-spacing: 0.06em;
+    color: var(--color-ink);
+    transform: scale(0.55);
+    transition:
+      background-color var(--duration-fast) var(--ease-out),
+      color var(--duration-fast) var(--ease-out);
+  }
+  [data-gauntlet].is-in .gate__node {
+    transform: scale(1);
+    transition:
+      transform var(--duration) var(--ease-out),
+      background-color var(--duration-fast) var(--ease-out),
+      color var(--duration-fast) var(--ease-out);
+    transition-delay: var(--d), 0s, 0s;
+  }
+
+  .gate__q {
+    font-family: var(--font-body);
+    font-size: var(--text-body);
+    font-weight: var(--weight-semibold);
+    line-height: 1.35;
+    color: var(--color-ink);
+    padding-top: 0.55rem;
+  }
+  .gate__catches {
+    margin-top: var(--space-2xs);
+    font-size: var(--text-sm);
+    line-height: 1.55;
+    color: var(--color-ink-muted);
+    max-width: 52ch;
+  }
+  /* The consequence: present but quiet, sharpening to full ink on focus. */
+  .gate__skipped {
+    margin-top: var(--space-xs);
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 1.0625rem;
+    line-height: 1.5;
+    color: var(--color-ink-muted);
+    max-width: 46ch;
+    transition: color var(--duration-fast) var(--ease-out);
+  }
+
+  /* Focus hand-over: the hovered gate comes forward, the rest step back. */
+  .gate.is-hot .gate__node {
+    background: var(--color-ink);
+    color: var(--color-paper);
+  }
+  .gate.is-hot .gate__skipped { color: var(--color-ink); }
+  [data-gauntlet].has-focus .gate:not(.is-hot) { opacity: 0.45; }
+
+  /* Post-entrance: everything at hover speed. */
+  [data-gauntlet].is-settled .gate,
+  [data-gauntlet].is-settled .gate__node {
+    transition-delay: 0s;
+    transition-duration: var(--duration-fast);
+  }
+
+  @media (max-width: 40rem) {
+    .gate { grid-template-columns: 2.25rem 1fr; gap: var(--space-md); }
+    .gate__node { width: 2.25rem; height: 2.25rem; }
+    .gauntlet::before { left: 1.125rem; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .gate { opacity: 1; transform: none; }
+    .gate__node { transform: scale(1); }
+    .gauntlet::before { transform: scaleY(1); }
+    [data-gauntlet].is-in .gauntlet::before,
+    [data-gauntlet].is-in .gate,
+    [data-gauntlet].is-in .gate__node { transition: none; }
+  }
+</style>
+
+<script>
+  // Runs per page visit: view-transition navigations rebuild the DOM
+  // without re-executing module scripts, so astro:page-load re-inits.
+  const init = () => {
+    const gauntlet = document.querySelector<HTMLElement>('[data-gauntlet]');
+    if (gauntlet && !gauntlet.dataset.bound) {
+      gauntlet.dataset.bound = '1';
+      new IntersectionObserver(
+        (entries, io) => {
+          for (const e of entries) {
+            if (e.isIntersecting) {
+              gauntlet.classList.add('is-in');
+              setTimeout(() => gauntlet.classList.add('is-settled'), 2000);
+              io.disconnect();
+            }
+          }
+        },
+        { threshold: 0.2 }
+      ).observe(gauntlet);
+
+      const focus = (gate: Element | undefined) => {
+        gauntlet.querySelectorAll('.is-hot').forEach((el) => el.classList.remove('is-hot'));
+        if (!gate) {
+          gauntlet.classList.remove('has-focus');
+          return;
+        }
+        gate.classList.add('is-hot');
+        gauntlet.classList.add('has-focus');
+      };
+
+      gauntlet.querySelectorAll<HTMLElement>('.gate').forEach((el) => {
+        el.addEventListener('mouseenter', () => focus(el));
+      });
+      gauntlet.querySelector('.gauntlet')?.addEventListener('mouseleave', () => focus(undefined));
+    }
+  };
+  init();
+  document.addEventListener('astro:page-load', init);
+</script>

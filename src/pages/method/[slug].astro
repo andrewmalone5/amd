@@ -1,43 +1,39 @@
 ---
-// The case-study template. One route, every project. The page is composed from
-// the project's `blocks` array, so a two-sentence project and the anchor share
-// the same template but render at completely different densities.
-//
-// A content grid keeps text at a readable measure while media breaks out wider.
-// Spacing varies by block type, so the rhythm reads as edited rather than gridded.
+// Methodology template — derived from the case-study template so the two share
+// one block system and one set of styles. Keep the styles in sync with
+// work/[slug].astro when the block system changes.
 import SiteLayout from '../../layouts/SiteLayout.astro';
-import DealsSliver from '../../components/case/DealsSliver.astro';
-import BetweenVisits from '../../components/case/BetweenVisits.astro';
-import PayoutTimeline from '../../components/case/PayoutTimeline.astro';
-import AdoptionCurve from '../../components/case/AdoptionCurve.astro';
-import { projects } from '../../data/projects';
+import StoryArc from '../../components/method/StoryArc.astro';
+import SentenceTemplate from '../../components/method/SentenceTemplate.astro';
+import DriftDiagram from '../../components/method/DriftDiagram.astro';
+import QuestionGauntlet from '../../components/method/QuestionGauntlet.astro';
+import AnnotatedBrief from '../../components/method/AnnotatedBrief.astro';
+import BorrowedTime from '../../components/method/BorrowedTime.astro';
+import { methods } from '../../data/methods';
 import { withBase } from '../../lib/url';
 import { imgDims } from '../../lib/img';
 import { showAssetSlots } from '../../config';
 
 export function getStaticPaths() {
-  return projects.map((p) => ({
-    params: { slug: p.slug },
-    props: { project: p },
+  return methods.map((m) => ({
+    params: { slug: m.slug },
+    props: { method: m },
   }));
 }
 
-const { project } = Astro.props;
+const { method } = Astro.props;
 ---
 
-<SiteLayout title={`${project.title} | Andrew Malone`} description={project.summary} minimalFooter>
+<SiteLayout title={`${method.title} | Andrew Malone`} description={method.summary} minimalFooter>
   <article class:list={['case', { 'case--slots': showAssetSlots }]}>
-    <a class="case__back" href={withBase('/#work')}>&larr;&nbsp;&nbsp;Selected Work</a>
+    <a class="case__back" href={withBase('/#how-i-work')}>&larr;&nbsp;&nbsp;How I Work</a>
 
     <header class="case__header">
-      <p class="eyebrow">
-        {project.num} / {project.client} / {project.discipline} / {project.year}
-      </p>
-      <h1 class="case__title" transition:name={`title-${project.slug}`}>{project.title}</h1>
-      {project.status && <span class="tag case__status">{project.status}</span>}
+      <p class="eyebrow">{method.kicker}</p>
+      <h1 class="case__title" transition:name={`title-${method.slug}`}>{method.title}</h1>
     </header>
 
-    {project.blocks.map((b) =>
+    {method.blocks.map((b) =>
       b.type === 'heading' ? (
         <header class="block block--heading">
           {b.kicker && <p class="eyebrow">{b.kicker}</p>}
@@ -66,7 +62,7 @@ const { project } = Astro.props;
            card regardless of the flag. */
         b.image ? (
           <figure class="block block--media">
-            <div class:list={['media__frame', 'media__frame--image', { 'media__frame--tall': !b.full && (imgDims(b.image).height ?? 0) > (imgDims(b.image).width ?? 1) * 1.15 }]}>
+            <div class="media__frame media__frame--image">
               <img src={withBase(b.image)} alt={b.label} loading="lazy" decoding="async" {...imgDims(b.image)} />
             </div>
             {b.caption && <figcaption>{b.caption}</figcaption>}
@@ -132,8 +128,18 @@ const { project } = Astro.props;
             ))}
           </div>
         ) : null
-      ) : b.type === 'artifact' ? (
-        b.name === 'deals-sliver' ? <DealsSliver /> : b.name === 'care-between-visits' ? <BetweenVisits /> : b.name === 'payout-timeline' ? <PayoutTimeline /> : b.name === 'adoption-curve' ? <AdoptionCurve /> : null
+      ) : b.type === 'storyArc' ? (
+        <StoryArc />
+      ) : b.type === 'sentenceTemplate' ? (
+        <SentenceTemplate />
+      ) : b.type === 'drift' ? (
+        <DriftDiagram />
+      ) : b.type === 'gauntlet' ? (
+        <QuestionGauntlet />
+      ) : b.type === 'annotatedBrief' ? (
+        <AnnotatedBrief />
+      ) : b.type === 'borrowedTime' ? (
+        <BorrowedTime />
       ) : b.type === 'pairs' ? (
         <div class="block block--pairs">
           {b.kicker && <p class="eyebrow pairs__kicker">{b.kicker}</p>}
@@ -295,38 +301,23 @@ const { project } = Astro.props;
     aspect-ratio: 16 / 9;
     display: grid;
     place-items: center;
-    background: var(--color-surface);
-    border: 1px solid var(--color-hairline);
-    border-radius: var(--radius-frame);
   }
-  /* A real image drops the panel entirely: the shot fills the breakout at
-     natural height, separated from the page by a crisp hairline edge and a
-     soft lift rather than a mat frame. */
+  /* Method artifacts share the page's paper, so images sit frameless — no
+     border, no surface panel. (Deliberate divergence from work/[slug].astro,
+     where screenshots need the frame to separate from the page.) */
   .media__frame--image {
     aspect-ratio: auto;
-    display: block;
-    background: none;
-    border: none;
-    border-radius: 0;
+    display: flex;
+    justify-content: center;
     padding: 0;
   }
   .media__frame--image img {
     display: block;
-    width: 100%;
-    height: auto;
-    border-radius: var(--radius-frame);
-    border: 1px solid var(--color-hairline);
-    box-shadow:
-      0 1px 2px rgba(28, 25, 18, 0.05),
-      0 32px 64px -40px rgba(28, 25, 18, 0.28);
-  }
-  /* Dialog-shaped shots (clearly taller than wide) centre at a readable width
-     instead of stretching across the breakout. Same edge treatment. */
-  .media__frame--tall img {
     width: auto;
     max-width: 100%;
     max-height: 46rem;
-    margin-inline: auto;
+    height: auto;
+    border-radius: var(--radius-screen);
   }
   .block--media figcaption {
     margin-top: var(--space-sm);
@@ -378,21 +369,24 @@ const { project } = Astro.props;
     color: var(--color-ink-muted);
   }
 
-  /* Overview — the at-a-glance strip under the case header. The metadata runs
-     as one colophon row across the full width, so uneven values stop tearing
-     the grid; the one-minute version sits beneath at the prose measure. */
+  /* Overview — the at-a-glance strip under the case header. Wide: it's the
+     skim layer, set apart from the prose column. */
   .case > .block--overview {
     grid-column: 2 / -1;
     width: min(61rem, calc(100% - var(--page-gutter)));
     margin-top: var(--section-tight);
     padding-top: var(--space-lg);
     border-top: 1px solid var(--color-hairline);
+    display: grid;
+    grid-template-columns: minmax(0, 22rem) 1fr;
+    gap: var(--space-xl) var(--space-3xl);
+    align-items: start;
   }
   .overview__cols {
     margin: 0;
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: var(--space-lg) var(--space-xl);
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-lg) var(--space-lg);
   }
   .overview__col dt {
     font-size: var(--text-xs);
@@ -408,17 +402,17 @@ const { project } = Astro.props;
     line-height: 1.4;
   }
   .overview__body {
-    margin-top: var(--space-xl);
     font-size: var(--text-lead);
     line-height: var(--leading-lead);
     color: var(--color-ink);
-    max-width: 58ch;
+    max-width: 52ch;
   }
   .overview__lead {
     font-weight: var(--weight-semibold);
   }
+  /* Same-specificity selector as the base rule, or the collapse never wins. */
   @media (max-width: 48rem) {
-    .overview__cols { grid-template-columns: 1fr 1fr; gap: var(--space-lg); }
+    .case > .block--overview { grid-template-columns: 1fr; gap: var(--space-lg); }
   }
 
   /* Stat row — 2-4 stats sharing one ruled row. */
@@ -507,7 +501,6 @@ const { project } = Astro.props;
     line-height: var(--leading-lead);
     color: var(--color-ink);
   }
-  /* Same-specificity selector as the base rule, or the collapse never wins. */
   @media (max-width: 48rem) {
     .case > .block--principle { grid-template-columns: 1fr; gap: var(--space-sm); }
     .principle__num { font-size: 3.5rem; }
@@ -525,22 +518,19 @@ const { project } = Astro.props;
     gap: var(--space-md);
     align-items: start;
   }
-  /* Duo items share the bare treatment: no panel, edge and lift on the shot. */
   .duo__frame {
+    background: var(--color-surface);
+    border: 1px solid var(--color-hairline);
+    border-radius: var(--radius-frame);
+    padding: var(--space-md);
     display: flex;
     justify-content: center;
   }
   .duo__frame img {
     display: block;
     max-width: 100%;
-    max-height: 42rem;
-    width: auto;
     height: auto;
-    border-radius: var(--radius-frame);
-    border: 1px solid var(--color-hairline);
-    box-shadow:
-      0 1px 2px rgba(28, 25, 18, 0.05),
-      0 32px 64px -40px rgba(28, 25, 18, 0.28);
+    border-radius: var(--radius-screen);
   }
   .block--duo figcaption {
     margin-top: var(--space-sm);
@@ -579,15 +569,82 @@ const { project } = Astro.props;
     .pairs__row { grid-template-columns: 1fr; gap: var(--space-3xs); }
   }
 
-
-  /* Placement for the bespoke story artifacts (component roots, so :global).
-     They share the wide text axis with overview and stat rows. */
-  .case > :global(.block--sliver),
-  .case > :global(.block--between),
-  .case > :global(.block--payout),
-  .case > :global(.block--adoption) {
+  /* Placement for the live artifacts (component roots, so :global). Arc,
+     drift and the annotated brief take the full media breakout; sentence,
+     gauntlet and the timelines share the wide text axis. */
+  .case > :global(.block--arc),
+  .case > :global(.block--drift),
+  .case > :global(.block--brief) {
+    grid-column: 1 / -1;
+    justify-self: center;
+    width: min(88rem, calc(100% - 2 * var(--page-gutter)));
+    margin-top: var(--section);
+    margin-bottom: var(--space-lg);
+  }
+  .case > :global(.block--sentence),
+  .case > :global(.block--gauntlet),
+  .case > :global(.block--time) {
     grid-column: 2 / -1;
     width: min(61rem, calc(100% - var(--page-gutter)));
-    margin-block: var(--section-tight) var(--space-lg);
+    margin-top: var(--section-tight);
+    margin-bottom: var(--space-lg);
+  }
+
+  /* Scroll reveal — each block rises gently as it enters the viewport. The
+     .reveal class is only added when JS runs, so nothing hides without it. */
+  .case.reveal > :global(.will-reveal) {
+    opacity: 0;
+    transform: translateY(1.25rem);
+    transition:
+      opacity var(--duration-slow) var(--ease-out),
+      transform var(--duration-slow) var(--ease-out);
+  }
+  .case.reveal > :global(.will-reveal.is-in) {
+    opacity: 1;
+    transform: translateY(0);
   }
 </style>
+
+<script>
+  // Runs per page visit: view-transition navigations rebuild the DOM
+  // without re-executing module scripts, so astro:page-load re-inits.
+  const init = () => {
+    // Bring the page to life: blocks rise in as they enter the viewport. The
+    // live artifacts run their own choreography, so they're skipped.
+    const article = document.querySelector('.case');
+    if (article && !article.dataset.bound && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      article.dataset.bound = '1';
+      const blocks = article.querySelectorAll(
+        ':scope > *:not(.case__back):not(.case__header):not(.block--arc):not(.block--sentence):not(.block--drift):not(.block--gauntlet):not(.block--brief):not(.block--time):not(script)'
+      );
+      const io = new IntersectionObserver(
+        (entries) => {
+          for (const e of entries) {
+            if (e.isIntersecting) {
+              e.target.classList.add('is-in');
+              io.unobserve(e.target);
+            }
+          }
+        },
+        { rootMargin: '0px 0px -10% 0px' }
+      );
+      blocks.forEach((el) => {
+        el.classList.add('will-reveal');
+        io.observe(el);
+      });
+      article.classList.add('reveal');
+
+      // A block that ends the page can sit below the reveal line forever;
+      // reaching the bottom reveals whatever is left.
+      const onScroll = () => {
+        if (window.innerHeight + window.scrollY >= document.body.scrollHeight - 48) {
+          blocks.forEach((el) => el.classList.add('is-in'));
+          window.removeEventListener('scroll', onScroll);
+        }
+      };
+      window.addEventListener('scroll', onScroll, { passive: true });
+    }
+  };
+  init();
+  document.addEventListener('astro:page-load', init);
+</script>

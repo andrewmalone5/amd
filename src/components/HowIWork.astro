@@ -1,29 +1,32 @@
 ---
 // How I Work — a statement of principles, deliberately built to read as a
 // different kind of thing from Selected Work. No numbers, no tags, no hover
-// cards, no links out. Horizontal title|elaboration split instead of a vertical
-// index, and Spectral italic titles to mark these as voice rather than inventory.
-const principles = [
-  {
-    title: 'Narrative-first design',
-    body: 'Before any screens, I get the team aligned on the user’s story: who they are, what they came to do, and where it breaks down. Most disagreements about design turn out to be disagreements about the story.',
-  },
-  {
-    title: 'Solve the right problem',
-    body: 'A short list of questions I ask before opening Figma. Good execution of the wrong thing is still failure, and the cheapest time to find out is before the work starts.',
-  },
-];
+// cards. Each row links to its full methodology page, where the practice is
+// documented with its framework and real examples.
+import { methods } from '../data/methods';
+import { withBase } from '../lib/url';
+
+const rows = [
+  { title: 'Narrative-first design', slug: 'narrative-first-design', go: 'Read the methodology' },
+  { title: 'Solve the right problem', slug: 'solve-the-right-problem', go: 'See the questions' },
+].map((r) => {
+  const m = methods.find((x) => x.slug === r.slug)!;
+  return { ...r, body: m.summary };
+});
 ---
 
 <section id="how-i-work" class="how column--wide">
-  <p class="eyebrow how__label">How I Work</p>
+  <h2 class="ghost-head how__label">How I Work</h2>
 
   <div class="principles">
-    {principles.map((p) => (
-      <article class="principle">
-        <h3 class="principle__title">{p.title}</h3>
-        <p class="principle__body">{p.body}</p>
-      </article>
+    {rows.map((p) => (
+      <a class="principle" href={withBase(`/method/${p.slug}`)}>
+        <h3 class="principle__title" transition:name={`title-${p.slug}`}>{p.title}</h3>
+        <div class="principle__body">
+          <p>{p.body}</p>
+          <span class="principle__go">{p.go}<span class="principle__arrow" aria-hidden="true">&nbsp;&rarr;</span></span>
+        </div>
+      </a>
     ))}
   </div>
 </section>
@@ -33,7 +36,7 @@ const principles = [
     padding-block: var(--section);
   }
   .how__label {
-    margin-bottom: var(--space-2xl);
+    margin-bottom: var(--space-xl);
   }
 
   .principles {
@@ -49,23 +52,47 @@ const principles = [
     grid-template-columns: minmax(0, 20rem) 1fr;
     gap: var(--space-xl);
     align-items: start;
+    color: inherit;
   }
 
   .principle__title {
     font-family: var(--font-display);
     font-style: italic;
-    font-weight: var(--weight-regular);
+    font-weight: var(--weight-display);
     font-size: var(--text-display-sm);
     line-height: var(--leading-tight);
     letter-spacing: var(--tracking-tight);
     color: var(--color-ink);
   }
 
-  .principle__body {
+  .principle__body p {
     font-size: var(--text-lead);
     line-height: var(--leading-lead);
     color: var(--color-ink-muted);
     max-width: 42ch;
+  }
+
+  .principle__go {
+    display: inline-block;
+    margin-top: var(--space-md);
+    font-size: var(--text-sm);
+    font-weight: var(--weight-medium);
+    color: var(--color-link);
+    border-bottom: 1px solid var(--color-link-underline);
+    padding-bottom: 2px;
+    transition: border-color var(--duration) var(--ease-out);
+  }
+  .principle__arrow {
+    display: inline-block;
+    transition: transform var(--duration) var(--ease-out);
+  }
+  .principle:hover .principle__go,
+  .principle:focus-visible .principle__go {
+    border-bottom-color: var(--color-link);
+  }
+  .principle:hover .principle__arrow,
+  .principle:focus-visible .principle__arrow {
+    transform: translateX(4px);
   }
 
   @media (max-width: 40rem) {

@@ -1,25 +1,28 @@
 ---
-// About — the personal close. Prose set in Spectral (the one long-form serif
-// moment on the site), with a portrait alongside. Copy is Andrew's, from the
-// existing site. Portrait cropped 4:5 from andrew-photo.webp at the repo root.
+// About — the personal close. A balanced split: the portrait carries the left
+// half, the bio sits beside it under a short display headline. Prose set in
+// Spectral, the one long-form serif moment on the site.
 import { withBase } from '../lib/url';
+import { imgDims } from '../lib/img';
 const portrait = '/andrew-portrait.webp';
+const headline = 'The work before the design work.';
 const paragraphs = [
+  'That’s the part of the job I like most: being early, close to the team, asking the questions nobody asked yet, and getting everyone aligned on what we’re actually building.',
   'An Irishman in Berlin, ten years into a career that started in industrial design and found its home in digital. I took the long route, and I think it shows in how I approach problems.',
-  'I work best when I’m early, close to the team, asking questions that probably should have been asked sooner. I’m good at finding common ground between disciplines and I care about getting teams aligned on what they’re actually building before the design work begins.',
   'Away from screens I’m usually behind a camera or training for some goal I’ve set myself. Persistently optimistic about both.',
 ];
 ---
 
 <section id="about" class="about column--wide">
-  <p class="eyebrow about__label">About</p>
+  <h2 class="ghost-head about__label">About</h2>
 
   <div class="about__grid">
-    <div class="about__bio">
-      {paragraphs.map((p) => <p>{p}</p>)}
-    </div>
     <div class="about__portrait">
-      <img src={withBase(portrait)} alt="Andrew Malone" loading="lazy" />
+      <img src={withBase(portrait)} alt="Andrew Malone" loading="lazy" decoding="async" {...imgDims(portrait)} />
+    </div>
+    <div class="about__bio">
+      <h3 class="about__headline">{headline}</h3>
+      {paragraphs.map((p) => <p>{p}</p>)}
     </div>
   </div>
 </section>
@@ -29,34 +32,20 @@ const paragraphs = [
     padding-block: var(--section);
   }
   .about__label {
-    margin-bottom: var(--space-2xl);
+    margin-bottom: var(--space-xl);
   }
 
+  /* Photo and bio as equal partners, centred against each other. */
   .about__grid {
     display: grid;
-    grid-template-columns: 1fr minmax(0, 18rem);
+    grid-template-columns: minmax(0, 30rem) 1fr;
     gap: var(--space-2xl);
-    align-items: start;
-  }
-
-  .about__bio {
-    max-width: 42ch;
-  }
-  .about__bio p {
-    font-family: var(--font-display);
-    font-size: clamp(1.25rem, 1.1rem + 0.5vw, 1.5rem);
-    line-height: 1.5;
-    letter-spacing: var(--tracking-tight);
-    color: var(--color-ink);
-    text-wrap: pretty;
-  }
-  .about__bio p + p {
-    margin-top: var(--space-lg);
+    align-items: center;
   }
 
   .about__portrait {
     aspect-ratio: 4 / 5;
-    border-radius: 8px;
+    border-radius: var(--radius-frame);
     overflow: hidden;
     border: 1px solid var(--color-hairline);
   }
@@ -67,14 +56,38 @@ const paragraphs = [
     display: block;
   }
 
+  /* The headline takes the section-heading scale; the body stays a full step
+     down so the hierarchy is unmistakable. */
+  .about__headline {
+    font-size: var(--text-display-md);
+    line-height: var(--leading-tight);
+    letter-spacing: var(--tracking-display);
+    max-width: 16ch;
+    margin-bottom: var(--space-lg);
+  }
+
+  .about__bio {
+    max-width: 54ch;
+  }
+  .about__bio p {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    line-height: 1.55;
+    letter-spacing: var(--tracking-tight);
+    color: var(--color-ink);
+    text-wrap: pretty;
+  }
+  .about__bio p + p {
+    margin-top: var(--space-md);
+  }
+
   @media (max-width: 48rem) {
     .about__grid {
       grid-template-columns: 1fr;
       gap: var(--space-xl);
     }
     .about__portrait {
-      order: -1;
-      max-width: 20rem;
+      max-width: 22rem;
     }
   }
 </style>

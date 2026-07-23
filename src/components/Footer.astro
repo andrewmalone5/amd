@@ -2,7 +2,7 @@
 // Site footer = the contact moment. Button is styled to the ink palette
 // rather than LinkedIn-blue to stay in the system.
 const linkedin = 'https://www.linkedin.com/in/andrewmalonedesign/';
-const year = 2026;
+const year = new Date().getFullYear(); // stamped at build time
 
 interface Props {
   /** True on case-study pages: just the meta line, no contact CTA. */
@@ -21,10 +21,7 @@ const { minimal = false } = Astro.props;
           what you&rsquo;re building, I&rsquo;d love to talk.
         </p>
 
-        <a class="site-footer__link" href={linkedin} target="_blank" rel="noopener">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5a2.49 2.49 0 1 1 0 4.98 2.49 2.49 0 0 1 0-4.98zM3 9.75h4v10.75H3zM9.5 9.75h3.83v1.47h.05c.53-1 1.84-2.06 3.78-2.06 4.04 0 4.79 2.66 4.79 6.12v6.22h-4v-5.52c0-1.31-.02-3-1.83-3-1.83 0-2.11 1.43-2.11 2.9v5.62h-4z"/></svg>
-          Connect on LinkedIn
-        </a>
+        <a class="site-footer__link" href={linkedin} target="_blank" rel="noopener">Connect on LinkedIn<span class="site-footer__arrow" aria-hidden="true">&nbsp;&rarr;</span></a>
       </>
     )}
 
@@ -52,6 +49,7 @@ const { minimal = false } = Astro.props;
 
   .site-footer__cta {
     font-family: var(--font-display);
+    font-weight: var(--weight-display);
     font-size: var(--text-display-md);
     line-height: var(--leading-tight);
     letter-spacing: var(--tracking-display);
@@ -66,26 +64,29 @@ const { minimal = false } = Astro.props;
     margin-inline: auto;
   }
 
-  /* Ink button — in-system, not LinkedIn-blue. */
+  /* The contact link speaks the site's own affordance language — the same
+     underlined line-with-arrow as every case-study link, one size up. */
   .site-footer__link {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.6em;
+    display: inline-block;
     margin-top: var(--space-xl);
-    padding: 0.85em 1.5em;
-    background: var(--color-ink);
-    color: var(--color-paper);
-    border-radius: 999px;
-    font-size: var(--text-sm);
+    font-size: var(--text-lead);
     font-weight: var(--weight-medium);
-    letter-spacing: 0.01em;
-    transition:
-      transform var(--duration) var(--ease-out),
-      opacity var(--duration) var(--ease-out);
+    color: var(--color-link);
+    border-bottom: 1px solid var(--color-link-underline);
+    padding-bottom: 3px;
+    transition: border-color var(--duration) var(--ease-out);
   }
-  .site-footer__link:hover {
-    transform: translateY(-2px);
-    opacity: 0.9;
+  .site-footer__arrow {
+    display: inline-block;
+    transition: transform var(--duration) var(--ease-out);
+  }
+  .site-footer__link:hover,
+  .site-footer__link:focus-visible {
+    border-bottom-color: var(--color-link);
+  }
+  .site-footer__link:hover .site-footer__arrow,
+  .site-footer__link:focus-visible .site-footer__arrow {
+    transform: translateX(4px);
   }
 
   .site-footer__meta {
@@ -96,7 +97,7 @@ const { minimal = false } = Astro.props;
     padding-top: var(--space-lg);
     border-top: 1px solid var(--color-hairline);
     font-size: var(--text-sm);
-    color: var(--color-ink-faint);
+    color: var(--color-ink-muted);
   }
   .site-footer__meta [aria-hidden] { display: none; }
 

@@ -6,13 +6,18 @@ import Footer from '../components/Footer.astro';
 
 interface Props {
   title?: string;
+  /** Per-page meta description, passed through to the head. */
+  description?: string;
   /** Case-study pages pass true: footer keeps only the meta line, no contact CTA. */
   minimalFooter?: boolean;
+  /** Owner-only pages opt out of search indexing. */
+  noindex?: boolean;
 }
-const { title, minimalFooter = false } = Astro.props;
+const { title, description, minimalFooter = false, noindex = false } = Astro.props;
 ---
 
-<Base title={title}>
+<Base title={title} description={description} noindex={noindex}>
+  <a class="skip-link" href="#main">Skip to content</a>
   <Header />
   <main id="main">
     <slot />

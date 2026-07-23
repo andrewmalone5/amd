@@ -1,0 +1,242 @@
+---
+// The care gap, drawn live: two timelines between the same pair of clinic
+// visits. Before: weeks of nothing. With SoteriaMe: the app's touchpoints
+// land in the gap, one by one. Structural on purpose — it shows where the
+// product lives, and claims no outcome the pilot didn't measure.
+const touchpoints = [
+  { label: 'medication reminder', pos: 24, side: 'below' },
+  { label: 'care-plan check-in', pos: 38, side: 'above' },
+  { label: 'plain-language update', pos: 52, side: 'below' },
+  { label: 'symptom note', pos: 66, side: 'above' },
+  { label: 'appointment prep', pos: 80, side: 'below' },
+];
+---
+
+<div class="block block--between" data-between>
+  <div class="tl tl--before">
+    <p class="tl__kicker">Before</p>
+    <p class="tl__drift">weeks of nothing: missed medications, forgotten instructions, drift</p>
+    <div class="tl__lane">
+      <span class="tl__line"></span>
+      <span class="tl__visit tl__visit--start"></span>
+      <span class="tl__visit tl__visit--end"></span>
+    </div>
+    <div class="tl__ends"><span>clinic visit</span><span>clinic visit</span></div>
+  </div>
+
+  <div class="tl tl--after">
+    <p class="tl__kicker">With SoteriaMe</p>
+    <div class="tl__lane">
+      <span class="tl__line tl__line--ink"></span>
+      <span class="tl__visit tl__visit--start"></span>
+      <span class="tl__visit tl__visit--end"></span>
+      {touchpoints.map((t, i) => (
+        <span
+          class:list={['tl__point', `tl__point--${t.side}`]}
+          style={`--pos: ${t.pos}%; --d: ${(1.1 + i * 0.18).toFixed(2)}s`}
+        >
+          <span class="tl__dot"></span>
+          <span class="tl__label">{t.label}</span>
+        </span>
+      ))}
+    </div>
+    <div class="tl__ends"><span>clinic visit</span><span>clinic visit</span></div>
+  </div>
+
+  <ul class="tl__legend">
+    {touchpoints.map((t) => (
+      <li>{t.label}</li>
+    ))}
+  </ul>
+</div>
+
+<style>
+  .block--between {
+    margin: 0;
+  }
+
+  .tl + .tl { margin-top: var(--space-2xl); }
+
+  .tl__kicker {
+    font-size: var(--text-xs);
+    font-weight: var(--weight-medium);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    color: var(--color-ink-muted);
+    margin-bottom: var(--space-lg);
+  }
+
+  .tl__lane {
+    position: relative;
+    height: 3.5rem;
+  }
+  /* The before row carries no touchpoint labels, so it doesn't need the room. */
+  .tl--before .tl__lane { height: 1.5rem; }
+
+  /* The line between the two visits draws itself. */
+  .tl__line {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 1.5px;
+    background: var(--color-hairline-strong);
+    transform: scaleX(0);
+    transform-origin: left;
+  }
+  .tl__line--ink { background: var(--color-ink); }
+  [data-between].is-in .tl--before .tl__line {
+    transform: scaleX(1);
+    transition: transform 0.9s var(--ease-out);
+  }
+  [data-between].is-in .tl--after .tl__line {
+    transform: scaleX(1);
+    transition: transform 0.9s var(--ease-out) 0.9s;
+  }
+
+  .tl__visit {
+    position: absolute;
+    top: 50%;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--color-ink);
+    transform: translate(-50%, -50%) scale(0.4);
+    opacity: 0;
+  }
+  .tl__visit--start { left: 1%; }
+  .tl__visit--end { left: 99%; }
+  [data-between].is-in .tl__visit {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+    transition:
+      opacity var(--duration) var(--ease-out),
+      transform var(--duration) var(--ease-out);
+  }
+  [data-between].is-in .tl--before .tl__visit--end { transition-delay: 0.7s; }
+  [data-between].is-in .tl--after .tl__visit--start { transition-delay: 0.9s; }
+  [data-between].is-in .tl--after .tl__visit--end { transition-delay: 1.6s; }
+
+  /* The before row's only content: the drift, written across the emptiness. */
+  .tl__drift {
+    text-align: center;
+    margin-bottom: var(--space-2xs);
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: var(--text-sm);
+    color: var(--color-ink-muted);
+    opacity: 0;
+  }
+  .tl--before .tl__kicker { margin-bottom: var(--space-md); }
+  [data-between].is-in .tl__drift {
+    opacity: 1;
+    transition: opacity var(--duration-slow) var(--ease-out) 0.9s;
+  }
+
+  /* The touchpoints land in the gap, one by one. */
+  .tl__point {
+    position: absolute;
+    top: 50%;
+    left: var(--pos);
+    transform: translate(-50%, -50%);
+    opacity: 0;
+  }
+  [data-between].is-in .tl__point {
+    opacity: 1;
+    transition: opacity var(--duration) var(--ease-out);
+    transition-delay: var(--d);
+  }
+  .tl__dot {
+    display: block;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--color-paper);
+    border: 1.5px solid var(--color-ink);
+  }
+  .tl__label {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    font-size: var(--text-xs);
+    color: var(--color-ink-muted);
+  }
+  .tl__point--above .tl__label { bottom: calc(100% + 0.6rem); }
+  .tl__point--below .tl__label { top: calc(100% + 0.6rem); }
+
+  .tl__ends {
+    display: flex;
+    justify-content: space-between;
+    margin-top: var(--space-sm);
+    font-size: var(--text-xs);
+    color: var(--color-ink);
+  }
+
+  /* Mobile: the horizontal labels can't fit, so the dots stay on the line and
+     the touchpoints restate themselves as a short list beneath. */
+  .tl__legend { display: none; }
+  @media (max-width: 44rem) {
+    .tl__label { display: none; }
+    .tl__drift { text-align: left; margin-bottom: var(--space-sm); }
+    .tl + .tl { margin-top: var(--space-xl); }
+    .tl__legend {
+      display: block;
+      list-style: none;
+      margin: var(--space-lg) 0 0;
+      padding: 0;
+    }
+    .tl__legend li {
+      position: relative;
+      padding-left: 1.5rem;
+      font-size: var(--text-sm);
+      color: var(--color-ink-muted);
+      line-height: 1.9;
+    }
+    .tl__legend li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0.62em;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--color-paper);
+      border: 1.5px solid var(--color-ink);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .tl__line { transform: scaleX(1); }
+    .tl__visit { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+    .tl__drift, .tl__point { opacity: 1; }
+    [data-between].is-in .tl__line,
+    [data-between].is-in .tl__visit,
+    [data-between].is-in .tl__drift,
+    [data-between].is-in .tl__point { transition: none; }
+  }
+</style>
+
+<script>
+  // Runs per page visit: view-transition navigations rebuild the DOM
+  // without re-executing module scripts, so astro:page-load re-inits.
+  const init = () => {
+    const el = document.querySelector<HTMLElement>('[data-between]');
+    if (el && !el.dataset.bound) {
+      el.dataset.bound = '1';
+      new IntersectionObserver(
+        (entries, io) => {
+          for (const e of entries) {
+            if (e.isIntersecting) {
+              el.classList.add('is-in');
+              io.disconnect();
+            }
+          }
+        },
+        { threshold: 0.35 }
+      ).observe(el);
+    }
+  };
+  init();
+  document.addEventListener('astro:page-load', init);
+</script>

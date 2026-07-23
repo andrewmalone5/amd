@@ -1,0 +1,265 @@
+---
+// The closing claim, shown as two timelines against one planned launch line.
+// Asked early, the questions cost an afternoon and the project lands on time.
+// Skipped, the same questions come back mid-build as rework and a change of
+// direction, and carry the project straight past its launch date. Segments
+// grow in sequence; hovering a row brings it forward.
+//
+// Widths are percentages of one shared time axis. Launch sits at 76%.
+const rows = [
+  {
+    key: 'asked',
+    label: 'Asked early',
+    end: 'launch, on time',
+    endAt: 76,
+    segments: [
+      { label: 'the questions', w: 7, kind: 'ink' },
+      { label: 'design and build', w: 69, kind: 'calm' },
+    ],
+  },
+  {
+    key: 'skipped',
+    label: 'Skipped',
+    end: 'launch, eventually',
+    endAt: 97,
+    segments: [
+      { label: 'design and build', w: 42, kind: 'calm' },
+      { label: 'rework', w: 16, kind: 'debt' },
+      { label: 'direction change', w: 14, kind: 'debt' },
+      { label: 'rework, again', w: 13, kind: 'debt' },
+      { label: 'ship', w: 12, kind: 'calm' },
+    ],
+  },
+];
+const LAUNCH = 76;
+---
+
+<figure class="block block--time" data-time>
+  <div class="tl">
+    <span class="tl__launch" style={`--x: ${LAUNCH}%`} aria-hidden="true">
+      <span class="tl__launch-label">planned launch</span>
+    </span>
+
+    {rows.map((row, ri) => (
+      <div class="row" data-row={row.key}>
+        <p class="row__label">{row.label}</p>
+        <div class="row__track" role="img" aria-label={`${row.label}: ${row.segments.map((s) => s.label).join(', ')}. ${row.end}.`}>
+          {row.segments.map((s, si) => (
+            <span class:list={['seg', `seg--${s.kind}`]} style={`--w: ${s.w}%; --d: ${(0.2 + ri * 0.9 + si * 0.22).toFixed(2)}s`}>
+              <span class="seg__label">{s.label}</span>
+            </span>
+          ))}
+          <span class="row__end" style={`--x: ${row.endAt}%; --d: ${(0.2 + ri * 0.9 + row.segments.length * 0.22).toFixed(2)}s`}>{row.end}</span>
+        </div>
+      </div>
+    ))}
+  </div>
+</figure>
+
+<style>
+  .block--time {
+    margin: 0;
+  }
+
+  .tl {
+    position: relative;
+    display: grid;
+    gap: var(--space-xl);
+    /* Room above for the launch label, below for the landing labels. */
+    padding-top: 2rem;
+    padding-bottom: 2.4rem;
+  }
+
+  /* The planned launch: one dashed vertical both timelines answer to. */
+  .tl__launch {
+    position: absolute;
+    top: 1.9rem;
+    bottom: -0.4rem;
+    left: var(--x);
+    border-left: 1px dashed var(--color-ink-muted);
+    transform: scaleY(0);
+    transform-origin: top;
+  }
+  [data-time].is-in .tl__launch {
+    transform: scaleY(1);
+    transition: transform var(--duration-slow) var(--ease-out) 0.1s;
+  }
+  .tl__launch-label {
+    position: absolute;
+    top: -1.6rem;
+    left: 0;
+    transform: translateX(-50%);
+    font-size: var(--text-xs);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    white-space: nowrap;
+    color: var(--color-ink-muted);
+  }
+
+  .row__label {
+    font-size: var(--text-xs);
+    font-weight: var(--weight-semibold);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    color: var(--color-ink);
+    margin-bottom: var(--space-md);
+    opacity: 0;
+  }
+  [data-time].is-in .row__label {
+    opacity: 1;
+    transition: opacity var(--duration-slow) var(--ease-out);
+  }
+
+  .row__track {
+    position: relative;
+    display: flex;
+    height: 0.875rem;
+  }
+
+  /* Segments grow left to right, each waiting for the one before it. */
+  .seg {
+    position: relative;
+    width: var(--w);
+    border-radius: 2px;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: opacity var(--duration-fast) var(--ease-out);
+  }
+  .seg + .seg { margin-left: 3px; }
+  [data-time].is-in .seg {
+    transform: scaleX(1);
+    transition:
+      transform var(--duration) var(--ease-out),
+      opacity var(--duration-fast) var(--ease-out);
+    transition-delay: var(--d), 0s;
+  }
+  .seg--ink { background: var(--color-ink); }
+  .seg--calm { background: var(--color-hairline-strong); }
+  /* The debt: hatched, the texture of time being paid back. */
+  .seg--debt {
+    background: repeating-linear-gradient(
+      -55deg,
+      var(--color-ink-muted) 0 2px,
+      transparent 2px 6px
+    );
+  }
+
+  /* Each segment carries its name above it. */
+  .seg__label {
+    position: absolute;
+    top: -1.45rem;
+    left: 0;
+    font-size: 0.6875rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    color: var(--color-ink-muted);
+    opacity: 0;
+    transition: color var(--duration-fast) var(--ease-out);
+  }
+  [data-time].is-in .seg__label {
+    opacity: 1;
+    transition:
+      opacity var(--duration-slow) var(--ease-out),
+      color var(--duration-fast) var(--ease-out);
+    transition-delay: calc(var(--d) + 0.15s), 0s;
+  }
+  /* The ink segment's label hangs below its bar so it can't collide with the
+     neighbour's label above. */
+  .seg--ink .seg__label {
+    top: auto;
+    bottom: -1.45rem;
+    color: var(--color-ink);
+  }
+
+  /* Where each project actually lands. */
+  .row__end {
+    position: absolute;
+    top: 1.45rem;
+    left: var(--x);
+    transform: translateX(-100%);
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 0.9375rem;
+    white-space: nowrap;
+    color: var(--color-ink);
+    opacity: 0;
+    transition: opacity var(--duration-fast) var(--ease-out);
+  }
+  [data-time].is-in .row__end {
+    opacity: 1;
+    transition: opacity var(--duration-slow) var(--ease-out);
+    transition-delay: var(--d);
+  }
+
+  /* Hovering a row brings it forward; the other steps back. */
+  [data-time].has-focus .row:not(.is-hot) .seg,
+  [data-time].has-focus .row:not(.is-hot) .seg__label,
+  [data-time].has-focus .row:not(.is-hot) .row__end,
+  [data-time].has-focus .row:not(.is-hot) .row__label { opacity: 0.35; }
+  .row.is-hot .seg__label { color: var(--color-ink); }
+
+  [data-time].is-settled .seg,
+  [data-time].is-settled .seg__label,
+  [data-time].is-settled .row__end,
+  [data-time].is-settled .row__label {
+    transition-delay: 0s;
+    transition-duration: var(--duration-fast);
+  }
+
+  @media (max-width: 48rem) {
+    .seg__label { display: none; }
+    .tl { gap: var(--space-lg); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .seg { transform: scaleX(1); }
+    .tl__launch { transform: scaleY(1); }
+    .seg__label, .row__end, .row__label { opacity: 1; }
+    [data-time].is-in .tl__launch,
+    [data-time].is-in .seg,
+    [data-time].is-in .seg__label,
+    [data-time].is-in .row__end,
+    [data-time].is-in .row__label { transition: none; }
+  }
+</style>
+
+<script>
+  // Runs per page visit: view-transition navigations rebuild the DOM
+  // without re-executing module scripts, so astro:page-load re-inits.
+  const init = () => {
+    const time = document.querySelector<HTMLElement>('[data-time]');
+    if (time && !time.dataset.bound) {
+      time.dataset.bound = '1';
+      new IntersectionObserver(
+        (entries, io) => {
+          for (const e of entries) {
+            if (e.isIntersecting) {
+              time.classList.add('is-in');
+              setTimeout(() => time.classList.add('is-settled'), 3000);
+              io.disconnect();
+            }
+          }
+        },
+        { threshold: 0.4 }
+      ).observe(time);
+
+      const focus = (row: Element | undefined) => {
+        time.querySelectorAll('.is-hot').forEach((el) => el.classList.remove('is-hot'));
+        if (!row) {
+          time.classList.remove('has-focus');
+          return;
+        }
+        row.classList.add('is-hot');
+        time.classList.add('has-focus');
+      };
+
+      time.querySelectorAll<HTMLElement>('.row').forEach((el) => {
+        el.addEventListener('mouseenter', () => focus(el));
+      });
+      time.querySelector('.tl')?.addEventListener('mouseleave', () => focus(undefined));
+    }
+  };
+  init();
+  document.addEventListener('astro:page-load', init);
+</script>

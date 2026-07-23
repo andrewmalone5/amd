@@ -48,6 +48,9 @@
   --weight-regular:  400;
   --weight-medium:   500;
   --weight-semibold: 600;
+  /* Display type has its own weight so a style can bold every heading
+     without touching body text (Oak sets this to 700). */
+  --weight-display:  400;
 
   /* --------------------------------------------------------------------------
      COLOR — warm paper, warm near-black. No stark white, no pure black.
@@ -61,6 +64,27 @@
   --color-ink-faint:       #9C968C;  /* tertiary — captions, disabled        */
   --color-hairline:        #E4E0D6;  /* precise thin rules                    */
   --color-hairline-strong: #CFC9BC;  /* emphasized divider                   */
+
+  /* The second ink: a violet (#463FA0) that appears under three rules only —
+       R1 — violet marks what you can ACT on: links, selection, focus.
+       R2 — violet marks measured OUTCOMES: stat values, and the rule that
+            opens a pull-quote (the page's emphasis moments).
+       R3 — violet marks the DECISIVE STROKE in a drawing: one element per
+            artifact (the D+1 landing, the 0.2% sliver, the crisis node,
+            the gap bracket). Never two.
+     Everything else stays ink. If violet appears somewhere these rules
+     don't cover, it's a bug, not a flourish. */
+  --color-link:            #463FA0;
+  --color-link-underline:  rgba(70, 63, 160, 0.4);
+  --color-selection:       #463FA0;
+  --color-mark:            #463FA0;
+
+  /* --------------------------------------------------------------------------
+     RADII — two values, print-quiet. Frames barely round; screenshots inside
+     them round a touch more (they depict software). One scale, no drift.
+     ------------------------------------------------------------------------ */
+  --radius-frame:  6px;   /* media frames, duo frames, portrait, cards */
+  --radius-screen: 10px;  /* screenshots and mock UI inside a frame     */
 
   /* --------------------------------------------------------------------------
      ELEVATION — restrained, warm-tinted. The "lift" is the whole trick:
@@ -109,6 +133,7 @@
      ------------------------------------------------------------------------ */
   --measure:      66ch;                          /* max readable line length   */
   --width-text:   40rem;                         /* 640 — narrow prose column  */
-  --width-wide:   70rem;                         /* 1120 — hero / work list    */
+  --width-wide:   80rem;                         /* 1280 — hero / work list    */
   --page-gutter:  clamp(1.5rem, 6vw, 4rem);      /* breathing room at the edge */
 }
+

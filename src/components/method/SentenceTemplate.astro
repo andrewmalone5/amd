@@ -1,0 +1,181 @@
+---
+// The workshop's output sentence, live on the page instead of a PNG. The
+// blanks underline themselves in sequence when the block scrolls into view,
+// then the worked example rises beneath. Hovering a blank highlights the
+// phrase that filled it in the real workshop, and the other way round.
+// Borderless — it sits directly on the paper.
+const slots = [
+  { key: 'user', label: 'the user' },
+  { key: 'blocker', label: 'the blocker' },
+  { key: 'feature', label: 'the feature' },
+  { key: 'change', label: 'the change' },
+  { key: 'measure', label: 'the measure' },
+];
+const s = Object.fromEntries(slots.map((x, i) => [x.key, { ...x, d: (0.25 + i * 0.16).toFixed(2) }]));
+---
+
+<div class="block block--sentence" data-sentence>
+  <p class="tpl">
+    For <span class="slot" data-slot="user" style={`--d: ${s.user.d}s`}><span class="slot__k">{s.user.label}</span><span class="slot__gap" style="--w: 6ch"></span></span> who can’t
+    <span class="slot" data-slot="blocker" style={`--d: ${s.blocker.d}s`}><span class="slot__k">{s.blocker.label}</span><span class="slot__gap" style="--w: 10ch"></span></span>, we’re introducing
+    <span class="slot" data-slot="feature" style={`--d: ${s.feature.d}s`}><span class="slot__k">{s.feature.label}</span><span class="slot__gap" style="--w: 9ch"></span></span> so that
+    <span class="slot" data-slot="change" style={`--d: ${s.change.d}s`}><span class="slot__k">{s.change.label}</span><span class="slot__gap" style="--w: 8ch"></span></span>, which we’ll see in
+    <span class="slot" data-slot="measure" style={`--d: ${s.measure.d}s`}><span class="slot__k">{s.measure.label}</span><span class="slot__gap" style="--w: 7ch"></span></span>.
+  </p>
+
+  <div class="ex">
+    <p class="eyebrow ex__k">Filled in, from a real workshop</p>
+    <p class="ex__p">
+      &ldquo;For <mark data-slot="user">the seller</mark> who can&rsquo;t
+      <mark data-slot="blocker">tell whether the incentive is paying off</mark>, we&rsquo;re introducing
+      <mark data-slot="feature">a live view of their progress against the target</mark>, so that
+      <mark data-slot="change">they adjust their prices without waiting for an account manager</mark>, which we&rsquo;ll see in
+      <mark data-slot="measure">incentive participation</mark>.&rdquo;
+    </p>
+  </div>
+</div>
+
+<style>
+  .block--sentence {
+    margin: 0;
+  }
+
+  /* The template sentence — Spectral, with room above each blank for its label. */
+  .tpl {
+    font-family: var(--font-display);
+    font-size: clamp(1.5rem, 1.1rem + 2vw, 2.375rem);
+    line-height: 2;
+    letter-spacing: var(--tracking-tight);
+    color: var(--color-ink);
+    max-width: 34ch;
+    opacity: 0;
+    transform: translateY(0.75rem);
+  }
+  [data-sentence].is-in .tpl {
+    opacity: 1;
+    transform: translateY(0);
+    transition:
+      opacity var(--duration-slow) var(--ease-out),
+      transform var(--duration-slow) var(--ease-out);
+  }
+
+  .slot {
+    position: relative;
+    white-space: nowrap;
+    cursor: default;
+  }
+  /* The blank: an ink underline that draws in when the block arrives. */
+  .slot__gap {
+    display: inline-block;
+    width: var(--w);
+    height: 1.05em;
+    border-bottom: 2px solid var(--color-ink);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: border-color var(--duration-fast) var(--ease-out);
+  }
+  [data-sentence].is-in .slot__gap {
+    transform: scaleX(1);
+    transition: transform var(--duration-slow) var(--ease-out);
+    transition-delay: var(--d);
+  }
+  /* The label, floating above its blank. */
+  .slot__k {
+    position: absolute;
+    top: -0.55em;
+    left: 0;
+    z-index: 1;
+    font-family: var(--font-body);
+    font-size: var(--text-xs);
+    font-weight: var(--weight-medium);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    color: var(--color-ink-muted);
+    white-space: nowrap;
+    opacity: 0;
+    transition: color var(--duration-fast) var(--ease-out);
+  }
+  [data-sentence].is-in .slot__k {
+    opacity: 1;
+    transition: opacity var(--duration-slow) var(--ease-out);
+    transition-delay: calc(var(--d) + 0.15s);
+  }
+
+  /* The worked example, rising in last. */
+  .ex {
+    margin-top: var(--space-xl);
+    opacity: 0;
+    transform: translateY(0.75rem);
+  }
+  [data-sentence].is-in .ex {
+    opacity: 1;
+    transform: translateY(0);
+    transition:
+      opacity var(--duration-slow) var(--ease-out) 1.05s,
+      transform var(--duration-slow) var(--ease-out) 1.05s;
+  }
+  .ex__k { margin-bottom: var(--space-sm); }
+  .ex__p {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: var(--text-lead);
+    line-height: var(--leading-lead);
+    color: var(--color-ink);
+    max-width: 56ch;
+  }
+  .ex__p mark {
+    background: transparent;
+    color: inherit;
+    border-radius: 3px;
+    padding: 0 0.08em;
+    transition:
+      background-color var(--duration-fast) var(--ease-out),
+      color var(--duration-fast) var(--ease-out);
+  }
+
+  /* The bridge: hover either side and both light up. */
+  .slot.is-hot .slot__k { color: var(--color-ink); }
+  .slot.is-hot .slot__gap { border-bottom-color: var(--color-ink); background: var(--color-hairline); }
+  .ex__p mark.is-hot { background: var(--color-hairline); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .tpl, .ex { opacity: 1; transform: none; }
+    .slot__gap { transform: scaleX(1); }
+    .slot__k { opacity: 1; }
+    [data-sentence].is-in .tpl,
+    [data-sentence].is-in .slot__gap,
+    [data-sentence].is-in .slot__k,
+    [data-sentence].is-in .ex { transition: none; }
+  }
+</style>
+
+<script>
+  // Runs per page visit: view-transition navigations rebuild the DOM
+  // without re-executing module scripts, so astro:page-load re-inits.
+  const init = () => {
+    const root = document.querySelector<HTMLElement>('[data-sentence]');
+    if (root && !root.dataset.bound) {
+      root.dataset.bound = '1';
+      new IntersectionObserver(
+        (entries, io) => {
+          for (const e of entries) {
+            if (e.isIntersecting) {
+              root.classList.add('is-in');
+              io.disconnect();
+            }
+          }
+        },
+        { threshold: 0.3 }
+      ).observe(root);
+
+      // Hovering a blank lights the phrase that filled it, and the reverse.
+      root.querySelectorAll<HTMLElement>('[data-slot]').forEach((el) => {
+        const twins = root.querySelectorAll(`[data-slot="${el.dataset.slot}"]`);
+        el.addEventListener('mouseenter', () => twins.forEach((t) => t.classList.add('is-hot')));
+        el.addEventListener('mouseleave', () => twins.forEach((t) => t.classList.remove('is-hot')));
+      });
+    }
+  };
+  init();
+  document.addEventListener('astro:page-load', init);
+</script>

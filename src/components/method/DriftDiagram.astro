@@ -1,0 +1,409 @@
+---
+// The drift, drawn instead of listed. Two lines leave the same brief: reality
+// curves away while the brief stays frozen flat, and the gap between them is
+// what ships. The three quiet failures sit beneath as the diagram's legend —
+// hovering one lights the part of the drawing where that failure lives.
+// Frameless, straight on the paper, same choreography rules as the story arc.
+const failures = [
+  {
+    key: 'gap',
+    label: 'Requirements drift from reality',
+    body: 'The brief was written months ago and the context has moved on. Nobody revalidates it, so the team ships a faithful answer to an expired question.',
+  },
+  {
+    key: 'metric',
+    label: 'Success is undefined until it’s too late',
+    body: 'Ask five people what success looks like and you’ll get five answers. If the team can’t agree before launch, the metric gets invented after it.',
+  },
+  {
+    key: 'handoff',
+    label: 'Disciplines work in sequence, not in parallel',
+    body: 'Design hands to engineering, engineering discovers constraints, scope quietly changes. Nobody agreed what they were building before the work started.',
+  },
+];
+
+// Timeline geometry. Both lines leave (105, 210); reality bends away upward.
+const ticks = [
+  { x: 105, label: 'brief written' },
+  { x: 500, label: 'kickoff' },
+  { x: 890, label: 'build' },
+  { x: 1365, label: 'launch' },
+];
+---
+
+<figure class="block block--drift" data-drift>
+  <div class="drift__scroller">
+  <svg
+    viewBox="0 0 1472 330"
+    role="img"
+    aria-label="A timeline from brief written to launch. The brief stays a flat line while reality curves away from it, and the gap between the two is widest at launch. Handoff marks sit along the brief line during the build."
+  >
+    <!-- Time axis -->
+    <line class="drift__axis" x1="0" y1="272" x2="1472" y2="272" />
+    {ticks.map((t) => (
+      <g class="drift__tick">
+        <line x1={t.x} y1="266" x2={t.x} y2="278" />
+        <text x={t.x} y="300">{t.label}</text>
+      </g>
+    ))}
+
+    <!-- The widening wedge between the two lines (lit by failure one) -->
+    <path
+      class="drift__wedge"
+      data-region="gap"
+      d="M105 210 C 420 196, 760 150, 1030 108 S 1330 52, 1365 46 L 1365 210 Z"
+    />
+
+    <!-- The brief: frozen flat. Scales in from the left. -->
+    <line class="drift__brief" data-region="gap" x1="105" y1="210" x2="1365" y2="210" />
+    <text class="drift__label drift__label--brief" x="1388" y="214">the brief</text>
+
+    <!-- Reality: curves away. Draws itself left to right. -->
+    <path
+      class="drift__reality"
+      data-region="gap"
+      pathLength="1"
+      d="M105 210 C 420 196, 760 150, 1030 108 S 1330 52, 1365 46"
+    />
+    <text class="drift__label drift__label--reality" x="1388" y="50">reality</text>
+
+    <!-- Failure three: the handoffs, ticked along the brief line mid-build -->
+    <g class="drift__handoffs" data-region="handoff">
+      <line x1="640" y1="198" x2="640" y2="222" />
+      <line x1="890" y1="198" x2="890" y2="222" />
+      <line x1="1140" y1="198" x2="1140" y2="222" />
+      <text x="890" y="244">design &rarr; eng &rarr; scope change</text>
+    </g>
+
+    <!-- Failure two: the metric, missing until launch -->
+    <g class="drift__metric" data-region="metric">
+      <circle cx="1365" cy="46" r="13" />
+      <text class="drift__metric-mark" x="1365" y="50">?</text>
+      <text class="drift__metric-note" x="1338" y="20">the metric, invented after</text>
+    </g>
+
+    <!-- The gap that ships, bracketed at launch -->
+    <g class="drift__gap" data-region="gap">
+      <line x1="1365" y1="64" x2="1365" y2="192" />
+      <line x1="1358" y1="64" x2="1372" y2="64" />
+      <line x1="1358" y1="192" x2="1372" y2="192" />
+      <text x="1348" y="132">the gap ships</text>
+    </g>
+  </svg>
+  </div>
+
+  <ul class="drift__legend">
+    {failures.map((f, i) => (
+      <li class="failure" data-region={f.key} style={`--d: ${(0.5 + i * 0.12).toFixed(2)}s`}>
+        <h3 class="failure__label">{f.label}</h3>
+        <p class="failure__body">{f.body}</p>
+      </li>
+    ))}
+  </ul>
+</figure>
+
+<style>
+  .block--drift {
+    margin: 0;
+  }
+
+  svg {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  /* The drawing is the content here — no list duplicates it — so at phone
+     width it keeps a legible scale and scrolls sideways instead of shrinking
+     into a sliver. The axis running to the cut edge is the swipe affordance. */
+  .drift__scroller { overflow-x: auto; scrollbar-width: none; }
+  .drift__scroller::-webkit-scrollbar { display: none; }
+  @media (max-width: 48rem) {
+    .drift__scroller svg { min-width: 56rem; }
+  }
+
+  /* Axis and ticks: quiet scaffolding, first to appear. */
+  .drift__axis {
+    stroke: var(--color-hairline);
+    stroke-width: 1;
+  }
+  .drift__tick line {
+    stroke: var(--color-hairline-strong);
+    stroke-width: 1;
+  }
+  .drift__tick text {
+    font-family: var(--font-body);
+    font-size: 12px;
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    fill: var(--color-ink-muted);
+    text-anchor: middle;
+  }
+  .drift__tick {
+    opacity: 0;
+  }
+  [data-drift].is-in .drift__tick {
+    opacity: 1;
+    transition: opacity var(--duration-slow) var(--ease-out);
+  }
+
+  /* The brief: a flat line that scales in from the left, then stops moving —
+     that stillness is the point. */
+  .drift__brief {
+    stroke: var(--color-ink-muted);
+    stroke-width: 2;
+    transform: scaleX(0);
+    transform-origin: 105px 210px;
+  }
+  [data-drift].is-in .drift__brief {
+    transform: scaleX(1);
+    transition: transform 1.4s var(--ease-out) 0.15s;
+  }
+
+  /* Reality draws itself away from it. */
+  .drift__reality {
+    fill: none;
+    stroke: var(--color-ink);
+    stroke-width: 2.5;
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+  }
+  [data-drift].is-in .drift__reality {
+    stroke-dashoffset: 0;
+    transition: stroke-dashoffset 1.7s var(--ease-out) 0.3s;
+  }
+
+  .drift__label {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 15px;
+    fill: var(--color-ink);
+    opacity: 0;
+  }
+  .drift__label--brief { fill: var(--color-ink-muted); }
+  [data-drift].is-in .drift__label--brief {
+    opacity: 1;
+    transition: opacity var(--duration-slow) var(--ease-out) 1.2s;
+  }
+  [data-drift].is-in .drift__label--reality {
+    opacity: 1;
+    transition: opacity var(--duration-slow) var(--ease-out) 1.7s;
+  }
+
+  /* The wedge between the lines — invisible until failure one calls it up. */
+  .drift__wedge {
+    fill: var(--color-hairline);
+    opacity: 0;
+    transition: opacity var(--duration-fast) var(--ease-out);
+  }
+
+  /* Handoff ticks along the brief line. */
+  .drift__handoffs line {
+    stroke: var(--color-hairline-strong);
+    stroke-width: 1.5;
+  }
+  .drift__handoffs text {
+    font-family: var(--font-body);
+    font-size: 11px;
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    fill: var(--color-ink-muted);
+    text-anchor: middle;
+  }
+  .drift__handoffs {
+    opacity: 0;
+  }
+  [data-drift].is-in .drift__handoffs {
+    opacity: 1;
+    transition: opacity var(--duration-slow) var(--ease-out) 1.35s;
+  }
+
+  /* The undefined metric, hollow at launch. */
+  .drift__metric circle {
+    fill: var(--color-paper);
+    stroke: var(--color-ink);
+    stroke-width: 1.5;
+    stroke-dasharray: 3 3;
+  }
+  .drift__metric-mark {
+    font-family: var(--font-body);
+    font-size: 12px;
+    font-weight: var(--weight-semibold);
+    fill: var(--color-ink);
+    text-anchor: middle;
+  }
+  .drift__metric-note {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 13px;
+    fill: var(--color-ink-muted);
+    text-anchor: end;
+  }
+  .drift__metric {
+    opacity: 0;
+  }
+  [data-drift].is-in .drift__metric {
+    opacity: 1;
+    transition: opacity var(--duration-slow) var(--ease-out) 1.9s;
+  }
+
+  /* The gap bracket at launch. R3: what ships is the point of the drawing. */
+  .drift__gap line {
+    stroke: var(--color-mark);
+    stroke-width: 1;
+  }
+  .drift__gap text {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 14px;
+    fill: var(--color-mark); /* R3 */
+    text-anchor: end;
+  }
+  .drift__gap {
+    opacity: 0;
+  }
+  [data-drift].is-in .drift__gap {
+    opacity: 1;
+    transition: opacity var(--duration-slow) var(--ease-out) 2.1s;
+  }
+
+  /* The legend: the three quiet failures, risen in after the drawing. */
+  .drift__legend {
+    list-style: none;
+    margin: var(--space-lg) 0 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-lg);
+  }
+  .failure {
+    position: relative;
+    padding-top: var(--space-xs);
+    opacity: 0;
+    transform: translateY(0.75rem);
+  }
+  .failure::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: var(--color-hairline-strong);
+    transform: scaleX(0);
+    transform-origin: left;
+  }
+  [data-drift].is-in .failure {
+    opacity: 1;
+    transform: translateY(0);
+    transition:
+      opacity var(--duration-slow) var(--ease-out),
+      transform var(--duration-slow) var(--ease-out);
+    transition-delay: var(--d);
+  }
+  [data-drift].is-in .failure::before {
+    transform: scaleX(1);
+    transition: transform var(--duration-slow) var(--ease-out);
+    transition-delay: var(--d);
+  }
+  .failure__label {
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    font-weight: var(--weight-semibold);
+    line-height: 1.35;
+    color: var(--color-ink);
+  }
+  .failure__body {
+    margin-top: var(--space-3xs);
+    font-size: 0.8125rem;
+    line-height: 1.5;
+    color: var(--color-ink-muted);
+  }
+
+  /* Hovering a failure lights where it lives on the drawing; everything else
+     steps back. JS-managed focus, same hand-over pattern as the story arc. */
+  [data-drift].has-focus .drift__legend .failure:not(.is-hot) { opacity: 0.45; }
+  [data-drift].has-focus svg [data-region]:not(.is-hot),
+  [data-drift].has-focus svg .drift__label,
+  [data-drift].has-focus svg .drift__handoffs:not(.is-hot),
+  [data-drift].has-focus svg .drift__metric:not(.is-hot) { opacity: 0.3; }
+  [data-drift].has-focus svg .is-hot { opacity: 1; }
+  /* The wedge is invisible by default; only its own failure may raise it. */
+  [data-drift].has-focus svg .drift__wedge:not(.is-hot) { opacity: 0; }
+  [data-drift].has-focus svg .drift__wedge.is-hot { opacity: 0.75; }
+  [data-drift].has-focus svg .drift__handoffs.is-hot line { stroke: var(--color-ink); }
+  [data-drift].has-focus svg .drift__handoffs.is-hot text { fill: var(--color-ink); }
+
+  /* After the entrance, everything responds at hover speed. */
+  [data-drift].is-settled .drift__tick,
+  [data-drift].is-settled .drift__label,
+  [data-drift].is-settled .drift__handoffs,
+  [data-drift].is-settled .drift__metric,
+  [data-drift].is-settled .drift__gap,
+  [data-drift].is-settled .failure {
+    transition-delay: 0s;
+    transition-duration: var(--duration-fast);
+  }
+
+  @media (max-width: 64rem) {
+    .drift__legend { grid-template-columns: 1fr; gap: var(--space-md); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .drift__tick, .drift__label, .drift__handoffs, .drift__metric,
+    .drift__gap, .failure { opacity: 1; transform: none; }
+    .drift__brief { transform: scaleX(1); }
+    .drift__reality { stroke-dashoffset: 0; }
+    [data-drift].is-in .drift__tick,
+    [data-drift].is-in .drift__brief,
+    [data-drift].is-in .drift__reality,
+    [data-drift].is-in .drift__label--brief,
+    [data-drift].is-in .drift__label--reality,
+    [data-drift].is-in .drift__handoffs,
+    [data-drift].is-in .drift__metric,
+    [data-drift].is-in .drift__gap,
+    [data-drift].is-in .failure,
+    [data-drift].is-in .failure::before { transition: none; }
+  }
+</style>
+
+<script>
+  // Runs per page visit: view-transition navigations rebuild the DOM
+  // without re-executing module scripts, so astro:page-load re-inits.
+  const init = () => {
+    const drift = document.querySelector<HTMLElement>('[data-drift]');
+    if (drift && !drift.dataset.bound) {
+      drift.dataset.bound = '1';
+      new IntersectionObserver(
+        (entries, io) => {
+          for (const e of entries) {
+            if (e.isIntersecting) {
+              drift.classList.add('is-in');
+              setTimeout(() => drift.classList.add('is-settled'), 2400);
+              io.disconnect();
+            }
+          }
+        },
+        { threshold: 0.35 }
+      ).observe(drift);
+
+      // One focus at a time, handed over between failures.
+      const focus = (key: string | undefined) => {
+        drift.querySelectorAll('.is-hot').forEach((el) => el.classList.remove('is-hot'));
+        if (key === undefined) {
+          drift.classList.remove('has-focus');
+          return;
+        }
+        drift.querySelectorAll(`[data-region="${key}"]`).forEach((el) => el.classList.add('is-hot'));
+        drift.classList.add('has-focus');
+      };
+
+      drift.querySelectorAll<HTMLElement>('.failure').forEach((el) => {
+        el.addEventListener('mouseenter', () => focus(el.dataset.region));
+      });
+      drift.querySelector('.drift__legend')?.addEventListener('mouseleave', () => focus(undefined));
+    }
+  };
+  init();
+  document.addEventListener('astro:page-load', init);
+</script>

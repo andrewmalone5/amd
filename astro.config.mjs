@@ -1,4 +1,5 @@
 import { defineConfig } from 'astro/config';
+import sitemap from '@astrojs/sitemap';
 
 // PREVIEW: deployed to the plain GitHub Pages URL so it's viewable now,
 // before the custom domain's DNS is set — andrewmalone5.github.io/amd/
@@ -11,4 +12,5 @@ import { defineConfig } from 'astro/config';
 export default defineConfig({
   site: 'https://andrewmalone5.github.io',
   base: '/amd',
+  integrations: [sitemap({ filter: (page) => !page.includes('/shot-list') })],
 });

@@ -31,15 +31,19 @@ const links = [
       type="button"
       aria-expanded="false"
       aria-controls="mobile-nav"
+      aria-label="Open menu"
     >
-      <span class="nav-toggle__label" data-open="Close" data-closed="Menu">Menu</span>
+      <span class="nav-toggle__bars" aria-hidden="true"><span></span><span></span></span>
     </button>
   </div>
 
+  {/* The overlay carries only the links. Wordmark and toggle are the real
+      header elements floating above it — nothing is duplicated, so nothing
+      can shift while the menu fades in. The burger morphs into the close X. */}
   <nav id="mobile-nav" class="nav-mobile" aria-label="Primary (mobile)">
     <ul>
-      {links.map((l) => (
-        <li><a href={l.href}>{l.label}</a></li>
+      {links.map((l, i) => (
+        <li style={`--i: ${i}`}><a href={l.href}>{l.label}</a></li>
       ))}
     </ul>
   </nav>
@@ -62,6 +66,12 @@ const links = [
     background: var(--color-paper);
     border-bottom-color: var(--color-hairline);
   }
+  /* Menu open: the overlay is one sheet of paper — the scrolled hairline
+     would read as a stray rule floating on it. */
+  .site-header.nav-open {
+    background: transparent;
+    border-bottom-color: transparent;
+  }
 
   .site-header__inner {
     width: 100%;
@@ -72,11 +82,17 @@ const links = [
     align-items: center;
     justify-content: space-between;
     gap: var(--space-lg);
+    /* Above the mobile overlay: the wordmark and toggle stay put while the
+       menu fades in beneath them. */
+    position: relative;
+    z-index: 70;
   }
 
   .wordmark {
     font-family: var(--font-body);
-    font-size: 1.0625rem;
+    /* One step above the nav links: enough that the name owns the header
+       without tipping into navbar-logo scale. */
+    font-size: 1.1875rem;
     font-weight: var(--weight-semibold);
     letter-spacing: -0.01em;
     color: var(--color-ink);
@@ -114,84 +130,157 @@ const links = [
   .nav-desktop a:hover { color: var(--color-ink); }
   .nav-desktop a:hover::after { transform: scaleX(1); }
 
-  /* Mobile toggle -------------------------------------------------------- */
+  /* Mobile toggle — a two-bar hamburger. ---------------------------------- */
   .nav-toggle {
     display: none;
     background: none;
     border: 0;
-    padding: var(--space-2xs) 0;
+    padding: var(--space-2xs);
+    margin-right: calc(-1 * var(--space-2xs));
     cursor: pointer;
-    font-size: var(--text-sm);
-    font-weight: var(--weight-medium);
-    letter-spacing: var(--tracking-label);
-    text-transform: uppercase;
     color: var(--color-ink);
   }
+  /* Two bars that morph into the close X in place — the toggle is the same
+     element open and closed, so focus and position never move. */
+  .nav-toggle__bars {
+    display: block;
+    width: 26px;
+  }
+  .nav-toggle__bars span {
+    display: block;
+    height: 1.6px;
+    background: currentColor;
+    border-radius: 2px;
+    transition: transform var(--duration) var(--ease-out);
+  }
+  .nav-toggle__bars span + span { margin-top: 6px; }
+  .site-header.nav-open .nav-toggle__bars span:first-child {
+    transform: translateY(3.8px) rotate(45deg);
+  }
+  .site-header.nav-open .nav-toggle__bars span:last-child {
+    transform: translateY(-3.8px) rotate(-45deg);
+  }
 
-  /* Mobile panel --------------------------------------------------------- */
+  /* Mobile panel — full-viewport overlay. -------------------------------- */
   .nav-mobile {
     display: none;
     position: fixed;
-    inset: 3.75rem 0 auto 0; /* sits just under the header row */
+    inset: 0;
+    z-index: 60;
     background: var(--color-paper);
-    border-bottom: 1px solid var(--color-hairline);
-    padding: var(--space-xl) var(--page-gutter) var(--space-2xl);
+    padding: var(--space-sm) var(--page-gutter) var(--space-2xl);
     opacity: 0;
-    transform: translateY(-0.75rem);
     pointer-events: none;
-    transition:
-      opacity var(--duration) var(--ease-out),
-      transform var(--duration) var(--ease-out);
+    transition: opacity var(--duration) var(--ease-out);
   }
-  .nav-mobile ul { list-style: none; padding: 0; display: flex; flex-direction: column; gap: var(--space-md); }
+  .nav-mobile ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: var(--space-lg);
+  }
+  .nav-mobile li {
+    opacity: 0;
+    transform: translateY(0.75rem);
+  }
   .nav-mobile a {
     font-family: var(--font-display);
-    font-size: var(--text-display-sm);
+    font-size: var(--text-display-md);
+    line-height: 1.1;
     letter-spacing: var(--tracking-display);
     color: var(--color-ink);
   }
 
-  /* Below the breakpoint: swap desktop nav for the toggle + panel. */
+  /* Below the breakpoint: swap desktop nav for the toggle + overlay. */
   @media (max-width: 48rem) {
     .nav-desktop { display: none; }
     .nav-toggle { display: inline-flex; align-items: center; }
     .nav-mobile { display: block; }
-    .site-header.nav-open {
-      background: var(--color-paper);
-      border-bottom-color: transparent;
-    }
     .site-header.nav-open .nav-mobile {
       opacity: 1;
-      transform: translateY(0);
       pointer-events: auto;
     }
+    /* Links rise in, staggered, once the overlay is open. */
+    .site-header.nav-open .nav-mobile li {
+      opacity: 1;
+      transform: translateY(0);
+      transition:
+        opacity var(--duration-slow) var(--ease-out),
+        transform var(--duration-slow) var(--ease-out);
+      transition-delay: calc(120ms + var(--i) * 70ms);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .nav-mobile li { opacity: 1; transform: none; }
   }
 </style>
 
 <script>
-  const header = document.querySelector<HTMLElement>('[data-header]');
-  const toggle = document.querySelector<HTMLButtonElement>('.nav-toggle');
-  const label = document.querySelector<HTMLElement>('.nav-toggle__label');
-  const panel = document.getElementById('mobile-nav');
-
-  // Hairline fades in once the page moves.
-  const onScroll = () => header?.classList.toggle('is-scrolled', window.scrollY > 8);
-  onScroll();
-  window.addEventListener('scroll', onScroll, { passive: true });
+  // The header is rebuilt on every view-transition navigation, so element
+  // bindings happen in init() (re-run per page via astro:page-load) while
+  // document- and window-level listeners register once at module scope and
+  // read the current elements through these refs.
+  let header: HTMLElement | null = null;
+  let toggle: HTMLButtonElement | null = null;
 
   const setOpen = (open: boolean) => {
     header?.classList.toggle('nav-open', open);
     toggle?.setAttribute('aria-expanded', String(open));
-    if (label) label.textContent = open ? label.dataset.open! : label.dataset.closed!;
-    document.body.style.overflow = open ? 'hidden' : '';
+    toggle?.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    // Lock scroll without a layout shift: compensate for whatever scrollbar
+    // the lock removes (zero on phones, real on narrow desktop windows).
+    if (open) {
+      const gutter = window.innerWidth - document.documentElement.clientWidth;
+      document.body.style.overflow = 'hidden';
+      document.body.style.paddingRight = gutter > 0 ? `${gutter}px` : '';
+    } else {
+      document.body.style.overflow = '';
+      document.body.style.paddingRight = '';
+    }
   };
 
-  toggle?.addEventListener('click', () => {
-    setOpen(!header?.classList.contains('nav-open'));
+  const init = () => {
+    header = document.querySelector<HTMLElement>('[data-header]');
+    if (!header || header.dataset.bound) return;
+    header.dataset.bound = '1';
+    toggle = header.querySelector<HTMLButtonElement>('.nav-toggle');
+
+    header.classList.toggle('is-scrolled', window.scrollY > 8);
+    // One button, both directions — it morphs between burger and X in place.
+    toggle?.addEventListener('click', () => setOpen(!header?.classList.contains('nav-open')));
+    header
+      .querySelectorAll('#mobile-nav a')
+      .forEach((a) => a.addEventListener('click', () => setOpen(false)));
+  };
+
+  init();
+  document.addEventListener('astro:page-load', init);
+
+  // The view-transition swap rewrites <html> attributes, dropping the
+  // shot-list flag; restore it before the new page paints. Also clear any
+  // scroll lock a mid-navigation open menu left behind.
+  document.addEventListener('astro:after-swap', () => {
+    try {
+      if (sessionStorage.getItem('amd-shotlist')) document.documentElement.dataset.shotlist = '1';
+    } catch {}
+    document.body.style.overflow = '';
+    document.body.style.paddingRight = '';
   });
 
-  // Close after choosing a destination.
-  panel?.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => setOpen(false)));
+  // Hairline fades in once the page moves.
+  window.addEventListener('scroll', () => header?.classList.toggle('is-scrolled', window.scrollY > 8), {
+    passive: true,
+  });
+
+  // Escape closes the overlay.
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') setOpen(false);
+  });
 
   // Close if the viewport grows past the mobile breakpoint.
   window.matchMedia('(min-width: 48rem)').addEventListener('change', (e) => {

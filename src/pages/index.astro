@@ -9,12 +9,12 @@ import About from '../components/About.astro';
   <!-- HERO — one left axis, read straight down: statement, intro, role meta.
        No side columns; hierarchy comes from scale, not placement. -->
   <section class="hero column--wide" id="intro">
-    <h1 class="hero__statement">Designing systems that turn <em>complexity into clarity.</em></h1>
-    <p class="hero__intro">I&rsquo;m a product designer drawn to how complex systems work, and to making them understandable to the people who depend on them. I work best on hard problems, across teams, where design shapes more than the interface.</p>
+    <h1 class="hero__statement">I design the systems <em>behind the interface.</em></h1>
+    <p class="hero__intro">I&rsquo;m a product designer drawn to how complex systems work, and to making them make sense to the people who depend on them. I chase the hard problems, the ones that cut across teams.</p>
     <div class="hero__meta">
       <p class="hero__current">Currently <strong>Senior Product Designer</strong> at <a href="https://www.backmarket.de" target="_blank" rel="noopener">Back Market</a></p>
       <p class="hero__location">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
         Berlin, Germany
       </p>
     </div>
@@ -32,13 +32,13 @@ import About from '../components/About.astro';
   .hero {
     padding-block: var(--space-2xl) var(--section-tight);
   }
-  /* The statement takes the full measure and balances to about three lines.
-     19ch is tuned to this exact sentence — retune if the copy changes. */
+  /* The statement takes the full measure and balances to two lines.
+     21ch is tuned to this exact sentence — retune if the copy changes. */
   .hero__statement {
     font-size: clamp(3rem, 0.9rem + 6.4vw, 7.5rem);
     line-height: 1.05;
     letter-spacing: var(--tracking-display);
-    max-width: 19ch;
+    max-width: 21ch;
   }
   /* The payoff phrase, set in italic and eased back a tone — the one two-tone
      moment, echoing the existing site. */
@@ -62,12 +62,6 @@ import About from '../components/About.astro';
     flex-direction: column;
     gap: var(--space-sm);
   }
-  .hero__location {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5em;
-  }
-  .hero__location svg { flex-shrink: 0; }
   .hero__current,
   .hero__location {
     font-size: var(--text-xs);
@@ -75,16 +69,43 @@ import About from '../components/About.astro';
     text-transform: uppercase;
     color: var(--color-ink-muted);
   }
+  .hero__location {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5em;
+  }
+  .hero__location svg { flex-shrink: 0; }
+  /* The label whispers (muted); role and company assert in semibold ink.
+     The company stays ink rather than violet (owner call) — the underline
+     alone carries the link affordance, warming to full violet on hover. */
   .hero__current strong {
     color: var(--color-ink);
-    font-weight: var(--weight-medium);
+    font-weight: var(--weight-semibold);
   }
   .hero__current a {
     color: var(--color-ink);
-    border-bottom: 1px solid var(--color-hairline-strong);
+    font-weight: var(--weight-semibold);
+    border-bottom: 1px solid var(--color-link-underline);
     transition: border-color var(--duration) var(--ease-out);
   }
-  .hero__current a:hover { border-bottom-color: var(--color-ink); }
+
+  /* Phones: the desktop rhythm (96px pad, 64px gaps) pushes the role/location
+     meta below the fold once browser chrome takes its cut — and that line is
+     the recruiter's first fact. Tighten the hero so the whole statement lands
+     in the first viewport, with the ghost heading peeking in from below as
+     the scroll invitation. */
+  @media (max-width: 48rem) {
+    .hero { padding-block: var(--space-lg) var(--section-tight); }
+    .hero__intro,
+    .hero__meta { margin-top: var(--space-lg); }
+  }
+  /* Short phone viewports (SE-class, or heavy browser chrome): step the two
+     text blocks down one notch so the location line makes it in too. */
+  @media (max-width: 48rem) and (max-height: 42rem) {
+    .hero__statement { font-size: clamp(2.625rem, 0.9rem + 6.4vw, 7.5rem); }
+    .hero__intro { font-size: var(--text-body); }
+  }
+  .hero__current a:hover { border-bottom-color: var(--color-link); }
 
   /* Reveal — slow, staggered, eased. Resting state is visible; the keyframe
      runs from hidden, with fill-mode backwards so there's no flash. Under

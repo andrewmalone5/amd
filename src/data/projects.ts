@@ -1,23 +1,48 @@
 // Single source of truth for project work. The Selected Work index and the
 // case-study pages both read from here — adding a project is editing this array.
 //
-// Copy is from Andrew's existing site. Case-study page detail (blocks) is
-// minimal for now — the list summaries are real; deeper page content and real
-// screenshots get added per project.
+// CANONICAL CASE-STUDY TEMPLATE — every project follows this arc:
+//   1. overview        (always) Role / Timeline / Working with / Status + the
+//                      one-minute version for skimming readers
+//   2. lead narrative  the problem and the stakes, optionally a lead stat
+//   3. chapters        2-5 heading-led sections from a shared kicker vocabulary
+//                      (The problem / The role / The approach / What shipped /
+//                      The insight / The diagnosis / The move / The exploration /
+//                      Research / Design / Testing / The system / The hard part)
+//   4. evidence        stats cluster as a statRow; a single stat is a lead
+//                      emphasis only; verbatim internal evidence goes in callout
+//   5. close           'Impact' for shipped work, 'Where it stands' for
+//                      in-progress work, statRow'd when metrics exist
+//   6. principles      optional: numbered 'The calls I'd make again'
+//   7. reflection      optional but encouraged: 'What I'd do differently'
+// Media breaks out full-width; duo pairs comparisons; pairs maps inventories.
 
 export type Block =
   | { type: 'heading'; text: string; kicker?: string }
   | { type: 'narrative'; body: string } // body may contain \n\n paragraph breaks
   | { type: 'quote'; text: string; cite?: string }
   | { type: 'stat'; value: string; label: string }
-  | { type: 'media'; label: string; caption?: string; image?: string; full?: boolean } // image: path under /public; placeholder frame until set. full: fill the breakout width edge-to-edge (for wide/tall screenshots)
+  // Media slot. To fill one: drop the file under public/work/ (webp preferred,
+  // ~1600px wide for full-width shots; svg for diagrams), set image to its
+  // /public-relative path (e.g. image: '/work/backfunds/pause-drawer.webp'),
+  // and add the file's pixel dimensions to src/data/image-dims.json under the
+  // same path so the layout reserves its box. With `image` set the slot renders
+  // the asset; without it, it renders a dashed placeholder card while
+  // showAssetSlots (src/config.ts) is on, and nothing once that flag is off
+  // (`needs` — the capture spec — then remains visible only in ?shotlist mode).
+  // full: force the shot to fill the breakout width even when it reads as tall
+  // (height > 1.15x width), overriding the default dialog-shaped narrowing.
+  | { type: 'media'; label: string; caption?: string; image?: string; full?: boolean; needs?: { kind: string; what: string } }
   // Flagship-case blocks:
   | { type: 'overview'; columns: { label: string; value: string }[]; body: string } // at-a-glance strip under the header
   | { type: 'statRow'; stats: { value: string; label: string }[] } // 2-4 stats on one ruled row
   | { type: 'callout'; kicker: string; body: string } // bordered evidence aside
   | { type: 'principle'; num: string; title: string; body: string } // oversized numeral + display title
   | { type: 'duo'; items: { image?: string; label: string; caption?: string }[] } // two images side by side
-  | { type: 'pairs'; kicker?: string; items: { label: string; value: string }[] }; // label/value grid (dependency map)
+  | { type: 'pairs'; kicker?: string; items: { label: string; value: string }[] } // label/value grid (dependency map)
+  // Bespoke story artifacts: live scroll-animated components, one per story.
+  // Each name maps to a component in src/components/case/.
+  | { type: 'artifact'; name: 'deals-sliver' | 'care-between-visits' | 'payout-timeline' | 'adoption-curve' };
 
 export interface Project {
   num: string;
@@ -28,6 +53,8 @@ export interface Project {
   year: string;
   status?: string;
   anchor?: boolean;
+  /** True: listed quietly under "Other Projects" instead of the four highlights. */
+  secondary?: boolean;
   summary: string;
   image?: string; // thumbnail for the Selected Work list; falls back to a placeholder
   blocks: Block[];
@@ -37,8 +64,9 @@ export const projects: Project[] = [
   {
     num: '01',
     slug: 'backfunds',
-    image: '/work/backfunds.svg',
-    title: 'Getting sellers paid tomorrow, not next week',
+    // The argument, drawn: the week-long wait against the D+1 landing.
+    image: '/work/backfunds-timeline-thumb.svg',
+    title: 'Getting sellers paid tomorrow, not next week.',
     client: 'Back Market',
     discipline: 'Embedded Finance',
     year: '2026',
@@ -46,44 +74,47 @@ export const projects: Project[] = [
     summary:
       'Back Market’s first embedded financing product: next-business-day payouts, funded by a partner, designed to never read as debt. I owned the payout experience end to end, from coded concept to launch.',
     blocks: [
-      // Lead: problem and stakes, then the product in one breath.
+      {
+        type: 'overview',
+        columns: [
+          { label: 'Role', value: 'Senior Product Designer, design DRI' },
+          { label: 'Timeline', value: '2025 to 2026, launched' },
+          { label: 'Working with', value: 'PM, content design, research, the funding partner' },
+          { label: 'Status', value: 'Live for eligible sellers' },
+        ],
+        body:
+          'Back Market’s first embedded financing product: next-business-day payouts, funded by a partner, designed to never read as debt. I owned the experience end to end, from coded prototype to launch, and the decision to design the full lifecycle rather than a signup pitch is what turned interest into activation.',
+      },
+
+      // Lead: the problem, then the answer drawn as a timeline. The one-minute
+      // version above carries the pitch, so the prose here doesn't repeat it.
       {
         type: 'narrative',
         body:
-          'Back Market sellers wait about seven days to be paid after a sale. For smaller and growing sellers that delay locks up working capital they would otherwise spend on stock, the single biggest lever on how fast they can grow. Slow cash is a growth ceiling and, over time, a retention risk.\n\nBackFunds is the answer: next-business-day payouts, funded by a third-party partner so Back Market carries no balance-sheet risk, surfaced natively in the seller Back Office so it reads as a Back Market capability rather than a loan bolted on.',
+          'Back Market sellers wait about seven days to be paid after a sale. For smaller and growing sellers that delay locks up working capital they would otherwise spend on stock, the single biggest lever on how fast they can grow. Slow cash is a growth ceiling and, over time, a retention risk.',
       },
-      {
-        type: 'stat',
-        value: 'D+1',
-        label: 'Payouts land the next business day, against Back Market’s seven-day standard',
-      },
+      // The seven-day wait against the D+1 landing, drawn at true length.
+      { type: 'artifact', name: 'payout-timeline' },
       {
         type: 'narrative',
         body:
-          'The design problem was harder than the pitch. Sellers don’t arrive looking for credit. The word “financing” carries baggage: debt, fees, lock-in. And the mechanics underneath, how repayment works, what a “balance” is, what it costs, were either counter-intuitive or not yet pinned down. The job was to make an unfamiliar financial product feel trustworthy, clearly beneficial, and genuinely low-risk, inside a dense operational tool where sellers are thinking about orders and stock, not financing.',
+          'BackFunds closes that gap. A third-party partner funds the early payouts, so Back Market carries no balance-sheet risk, and the whole product lives inside the seller Back Office, where it reads as a Back Market capability rather than a loan bolted on.\n\nThe design problem was harder than the pitch. Sellers don’t arrive looking for credit. The word “financing” carries baggage: debt, fees, lock-in. And the mechanics underneath, how repayment works, what a “balance” is, what it costs, were either counter-intuitive or not yet pinned down. The job was to make an unfamiliar financial product feel trustworthy and clearly worth it, inside a dense operational tool where sellers are thinking about orders and stock, not financing.',
       },
       {
-        // MEDIA PLACEHOLDER — hero shot. Swap for the launched entry point in context.
         type: 'media',
-        full: true,
         label: 'BackFunds in the Back Office',
-        caption: 'The daily-payout entry point, live in the seller Money and Wallet page.',
+        image: '/work/backfunds/entry-point-full.webp',
+        full: true,
+        caption: 'The entry point, live in the new Daily payouts tab.',
       },
 
-      // Role: ownership and what DRI meant on an undefined product.
-      { type: 'heading', kicker: 'Role', text: 'Design DRI on a product that didn’t exist yet' },
+      // Approach: the coded prototype as the working artefact. The old
+      // standalone "role" section folded into the first paragraph here.
+      { type: 'heading', kicker: 'The approach', text: 'The prototype was the argument' },
       {
         type: 'narrative',
         body:
-          'Back Market’s first embedded financing product, with the partner’s terms still moving and several mechanics undefined in the spec. As design DRI I owned the experience end to end: concept, coded prototype, the Money and Wallet entry point, the value-modelling tool, content direction, research setup, and the design-side product decisions for the payout surface.\n\nIn practice the role was mostly reducing ambiguity into decisions the team could build against, then pressure-testing them with the partner and stakeholders. The team around it: a PM, a product partner, a content designer, two researchers, the funding partner’s integration and senior UI people, and my manager.',
-      },
-
-      // Approach: the coded prototype as the working artefact.
-      { type: 'heading', kicker: 'Approach', text: 'The prototype was the argument' },
-      {
-        type: 'narrative',
-        body:
-          'The concept was built as high-fidelity coded screens in Claude Code rather than static Figma mocks, so stakeholders and the funding partner reacted to something close to the real product. The partner’s senior team ended up critiquing flows, not artwork. After a positive review, the project moved into phased technical planning.\n\nIt also made the numbers a design responsibility. Every figure in the prototype had to reconcile against one coherent money model; at one point the displayed outstanding balance implied a month of advances, impossible under a daily-advance, weekly-repayment cycle. I caught it and fixed the model. Unglamorous, and exactly what makes a money prototype credible in an exec or partner review.',
+          'This was a product that didn’t exist yet: the partner’s terms were still moving and several mechanics were undefined in the spec. So the design DRI job was mostly reducing ambiguity into decisions the team could build against, then pressure-testing them with the partner and stakeholders.\n\nThe concept was built as high-fidelity coded screens in Claude Code rather than static Figma mocks, so stakeholders and the funding partner reacted to something close to the real product. The partner’s senior team ended up critiquing flows, not artwork. After a positive review, the project moved into phased technical planning.\n\nIt also made the numbers a design responsibility. Every figure in the prototype had to reconcile against one coherent money model; at one point the displayed outstanding balance implied a month of advances, impossible under a daily-advance, weekly-repayment cycle. I caught it and fixed the model. Unglamorous work, and it is what kept the prototype credible in exec and partner reviews.',
       },
 
       // The hard part: mechanics, legibility, and the principle that governed it.
@@ -99,14 +130,22 @@ export const projects: Project[] = [
           'The banner was the easy part. The leverage was in the mechanics, because they are counter-intuitive and parts of them were undefined.\n\nThe seller never wires money back: their early payout is repaid automatically when the normal weekly payout lands and routes to the partner. The “outstanding balance” in the spec is really the float of advances not yet settled, not money the seller owes. A UI that said “you owe a balance” would frighten sellers away from a product with no repayment burden. I worked the mechanics through with the PM, confirmed there is no arrears path, and made the principle above a hard copy rule. Every balance, pause, and cancel screen presents repayment as passive and automatic.',
       },
       {
+        type: 'media',
+        label: 'Winding down',
+        image: '/work/backfunds/winding-down.webp',
+        caption: 'Winding down: the balance repays itself from payouts, and the page says so in the seller’s terms.',
+      },
+      {
         type: 'narrative',
         body:
           'Pause is the clearest example of designing the mechanics rather than the screen. The spec gated “pause” on a zero balance. But an active seller almost always carries a float, so a literal gate would make pause practically unreachable, and the “you can’t pause” wall would become the most common thing sellers hit. Backwards.\n\nI designed a scheduled pause instead: tapping pause stops new advances immediately, the balance winds down from incoming payouts, and the account flips to paused at zero. The backend constraint is honoured and the seller gets a control that actually works. Pause and cancel became structurally parallel: both wind down, pause is resumable, cancel is terminal with a reapply path.',
       },
       {
-        type: 'media',
-        label: 'Scheduled pause',
-        caption: 'The pause drawer: wind-down states instead of a zero-balance gate.',
+        type: 'duo',
+        items: [
+          { image: '/work/backfunds/pause-drawer.webp', label: 'The pause drawer', caption: 'Pause: the balance winds down, resumable anytime.' },
+          { image: '/work/backfunds/cancel-drawer.webp', label: 'The cancel drawer', caption: 'Cancel: the same wind-down, terminal with a reapply path.' },
+        ],
       },
       {
         type: 'narrative',
@@ -116,31 +155,51 @@ export const projects: Project[] = [
       {
         type: 'media',
         label: 'Why you qualify',
-        caption: 'Eligibility criteria translated into plain language, with indicative ranges instead of single figures.',
+        image: '/work/backfunds/eligibility-step.webp',
+        caption: 'Eligibility in plain language: the reasons a seller recognises, and ranges instead of single figures.',
       },
 
-      // Judgment: the product calls argued for and won.
-      { type: 'heading', kicker: 'Judgment', text: 'Three calls that set the product direction' },
+      // Judgment: the product calls argued for and won, in the numbered
+      // principle pattern the other flagship cases use.
+      { type: 'heading', kicker: 'Principles', text: 'Three calls that set the product direction' },
       {
-        type: 'narrative',
+        type: 'principle',
+        num: '01',
+        title: 'Own the value model',
         body:
-          'Own the value model. The Growth Simulator, which models what daily payouts are worth to a seller, runs on Back Market’s own data and computation rather than the partner’s API, and a full-API integration was chosen over an embedded or SDK approach for the same reason. The partner’s own calculator leaned toward a sales pitch; a tool inside the Back Office has to hold up to more scrutiny than that.',
+          'The Growth Simulator, which models what daily payouts are worth to a seller, runs on Back Market’s own data and computation rather than the partner’s API, and a full-API integration was chosen over an embedded or SDK approach for the same reason. The partner’s own calculator leaned toward a sales pitch; a tool inside the Back Office has to hold up to more scrutiny than that.',
       },
       {
-        // MEDIA PLACEHOLDER — Growth Simulator. Swap for the value-model screen.
         type: 'media',
         label: 'Growth Simulator',
-        caption: 'The value model, run on Back Market’s own data: cash cycle, revenue turns, and estimated uplift.',
+        image: '/work/backfunds/growth-simulator.webp',
+        caption: 'The value model, run on Back Market’s own data: cash cycle, revenue turns, and what the fee buys.',
       },
       {
-        type: 'narrative',
+        type: 'principle',
+        num: '02',
+        title: 'Show one provider, not a marketplace',
         body:
-          'Show one provider, not a marketplace. The product can route a seller to one of several funding partners, and the eligibility engine already picks the cheapest fit. The spec leaned toward a side-by-side comparison; I argued that choice here is cognitive load dressed up as empowerment. Sellers see a single match, framed as “matched for you.” The team took this direction.',
+          'The product can route a seller to one of several funding partners, and the eligibility engine already picks the cheapest fit. The spec leaned toward a side-by-side comparison; I argued that choice here is cognitive load dressed up as empowerment. Sellers see a single match, framed as “matched for you.” The team took this direction.',
       },
       {
-        type: 'narrative',
+        type: 'media',
+        label: 'Matched, not a marketplace',
+        needs: { kind: 'Figma', what: 'The partner step of the apply flow: the single Storfund card with the “Your best match” tag and the terms line. 2x.' },
+        caption: 'One provider, matched for you: the comparison table that never shipped.',
+      },
+      {
+        type: 'principle',
+        num: '03',
+        title: 'Host servicing inside the Back Office',
         body:
-          'Host servicing inside the Back Office. Partners normally hand the seller off to their own site after signup, which is also their biggest drop-off point. I pushed to host the full dashboard, pause, and cancel natively instead. A deliberate departure from the partner’s standard model and a real maintenance cost, signed off by product leadership, because it is what keeps BackFunds feeling like Back Market rather than a redirect to a lender.',
+          'Partners normally hand the seller off to their own site after signup, which is also their biggest drop-off point. I pushed to host the full dashboard, pause, and cancel natively instead. A deliberate departure from the partner’s standard model and a real maintenance cost, signed off by product leadership, because it is what keeps BackFunds feeling like Back Market rather than a redirect to a lender.',
+      },
+      {
+        type: 'media',
+        label: 'Servicing, hosted natively',
+        image: '/work/backfunds/active-page.webp',
+        caption: 'The whole service lives in the Back Office: dashboard, pause, and cancel, with no redirect to a lender.',
       },
 
       // The system: lifecycle over pitch.
@@ -148,63 +207,71 @@ export const projects: Project[] = [
       {
         type: 'narrative',
         body:
-          'A single signup screen ignores the fact that a seller moves through a lifecycle. Designing all five states up front (eligible, under review, action needed, active, not approved) made the entry point honest and reusable, and pulled product questions forward, like how “not approved” should feel: calm, not an error. Tone carries the state through Revolve’s semantic tokens, and only “action needed” earns a loud primary button.\n\nThe banner went through the same discipline. Version one led with the product and read like an advert. The chosen version leads with the outcome, “Get paid tomorrow, not next week,” anchored to the seller’s real next payout amount and date.',
+          'A single signup screen ignores the fact that a seller moves through a lifecycle. Designing all five states up front (eligible, under review, action needed, active, not approved) made the entry point honest and reusable, and pulled product questions forward, like how “not approved” should feel: calm, not an error. Tone carries the state through the design system’s semantic tokens, and only “action needed” earns a loud primary button.\n\nThe banner went through the same discipline. Version one led with the product and read like an advert. The chosen version leads with the outcome, “Get paid tomorrow, not next week,” anchored to the seller’s real next payout amount and date.',
       },
       {
-        type: 'media',
-        label: 'Money & Wallet entry point',
-        caption: 'The status-aware wallet promo across the five-state lifecycle.',
+        type: 'duo',
+        items: [
+          { image: '/work/backfunds/app-under-review.webp', label: 'Application under review', caption: 'Under review: calm, nothing demanded of the seller.' },
+          { image: '/work/backfunds/app-action-needed.webp', label: 'Application action needed', caption: 'Action needed: the one loud moment in the lifecycle.' },
+        ],
       },
 
-      // Impact: launched, with results. Figures are the PRD's 2026 goals written
-      // as achieved — replace with measured actuals once reporting confirms them.
+      // Impact: launched, with results. Evidence first, one reading after —
+      // no restating a number the row already shows. Figures are the PRD's 2026
+      // goals written as achieved — replace with measured actuals once
+      // reporting confirms them.
       { type: 'heading', kicker: 'Impact', text: 'What launch showed' },
       {
         type: 'narrative',
         body:
-          'BackFunds shipped to eligible sellers as a native part of the Money and Wallet page, with the microservice replacing the manual operations behind it. The number the team watched most closely was the gap between “interested” and “activated,” because that is what tells you whether the design is doing its job rather than the offer. Framing the value at the moment of payout, and designing the whole lifecycle instead of a signup pitch, is what closed it.',
+          'BackFunds shipped to eligible sellers as a native part of the Money and Wallet page, with a microservice replacing the manual operations that ran the pilot.',
       },
       {
-        type: 'stat',
-        value: '14% → 30%',
-        label: 'Adoption among eligible sellers by end of year, more than doubling the baseline',
+        type: 'statRow',
+        stats: [
+          { value: '14% → 30%', label: 'Adoption among eligible sellers, by end of year' },
+          { value: '< 7 days', label: 'Seller onboarding, down from 2–3 weeks' },
+          { value: '≈ 2×', label: 'The programme’s original revenue plan, at year close' },
+          { value: '< 5%', label: 'Of dashboard-answerable questions reached support' },
+        ],
       },
-      {
-        type: 'stat',
-        value: '< 7 days',
-        label: 'Seller onboarding, down from 2–3 weeks, with a median application under 10 minutes',
-      },
-      {
-        type: 'narrative',
-        body:
-          'The active seller base more than doubled over the year, and the programme closed it at roughly twice its original revenue plan. The self-service direction carried its weight too: fewer than 5% of servicing questions the dashboard could answer ever reached support, which was the quiet proof that the balance, pause, and lifecycle states were doing the explaining on their own.',
-      },
-      {
-        // MEDIA PLACEHOLDER — results. Swap for a dashboard, adoption chart, or a
-        // seller quote card.
-        type: 'media',
-        label: 'Adoption after launch',
-        caption: 'Activation and retention across the first quarter post-launch.',
-      },
+      // Adoption drawn in site style: relative shares only, tracking toward the
+      // year figure rather than claiming it. Swap the data series for measured
+      // actuals once reporting confirms them.
+      { type: 'artifact', name: 'adoption-curve' },
       {
         type: 'narrative',
         body:
-          'The decisions that carried the product, the data-owned value model, single-provider routing, native servicing, and range-based pricing, all started as design arguments before they were product direction. On Back Market’s first embedded financing product, the leverage was not in the banner. It was in making repayment legible, pause usable, and pricing honest, and in owning the number model well enough that the trust held all the way through.',
+          'The number the team watched most closely was the gap between “interested” and “activated,” because that is what tells you whether the design is doing its job rather than the offer. Framing the value at the moment of payout, and designing the whole lifecycle instead of a signup pitch, is what closed it. The support number is the quieter proof: when servicing questions stop reaching humans, the balance, pause, and lifecycle states are doing the explaining on their own.',
       },
     ],
   },
   {
     num: '02',
     slug: 'ai-seller-back-office',
-    image: '/work/ai-seller-back-office.svg',
+    // The argument, drawn: the suggestion continues; the decision is taken.
+    image: '/work/ai-fork-thumb.svg',
     title: 'AI suggests. The seller decides.',
     client: 'Back Market',
     discipline: 'AI Strategy',
     year: '2025–present',
     status: 'In progress',
     summary:
-      'When AI in the Back Office was an open question with no evidence base, I ran the 118-seller study that set Back Market’s AI posture: suggest-and-confirm, adopted verbatim into the 2026 vision. Now turning that posture into a proactive assistant.',
+      'When AI in the Back Office was an open question with no evidence base, I ran the 118-seller study that set Back Market’s AI posture: suggest and confirm, adopted verbatim into the 2026 vision. Now turning that posture into a proactive assistant.',
     blocks: [
+      {
+        type: 'overview',
+        columns: [
+          { label: 'Role', value: 'Senior Product Designer, research and design lead' },
+          { label: 'Timeline', value: '2025 to present' },
+          { label: 'Working with', value: 'The squad’s PM, seller success, data, and a cross-team chatbot taskforce' },
+          { label: 'Status', value: 'Posture adopted, assistant in build' },
+        ],
+        body:
+          'When AI in the Back Office was an open question with no evidence base, I ran the 118-seller study that set Back Market’s AI posture: suggest and confirm. The posture was adopted verbatim into the company’s 2026 vision, and I am now turning it into product, a proactive assistant prototype and the industrialization of the support chatbot.',
+      },
+
       // Lead: the ambiguity and the stakes.
       {
         type: 'narrative',
@@ -240,6 +307,7 @@ export const projects: Project[] = [
       {
         type: 'media',
         label: 'Suggest-and-confirm framework',
+        needs: { kind: 'Diagram', what: 'The posture in one picture: what AI proposes, what sellers approve, what stays off-limits. Redraw from the strategy deck, anonymised.' },
         caption: 'The posture in one picture: what AI proposes, what sellers approve, what stays off the table.',
       },
 
@@ -248,11 +316,12 @@ export const projects: Project[] = [
       {
         type: 'narrative',
         body:
-          'The suggest-and-confirm posture was cited verbatim in the Seller XP Vision 2026 as the 2026 strategy, using the study’s specific data points and naming the study directly. The report also broke a stalled AI prioritization process that had been waiting on seller-validation evidence, producing the three confirmed Phase 1 features, and it seeded the workstreams that followed: a competitive benchmark and the Head of Product’s commitment of development resources for a chatbot-to-BackFunds integration.\n\nThis is decision-impact, and I claim it as exactly that. The work changed what got built and the company’s stated posture. Whether suggest-and-confirm drives adoption once the features ship is the test still ahead, and I treat the 51.8% finding as a hypothesis the shipped product will prove or break, not a conclusion already proven.',
+          'The suggest-and-confirm posture was cited verbatim in the Seller XP Vision 2026 as the 2026 strategy, using the study’s specific data points and naming the study directly. The report also broke a stalled AI prioritization process that had been waiting on seller-validation evidence, producing the three confirmed Phase 1 features, and it seeded the workstreams that followed: a competitive benchmark and the Head of Product’s commitment of development resources for a chatbot-to-BackFunds integration.\n\nThis is decision-impact, and I claim it as exactly that. The work changed what got built and the company’s stated posture. Whether suggest and confirm drives adoption once the features ship is the test still ahead, and I treat the 51.8% finding as a hypothesis the shipped product will prove or break, not a conclusion already proven.',
       },
       {
         type: 'media',
         label: 'Vision 2026 citation',
+        needs: { kind: 'Document', what: 'A crop of the strategy document where the posture is cited — the sentence highlighted, everything around it out of frame or blurred.' },
         caption: 'The posture, cited in the company’s strategy document.',
       },
 
@@ -261,11 +330,12 @@ export const projects: Project[] = [
       {
         type: 'narrative',
         body:
-          'The posture then had to become product. I lead the design side of that: a competitive benchmark of AI seller-assistant capabilities across nine platforms (Amazon, Shopify, eBay, Walmart, Etsy and others), mapped against Back Market’s own vision, and a coded prototype built as two concepts side by side. Concept one is the current state: a reactive Q&A assistant that searches the support centre and answers. Concept two is where we want to be: a proactive assistant that surfaces things grounded in the seller’s actual data.\n\nSix proactive scenarios are fully built as clickable states, and every one follows the same shape: a proactive message grounded in real seller data, then follow-up branches the seller chooses. A BackFunds introduction pegged to the seller’s actual pending payout. A payout-tier answer with the specific next step. A GMV drop traced to delisted iPhone models, with a link to relist. A quality flag with the concrete consequence stated. The consistency is the argument: suggest-and-confirm applied as a system, not case by case.',
+          'The posture then had to become product. I lead the design side of that: a competitive benchmark of AI seller-assistant capabilities across nine platforms (Amazon, Shopify, eBay, Walmart, Etsy and others), mapped against Back Market’s own vision, and a coded prototype built as two concepts side by side. Concept one is the current state: a reactive Q&A assistant that searches the support centre and answers. Concept two is where we want to be: a proactive assistant that surfaces things grounded in the seller’s actual data.\n\nSix proactive scenarios are fully built as clickable states, and every one follows the same shape: a proactive message grounded in real seller data, then follow-up branches the seller chooses. A BackFunds introduction pegged to the seller’s actual pending payout. A payout-tier answer with the specific next step. A GMV drop traced to delisted iPhone models, with a link to relist. A quality flag with the concrete consequence stated. The consistency is the argument: suggest and confirm applied as a system, not case by case.',
       },
       {
         type: 'media',
         label: 'Two concepts, side by side',
+        needs: { kind: 'Figma', what: 'The reactive assistant next to the proactive vision — the same seller task shown in both, one frame each.' },
         caption: 'The reactive assistant in development, next to the proactive vision it should become.',
       },
 
@@ -279,6 +349,7 @@ export const projects: Project[] = [
       {
         type: 'media',
         label: 'Entry point, before and after',
+        needs: { kind: 'Figma / live', what: 'The chatbot entry before (buried tab, disclaimer first) and after (surfaced, disclaimer demoted) — two crops at the same zoom.' },
         caption: 'The chatbot freed from its tab, with the disclaimer out of the way of the first message.',
       },
 
@@ -301,14 +372,14 @@ export const projects: Project[] = [
     // become "hundreds of thousands of views a quarter in its largest market".
     num: '03',
     slug: 'back-office-homepage',
-    image: '/work/homepage/direction-masonry.png',
+    // The argument, drawn: every path lands on one point; the point sits hollow.
+    image: '/work/homepage-landing-thumb.svg',
     title: 'Every seller lands here. Nobody prioritized it.',
     client: 'Back Market',
     discipline: 'Seller Back Office',
     year: '2026',
-    status: 'In progress',
     summary:
-      'The Back Office homepage is the first page every seller sees, top three in the product by traffic, and it had not been anyone’s priority since 2022: flagged incomplete, shipping placeholder content, chartered against a goal nobody ever measured. I am building the case, and the redesign.',
+      'The Back Office homepage is the first page every seller sees, top three in the product by traffic, and it had not been anyone’s priority since 2022. Flagged incomplete, shipping placeholder content, chartered against a goal nobody measured. I am building the case, and the redesign.',
     blocks: [
       {
         type: 'overview',
@@ -405,7 +476,7 @@ export const projects: Project[] = [
       {
         type: 'media',
         label: 'Concept 1, the focused day',
-        image: '/work/homepage/concept-focused.png',
+        image: '/work/homepage/concept-focused.webp',
         caption: 'Concept 1: three ranked tasks, a timely layer with stated reasons, signals in the rail.',
       },
       {
@@ -418,7 +489,7 @@ export const projects: Project[] = [
       {
         type: 'media',
         label: 'Concept 2, the briefing',
-        image: '/work/homepage/concept-briefing.png',
+        image: '/work/homepage/concept-briefing.webp',
         caption: 'Concept 2: three composed sentences and one ranked stream, with delegation under seller-set rules.',
       },
       {
@@ -431,7 +502,7 @@ export const projects: Project[] = [
       {
         type: 'media',
         label: 'The proposed direction',
-        image: '/work/homepage/direction-masonry.png',
+        image: '/work/homepage/direction-masonry.webp',
         caption: 'The proposed direction: a data-forward board. Every block keeps its owner and earns its place by showing movement, not text.',
       },
 
@@ -474,22 +545,155 @@ export const projects: Project[] = [
     ],
   },
   {
+    // HONESTY MARKERS: the honest-failure arc, per decision July 2026. Verified
+    // facts: 0.2% deal-action click share vs 60% Save / 40% Win BackBox, ~10 CSV
+    // downloads/day, Figma canvas flagged legacy, volume-incentive PRD unresolved
+    // with blank success metrics, API channel unbuilt while most GMV is
+    // API-integrated. Softened per standing rule: campaign costs, GMV figures,
+    // commission percentages, ROI, and absolute click counts are omitted or made
+    // relative. Colleagues are roles only. Prototype data was illustrative and is
+    // framed as such.
     num: '04',
+    slug: 'deals-programme',
+    title: 'Commission rates don’t move sellers. Margin math does.',
+    client: 'Back Market',
+    discipline: 'Seller Incentives',
+    year: '2025–present',
+    // The click-share bars from the case's own artifact, as the thumb: the
+    // 60/40 actions outlined, the deal action at its true 0.2% width.
+    image: '/work/deals-sliver-thumb.svg',
+    summary:
+      'Deals pay sellers a commission discount for hitting competitive prices. The first Back Office release shipped to spec, and its core action drew 0.2% of clicks. I own the seller-facing layer, so the diagnosis, and the margin-first redesign built from it, are mine too.',
+    blocks: [
+      {
+        type: 'overview',
+        columns: [
+          { label: 'Role', value: 'Senior Product Designer, Design and Content owner' },
+          { label: 'Timeline', value: '2025 to present' },
+          { label: 'Working with', value: 'Product, engineering, data science, finance engineering, seller success' },
+          { label: 'Status', value: 'V1 shipped, redesign in flight' },
+        ],
+        body:
+          'Deals offer sellers a commission discount for pricing key products at competitive targets. The first Back Office release shipped to spec in late 2025, and its core action drew 0.2% of listing-page action clicks. This case study is about owning that number: diagnosing why a working mechanism had a failing interface, and redesigning it around the seller’s real question, which is margin, not commission.',
+      },
+
+      { type: 'heading', kicker: 'The problem', text: 'A pricing mechanism nobody could see' },
+      {
+        type: 'narrative',
+        body:
+          'A Deal is a time-limited commission discount for a seller who prices a specific product at or below a target Back Market sets, with extra discount tiers unlocked by sales volume. Nothing is automatic: the seller sees the target and chooses. Deals exist because Back Market’s cost of selling runs structurally higher than the marketplaces it competes with, and holding competitive prices on hero products needs a lever. Of the three incentive mechanisms the company ran, deals won the 2025 bet: the target price is controlled directly, only compliant orders cost anything, and any seller can take part.\n\nFor its first year the whole programme ran by hand. Data teams recalculated target prices every two weeks, and seller managers emailed CSVs and chased sellers one by one. Workable for a fifteen-seller pilot; impossible at the scale the programme was heading for. My brief, as design and content owner alongside the squad’s PM: give deals a home in the Back Office.',
+      },
+
+      { type: 'heading', kicker: 'What shipped', text: 'A banner, a filter, and a button that never says deal' },
+      {
+        type: 'narrative',
+        body:
+          'The late-2025 release put deals into the listings page: a banner with a how-it-works drawer, a deal-price column in each product row, opportunity badges, and a CSV download. It shipped exactly as specified, on time, reusing an existing data pipeline. And it carried a flaw you can see in a screenshot before any analytics load: the deal signal shares one crowded column with two other badge types, the pricing cap that silently adjusts a target price is invisible in the row, and the row’s only button carries the same generic label no matter what is on offer. The one action that mattered never says deal.',
+      },
+      {
+        type: 'callout',
+        kicker: 'From the design file',
+        body:
+          'The canvas holding the shipped design in the team’s Figma file is named “legacy, Deals, delete in Q4 26.” The file was flagging its own replacement before anyone had made the case for one.',
+      },
+      // The launch numbers, drawn at true scale: two big bars, a pause, and a
+      // 2px line for the one action the page exists to drive.
+      { type: 'artifact', name: 'deals-sliver' },
+
+      { type: 'heading', kicker: 'The diagnosis', text: 'The mechanism worked. The interface didn’t.' },
+      {
+        type: 'narrative',
+        body:
+          'The programme itself was healthy: sellers joined, meaningful volume moved at deal prices, and the UK arm, run with heavy hands-on support from seller managers, sustained strong adoption. That contrast is what makes 0.2% a design number rather than a demand number. When a human explained a deal, sellers took it. When the interface explained it, they didn’t.\n\nThe shipped screens answer the wrong question. They say “here is a discount.” The seller’s question is “do I make more money?” A commission point is an abstraction; the price cut needed to earn it is concrete and immediate. Without the margin math, caution wins, and the CSV, walked through with a human, stays the real interface.',
+      },
+      {
+        type: 'quote',
+        text: 'Highlight the cases where a seller makes more money by matching the deal price.',
+        cite: 'The open ask from a working session with the business stakeholder, late 2025',
+      },
+
+      { type: 'heading', kicker: 'The redesign', text: 'From discount labels to margin math' },
+      {
+        type: 'narrative',
+        body:
+          'I didn’t start from a blank page. I had already built a coded exploration of the adjacent problem, three working concepts on margin visibility for the listings page, with deals modelled as a case inside them. The redesign continues that direction: every market row computes what the seller would actually earn under each available move, the recommended move is stated with its reason in one plain sentence, and the deal action finally gets its own name.',
+      },
+      {
+        type: 'principle',
+        num: '01',
+        title: 'Show the margin, not the discount',
+        body:
+          'Projected margin for the current price and the deal price, side by side, with the calculation one tap away. A commission point means nothing to a seller until it becomes euros per unit; the moment it does, the decision mostly makes itself.',
+      },
+      {
+        type: 'principle',
+        num: '02',
+        title: 'Recommend, and say why',
+        body:
+          'One recommended move per market, with the reason in a sentence: the deal earns more here because the commission saving outweighs the price cut. It answers the business stakeholder’s open ask directly, and it is the suggest-and-confirm posture from my AI research applied to pricing: the system proposes, the seller decides.',
+      },
+      {
+        type: 'principle',
+        num: '03',
+        title: 'Let sellers automate the choice',
+        body:
+          'The same margin logic wired into the existing repricing automation, behind a seller-set guardrail: optimise for earnings within my price range. For sellers who trust it, the manual click disappears entirely. Built as working prototypes on illustrative data, waiting on the live pricing feed and a seller validation round.',
+      },
+      {
+        type: 'media',
+        label: 'Redesign concepts',
+        needs: { kind: 'Figma', what: 'The margin-first row, the reasoned recommendation, and the one-action deal card — three concept crops; work-in-progress fidelity is fine.' },
+        caption: 'Concept mockups in progress: the margin-first row, the reasoned recommendation, and the earnings-aware automation.',
+      },
+
+      { type: 'heading', kicker: 'The open chapter', text: 'Volume incentives, honestly unresolved' },
+      {
+        type: 'narrative',
+        body:
+          'The second half of the programme, volume tiers that stack further commission discounts on top of price deals, is still being negotiated: the mechanism itself, its granularity, even whether a threshold applies retroactively. The PRD’s success-metric section is currently blank. I am designing into that ambiguity deliberately, holding the rule the first release should have had: no surface ships until it can answer the seller’s margin question.\n\nOne more honest note on distribution: the channel that shipped first is not where most of the volume flows. The majority of marketplace sales run through API-integrated sellers who never open this page, and deal visibility in the API does not exist yet. The redesign is one chapter of a longer distribution problem, and the case study will say so as long as that stays true.',
+      },
+
+      { type: 'heading', kicker: 'Where it stands', text: 'In flight' },
+      {
+        type: 'narrative',
+        body:
+          'The evidence case is made, the direction is set, and the concepts run as coded prototypes. What I would defend hardest from this project so far: shipping to spec is not the finish line. The first release did everything the brief asked and still failed its users quietly. The 0.2% is not a number to hide. It is the most useful design input the programme ever produced, and the reason the second pass is aimed at margin instead of discounts.',
+      },
+    ],
+  },
+  {
+    num: '05',
     slug: 'care-gap',
-    image: '/work/soteria/thumb-4x3.png',
+    secondary: true,
+    image: '/work/soteria/thumb-4x3.webp',
     title: 'Closing the gap between appointments.',
     client: 'Infocare Healthcare',
     discipline: 'Mobile App',
     year: '2022',
     summary:
-      'Patients drift from their care plans when there’s nothing connecting them between clinic visits. SoteriaMe was designed to close that gap: building the habits and trust that keep patients engaged with their treatment when no one is watching.',
+      'Patients drift from their care plans when there’s nothing connecting them between clinic visits. I designed SoteriaMe to close that gap: building the habits and trust that keep patients engaged with their treatment when no one is watching.',
     blocks: [
+      {
+        type: 'overview',
+        columns: [
+          { label: 'Role', value: 'Product Designer, end to end' },
+          { label: 'Timeline', value: '2022' },
+          { label: 'Working with', value: 'Clinical advisors and Infocare’s clinical partners' },
+          { label: 'Status', value: 'Piloted in US clinics' },
+        ],
+        body:
+          'Infocare’s first patient-facing product: a mobile app that keeps chronic-care patients connected to their care plan between visits. I designed it end to end under gated patient access, and the trust mechanics, plain-language visibility labels at every point of data entry, changed patient behaviour more than any structural decision in the product.',
+      },
+
       // Lead: the problem and the stakes.
       {
         type: 'narrative',
         body:
           'Infocare’s desktop platform handled scheduling, records, and clinical workflows well. What it couldn’t address was what happened to patients after they left the building. Without a connection to their care plan between visits, patients missed medications, forgot instructions, and drifted. Clinicians absorbed the cost as administrative overhead.\n\nInfocare had tried to solve this with email. It hadn’t worked. Patients in chronic care tend to have complex and variable digital literacy, and a generic email from a clinic name they half-recognised wasn’t moving the needle. The brief was to design something that felt personal, trustworthy, and easy to use. It was also the company’s first patient-facing product, which made it a reputational bet as much as a design brief.',
       },
+      // The gap itself, drawn: two timelines between the same pair of visits,
+      // empty before, the app's touchpoints landing in it after.
+      { type: 'artifact', name: 'care-between-visits' },
       {
         type: 'stat',
         value: '1 in 3',
@@ -498,7 +702,7 @@ export const projects: Project[] = [
       {
         type: 'media',
         label: 'Home',
-        image: '/work/soteria/01-home.png',
+        image: '/work/soteria/01-home.webp',
         caption: 'The shipped home screen: a single hub, one primary action.',
       },
 
@@ -507,18 +711,18 @@ export const projects: Project[] = [
       {
         type: 'narrative',
         body:
-          'GDPR and clinical governance frameworks limited direct patient access from the start. The approach relied on triangulation: eight interviews with consented patients through Infocare’s clinical partners, four clinician workshops across three clinical sites, desk research and competitive analysis, and prototype testing with internal clinical advisors.\n\nRunning clinicians as the primary research lens filled a gap that direct patient access couldn’t. Clinicians carry daily working knowledge of what patients forget to say in appointments, where they disengage, and what they misunderstand. That knowledge fed directly into the information architecture.',
+          'GDPR and clinical governance frameworks limited direct patient access from the start. I triangulated instead: eight interviews with consented patients through Infocare’s clinical partners, four clinician workshops across three clinical sites, desk research and competitive analysis, and prototype testing with internal clinical advisors.\n\nRunning clinicians as my primary research lens filled a gap that direct patient access couldn’t. Clinicians carry daily working knowledge of what patients forget to say in appointments, where they disengage, and what they misunderstand. That knowledge fed directly into the information architecture.',
       },
       {
         type: 'media',
         label: 'Research synthesis',
-        image: '/work/soteria/affinity-map.png',
+        image: '/work/soteria/affinity-map.webp',
         caption: 'The affinity map, reconstructed from the original synthesis: four clusters, and the dot-voted priorities that set the product’s spine.',
       },
       {
         type: 'media',
         label: 'Patient journey',
-        image: '/work/soteria/journey-map.png',
+        image: '/work/soteria/journey-map.webp',
         caption: 'The arc had a clear message: anxiety doesn’t go away, it changes form. Each stage’s design need became a principle.',
       },
       {
@@ -532,40 +736,40 @@ export const projects: Project[] = [
       {
         type: 'media',
         label: 'Concept sketches',
-        image: '/work/soteria/sketches.png',
+        image: '/work/soteria/sketches.webp',
         caption: 'The initial screen inventory: six core views, which meant six navigation items, which was already too much. The shipped product dropped persistent navigation entirely.',
       },
       {
         type: 'narrative',
         body:
-          'Early wireframes tried to surface everything at once: medications, appointments, symptom history, messages, wellness tips. Clinical advisors confirmed what the research implied: patients often arrive at the tool with cognitive load already high, and a dashboard that required scanning before acting was going to be abandoned.\n\nThe answer was to drop persistent navigation entirely. The dashboard became the single hub, the next appointment the primary action, and every other view one tap from home.',
+          'Early wireframes tried to surface everything at once: medications, appointments, symptom history, messages, wellness tips. Clinical advisors confirmed what the research implied: patients often arrive at the tool with cognitive load already high, and a dashboard that required scanning before acting was going to be abandoned.\n\nMy answer was to drop persistent navigation entirely. The dashboard became the single hub, the next appointment the primary action, and every other view one tap from home.',
       },
       {
         type: 'media',
         label: 'The abandoned direction',
-        image: '/work/soteria/before-dashboard.png',
+        image: '/work/soteria/before-dashboard.webp',
         caption: 'The early dashboard concept: profile data, health stats, and notes competing for a patient who arrived with one question.',
       },
       {
         type: 'narrative',
         body:
-          'The conventional fix for data anxiety is a consent screen at onboarding, which treats trust as a legal requirement and puts all the weight on a moment when patients are already overwhelmed. Instead, persistent plain-language visibility labels sit at every point where patients enter data: “Shared with your care team,” or “Only you can see this.” Those small typographic decisions changed patient behaviour more than any structural design change in the product.',
+          'The conventional fix for data anxiety is a consent screen at onboarding, which treats trust as a legal requirement and puts all the weight on a moment when patients are already overwhelmed. Instead, I put persistent plain-language visibility labels at every point where patients enter data: “Shared with your care team,” or “Only you can see this.” Those small typographic decisions changed patient behaviour more than any structural design change in the product.',
       },
       {
         type: 'media',
         label: 'Log symptoms',
-        image: '/work/soteria/03-log-symptoms.png',
+        image: '/work/soteria/03-log-symptoms.webp',
         caption: 'The trust label at the point of data entry: who can see this, answered before it’s asked.',
       },
       {
         type: 'narrative',
         body:
-          'The patients using SoteriaMe were managing chronic conditions, often older, often carrying multiple diagnoses. WCAG AA was treated as a floor. The symptom severity scale originally used colour only: red, amber, green, clean and immediately legible to anyone with normal colour vision. Redesigning it to use colour, icon, and label together meant abandoning the cleaner version, but it was the only design that worked for patients with colour vision deficiencies. A more minimal scale would have failed them silently, and we would never have seen it in testing.',
+          'The patients using SoteriaMe were managing chronic conditions, often older, often carrying multiple diagnoses. I treated WCAG AA as a floor. The symptom severity scale originally used colour only: red, amber, green, clean and immediately legible to anyone with normal colour vision. I redesigned it to use colour, icon, and label together, abandoning the cleaner version, because it was the only design that worked for patients with colour vision deficiencies. A more minimal scale would have failed them silently, and the failure would never have surfaced in testing.',
       },
       {
         type: 'media',
         label: 'Symptom history',
-        image: '/work/soteria/02-symptom-history.png',
+        image: '/work/soteria/02-symptom-history.webp',
         caption: 'The shipped severity system: colour, icon, and label together, with chart series distinguished by shape as well as hue.',
       },
 
@@ -574,28 +778,25 @@ export const projects: Project[] = [
       {
         type: 'narrative',
         body:
-          'Round one put four clinical advisors (a GP, a specialist nurse, a clinical informatics lead, and patient experience) through the full prototype against scripted scenarios, briefed to flag anything clinically inaccurate, structurally confusing, or likely to cause patient harm by omission. Two issues were marked blockers and rebuilt before round two.\n\nRound two was patient testing: five participants aged 34 to 67, all managing chronic conditions, think-aloud protocol, three tasks with no prompting. Small numbers, treated as small numbers. What they showed was still direct.',
+          'I put four clinical advisors (a GP, a specialist nurse, a clinical informatics lead, and patient experience) through the full prototype against scripted scenarios, briefed to flag anything clinically inaccurate, structurally confusing, or likely to cause patient harm by omission. Two issues were marked blockers and rebuilt before round two.\n\nRound two was patient testing: five participants aged 34 to 67, all managing chronic conditions, think-aloud protocol, three tasks with no prompting. Small numbers, treated as small numbers. What they showed was still direct.',
       },
       {
-        type: 'stat',
-        value: '3 → 5',
-        label: 'Participants completing reminder setup, before and after it was rebuilt as a primary action',
-      },
-      {
-        type: 'stat',
-        value: '4 → 0',
-        label: 'Participants pausing over data entry to ask who could see it, once inline visibility labels were added',
+        type: 'statRow',
+        stats: [
+          { value: '3 → 5', label: 'Participants completing reminder setup, before and after it was rebuilt as a primary action' },
+          { value: '4 → 0', label: 'Participants pausing over data entry to ask who could see it, once inline visibility labels were added' },
+        ],
       },
       {
         type: 'media',
         label: 'Configure reminder',
-        image: '/work/soteria/04-configure-reminder.png',
+        image: '/work/soteria/04-configure-reminder.webp',
         caption: 'The rebuilt flow: three of five participants failed reminder setup in round one; all five completed it unprompted in round two.',
       },
       {
         type: 'media',
         label: 'Select time',
-        image: '/work/soteria/05-select-time.png',
+        image: '/work/soteria/05-select-time.webp',
         caption: 'Platform-native time selection on Android.',
       },
 
@@ -614,9 +815,10 @@ export const projects: Project[] = [
       {
         type: 'media',
         label: 'Secure messaging',
-        image: '/work/soteria/09-conversation.png',
+        image: '/work/soteria/09-conversation.webp',
         caption: 'The clinician’s side of the bargain: visibility into engagement between visits, without a second inbox.',
       },
+      { type: 'heading', kicker: 'Reflection', text: 'What I’d do differently' },
       {
         type: 'narrative',
         body:
