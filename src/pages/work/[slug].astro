@@ -375,7 +375,10 @@ const glyphs: Record<string, Record<'a' | 'b', string>> = {
     margin-top: var(--section-tight);
     margin-bottom: var(--space-lg);
   }
-  .block--ledger .eyebrow { margin-bottom: var(--space-sm); }
+  /* The one purple word in the page's middle: the kicker above the study's
+     hard rule takes the second ink, marking the decisive moment between the
+     timeline's D+1 stroke up top and the measured outcomes below. */
+  .block--ledger .eyebrow { margin-bottom: var(--space-sm); color: var(--color-mark); }
   .ledger__rule {
     font-family: var(--font-display);
     font-size: var(--text-display-sm);
