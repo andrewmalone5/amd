@@ -233,8 +233,16 @@ export const projects: Project[] = [
       {
         type: 'duo',
         items: [
-          { image: '/work/backfunds/app-under-review.webp', label: 'Application under review', caption: 'Under review: calm, nothing demanded of the seller.' },
-          { image: '/work/backfunds/app-action-needed.webp', label: 'Application action needed', caption: 'Action needed: the one loud moment in the lifecycle.' },
+          {
+            label: 'Application under review',
+            needs: { kind: 'Prototype', what: 'The application-progress card in the under-review state, uncropped: full card with banner. Awaiting re-shoot.' },
+            caption: 'Under review: calm, nothing demanded of the seller.',
+          },
+          {
+            label: 'Application action needed',
+            needs: { kind: 'Prototype', what: 'The application-progress card in the action-needed state, uncropped: full card with the Verify with Storfund button. Awaiting re-shoot.' },
+            caption: 'Action needed: the one loud moment in the lifecycle.',
+          },
         ],
       },
 
