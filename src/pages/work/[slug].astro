@@ -273,10 +273,11 @@ function captionLead(caption: string): { lead: string; rest: string } | null {
   }
   .block--heading .heading__kicker {
     font-size: var(--text-display-md);
-    margin-bottom: var(--space-xs);
+    margin-bottom: var(--space-sm);
   }
   .block--heading h2 {
     font-size: var(--text-display-sm);
+    font-weight: var(--weight-semibold);
     line-height: var(--leading-tight);
     letter-spacing: var(--tracking-display);
     max-width: 24ch;
@@ -325,8 +326,6 @@ function captionLead(caption: string): { lead: string; rest: string } | null {
     width: min(61rem, calc(100% - var(--page-gutter)));
     margin-top: var(--section-tight);
     margin-bottom: var(--space-lg);
-    padding-top: var(--space-lg);
-    border-top: 2px solid var(--color-ink);
   }
   .block--ledger .eyebrow { margin-bottom: var(--space-sm); }
   .ledger__rule {
