@@ -33,9 +33,7 @@ export type Block =
   // the asset; without it, it renders a dashed placeholder card while
   // showAssetSlots (src/config.ts) is on, and nothing once that flag is off
   // (`needs` — the capture spec — then remains visible only in ?shotlist mode).
-  // full: force the shot to fill the breakout width even when it reads as tall
-  // (height > 1.15x width), overriding the default dialog-shaped narrowing.
-  | { type: 'media'; label: string; caption?: string; image?: string; full?: boolean; needs?: { kind: string; what: string } }
+  | { type: 'media'; label: string; caption?: string; image?: string; needs?: { kind: string; what: string } }
   // Flagship-case blocks:
   | { type: 'overview'; columns: { label: string; value: string }[]; body: string } // at-a-glance strip under the header
   | { type: 'statRow'; stats: { value: string; label: string }[] } // 2-4 stats on one ruled row
@@ -107,7 +105,6 @@ export const projects: Project[] = [
         type: 'media',
         label: 'BackFunds in the Back Office',
         image: '/work/backfunds/entry-point-full.webp',
-        full: true,
         caption: 'The entry point, live in the new Daily payouts tab.',
       },
 
@@ -158,15 +155,12 @@ export const projects: Project[] = [
         ],
       },
       {
-        type: 'narrative',
-        body:
+        type: 'duo',
+        lead:
           'Pricing had the same shape of problem. The partner’s exact terms weren’t confirmed, and exec feedback was explicit: don’t show a single daily fee before underwriting. All cost and advance figures moved to honest ranges (“500 to 750 euros a day, around 0.1% to 0.15% daily”) that bracket the working model without promising a number no one could stand behind.\n\nEligibility got the same treatment. Internal risk-classification language was translated into plain second-person reasons a seller actually recognises, so an internal quality-tier threshold became “consistently strong quality metrics: low defect and refund rates.” Catching an internal mental model before it leaks onto a customer-facing surface is quiet work, and it is most of the job.',
-      },
-      {
-        type: 'media',
-        label: 'Why you qualify',
-        image: '/work/backfunds/eligibility-step.webp',
-        caption: 'Eligibility in plain language: the reasons a seller recognises, and ranges instead of single figures.',
+        items: [
+          { image: '/work/backfunds/eligibility-step.webp', label: 'Why you qualify', caption: 'Eligibility in plain language: the reasons a seller recognises, and ranges instead of single figures.' },
+        ],
       },
 
       // Judgment: the product calls argued for and won, in the numbered

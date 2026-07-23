@@ -83,7 +83,7 @@ const { project } = Astro.props;
            card regardless of the flag. */
         b.image ? (
           <figure class="block block--media">
-            <div class:list={['media__frame', 'media__frame--image', { 'media__frame--tall': !b.full && (imgDims(b.image).height ?? 0) > (imgDims(b.image).width ?? 1) * 1.15 }]}>
+            <div class="media__frame media__frame--image">
               <img src={withBase(b.image)} alt={b.label} loading="lazy" decoding="async" {...imgDims(b.image)} />
             </div>
             {b.caption && <figcaption>{b.caption}</figcaption>}
@@ -138,7 +138,7 @@ const { project } = Astro.props;
         </section>
       ) : b.type === 'duo' ? (
         b.items.some((item) => item.image) ? (
-          <div class:list={['block', 'block--duo', { 'block--duo-lead': b.lead }]}>
+          <div class:list={['block', 'block--duo', { 'block--duo-lead': b.lead, 'block--duo-solo': b.lead && b.items.filter((item) => item.image).length === 1 }]}>
             {b.lead && (
               <div class="duo__lead">
                 {b.lead.split('\n\n').map((para) => (
@@ -391,23 +391,21 @@ const { project } = Astro.props;
     border-radius: 0;
     padding: 0;
   }
+  /* One treatment for every shot: capped at a reviewable height so full-page
+     captures settle at a size the eye can take in whole, centred when the cap
+     brings them in from the breakout edges. Landscape shots still spread. */
   .media__frame--image img {
     display: block;
-    width: 100%;
+    width: auto;
+    max-width: 100%;
+    max-height: 52rem;
     height: auto;
+    margin-inline: auto;
     border-radius: var(--radius-frame);
     border: 1px solid var(--color-hairline);
     box-shadow:
       0 1px 2px rgba(28, 25, 18, 0.05),
       0 32px 64px -40px rgba(28, 25, 18, 0.28);
-  }
-  /* Dialog-shaped shots (clearly taller than wide) centre at a readable width
-     instead of stretching across the breakout. Same edge treatment. */
-  .media__frame--tall img {
-    width: auto;
-    max-width: 100%;
-    max-height: 46rem;
-    margin-inline: auto;
   }
   .block--media figcaption {
     margin-top: var(--space-sm);
@@ -647,10 +645,16 @@ const { project } = Astro.props;
     color: var(--color-ink);
   }
   .duo__lead p + p { margin-top: var(--space-md); }
+  /* Solo variant: one drawer beside the text instead of a pair. The image
+     track is wider since it isn't sharing the row with a sibling. */
+  .case > .block--duo-solo {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 27rem);
+  }
   /* Narrow: the prose sits above the pair, which stays side by side until the
      drawers themselves need to stack. */
   @media (max-width: 60rem) {
     .case > .block--duo-lead { grid-template-columns: 1fr 1fr; }
+    .case > .block--duo-solo { grid-template-columns: 1fr; }
     .duo__lead { grid-column: 1 / -1; margin-bottom: var(--space-xs); }
   }
   @media (max-width: 40rem) {
