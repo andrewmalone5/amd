@@ -10,7 +10,7 @@ export type Block =
   | { type: 'narrative'; body: string } // body may contain \n\n paragraph breaks
   | { type: 'quote'; text: string; cite?: string }
   | { type: 'stat'; value: string; label: string }
-  | { type: 'media'; label: string; caption?: string; image?: string } // image: path under /public; placeholder frame until set
+  | { type: 'media'; label: string; caption?: string; image?: string; full?: boolean } // image: path under /public; placeholder frame until set. full: fill the breakout width edge-to-edge (for wide/tall screenshots)
   // Flagship-case blocks:
   | { type: 'overview'; columns: { label: string; value: string }[]; body: string } // at-a-glance strip under the header
   | { type: 'statRow'; stats: { value: string; label: string }[] } // 2-4 stats on one ruled row
@@ -65,6 +65,7 @@ export const projects: Project[] = [
       {
         // MEDIA PLACEHOLDER — hero shot. Swap for the launched entry point in context.
         type: 'media',
+        full: true,
         label: 'BackFunds in the Back Office',
         caption: 'The daily-payout entry point, live in the seller Money and Wallet page.',
       },

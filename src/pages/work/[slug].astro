@@ -54,7 +54,7 @@ const { project } = Astro.props;
           <span class="stat__label">{b.label}</span>
         </div>
       ) : b.type === 'media' ? (
-        <figure class="block block--media">
+        <figure class={`block block--media${b.full ? ' block--media-full' : ''}`}>
           {b.image ? (
             <div class="media__frame media__frame--image">
               <img src={withBase(b.image)} alt={b.label} loading="lazy" />
@@ -297,6 +297,15 @@ const { project } = Astro.props;
     max-height: 46rem;
     height: auto;
     border-radius: 18px;
+  }
+  /* Full-width media: the screenshot fills the whole breakout column edge-to-edge,
+     dropping the height cap that keeps tall captures narrow and centred. */
+  .block--media-full .media__frame--image {
+    padding: 0;
+  }
+  .block--media-full .media__frame--image img {
+    width: 100%;
+    max-height: none;
   }
   .block--media figcaption {
     margin-top: var(--space-sm);
