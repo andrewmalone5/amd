@@ -648,8 +648,10 @@ function captionLead(caption: string): { lead: string; rest: string } | null {
      row so the tall capture sits beside its reasoning instead of dominating
      the viewport. Widens to the media envelope to make room. */
   .case > .block--principle-media {
+    grid-column: 1 / -1;
+    justify-self: center;
     width: min(88rem, calc(100% - 2 * var(--page-gutter)));
-    grid-template-columns: minmax(0, 10rem) minmax(0, 1fr) minmax(0, 27rem);
+    grid-template-columns: minmax(0, 10rem) minmax(0, 1fr) minmax(0, 38rem);
     gap: var(--space-lg) var(--space-2xl);
     align-items: center;
   }
