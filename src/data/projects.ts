@@ -199,17 +199,28 @@ export const projects: Project[] = [
         ],
       },
       {
-        // The counterfactual sits beside the argument: the multi-provider
-        // partner step the spec leaned toward, designed as its best self.
-        // Partner names other than Storfund are fictional.
         type: 'principle',
         num: '02',
         title: 'Show one provider, not a marketplace',
         body:
           'The product can route a seller to one of several funding partners, and the eligibility engine already picks the cheapest fit. The spec leaned toward a side-by-side comparison; I argued that choice here is cognitive load dressed up as empowerment. Sellers see a single match, framed as “matched for you.” The team took this direction.',
-        image: '/work/backfunds/comparison-drawer.webp',
-        imageLabel: 'The partner step that never shipped',
-        imageCaption: 'The step that never shipped: three providers with conflicting terms, and a “which is right for me?” link doing the work the eligibility engine already does.',
+      },
+      {
+        // Rejected vs shipped, side by side. Partner names other than
+        // Storfund in the counterfactual are fictional.
+        type: 'duo',
+        items: [
+          {
+            image: '/work/backfunds/comparison-drawer.webp',
+            label: 'The partner step that never shipped',
+            caption: 'Never shipped: three providers with conflicting terms, and a “which is right for me?” link doing the eligibility engine’s work.',
+          },
+          {
+            image: '/work/backfunds/your-financing-partner.webp',
+            label: 'The shipped partner step',
+            caption: 'What shipped: one match, framed as “matched for you,” with the full terms in plain sight.',
+          },
+        ],
       },
       {
         type: 'principle',
