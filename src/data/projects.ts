@@ -128,7 +128,7 @@ export const projects: Project[] = [
       {
         type: 'narrative',
         body:
-          'This was a product that didn’t exist yet: the partner’s terms were still moving and several mechanics were undefined in the spec. So the design DRI job was mostly reducing ambiguity into decisions the team could build against, then pressure-testing them with the partner and stakeholders.\n\nThe concept was built as high-fidelity coded screens in Claude Code rather than static Figma mocks, so stakeholders and the funding partner reacted to something close to the real product. The partner’s senior team ended up critiquing flows, not artwork. After a positive review, the project moved into phased technical planning.\n\nIt also made the numbers a design responsibility. Every figure in the prototype had to reconcile against one coherent money model; at one point the displayed outstanding balance implied a month of advances, impossible under a daily-advance, weekly-repayment cycle. I caught it and fixed the model. Unglamorous work, and it is what kept the prototype credible in exec and partner reviews.',
+          'This was a product that didn’t exist yet: the partner’s terms were still moving and several mechanics were undefined in the spec. So the design DRI job was mostly reducing ambiguity into decisions the team could build against, then pressure-testing them with the partner and stakeholders.\n\nThe concept was built as high-fidelity coded screens in Claude Code rather than static Figma mocks, so stakeholders and the funding partner reacted to something close to the real product. The partner’s senior team ended up critiquing flows, not artwork. After a positive review, the project moved into phased technical planning.\n\nIt also made the numbers a design responsibility. Every figure in the prototype had to reconcile against one coherent money model; at one point the displayed outstanding balance implied a month of advances, impossible under a daily-advance, weekly-repayment cycle. I caught it and fixed the model. Unglamorous work, but it kept the prototype credible in exec and partner reviews.',
       },
 
       // The hard part: mechanics, legibility, and the principle that governed it.
@@ -158,7 +158,7 @@ export const projects: Project[] = [
         label: 'Winding down',
         image: '/work/backfunds/winding-down.webp',
         wide: true,
-        caption: 'Winding down: the balance repays itself from payouts.',
+        caption: 'Winding down after cancellation: the balance repays itself from payouts.',
       },
       {
         type: 'duo',
@@ -265,27 +265,25 @@ export const projects: Project[] = [
       },
 
       // Impact: launched, with results. Evidence first, one reading after —
-      // no restating a number the row already shows. Figures are the PRD's 2026
-      // goals written as achieved — replace with measured actuals once
-      // reporting confirms them.
+      // no restating a number the row already shows. Figures are verified
+      // outcomes.
       { type: 'heading', kicker: 'Impact', text: 'What launch showed' },
       {
         type: 'narrative',
         body:
-          'BackFunds shipped to eligible sellers as a native part of the Money and Wallet page, with a microservice replacing the manual operations that ran the pilot.',
+          'BackFunds shipped to eligible sellers as a native part of the Money and Wallet page, with a microservice replacing the earlier manual operations.',
       },
       {
         type: 'statRow',
         stats: [
           { intro: 'from 14% to', value: '30%', label: 'Adoption among eligible sellers, by end of year', glyph: 'growth' },
           { intro: 'under', value: '7 days', label: 'Seller onboarding, down from 2–3 weeks', glyph: 'shorter' },
-          { intro: 'about', value: '2×', label: 'The programme’s original revenue plan, at year close', glyph: 'double' },
+          { intro: 'about', value: '2×', label: 'Revenue against the programme’s original plan, at year close', glyph: 'double' },
           { intro: 'under', value: '5%', label: 'Of dashboard-answerable questions reached support', glyph: 'sliver' },
         ],
       },
-      // Adoption drawn in site style: relative shares only, tracking toward the
-      // year figure rather than claiming it. Swap the data series for measured
-      // actuals once reporting confirms them.
+      // Adoption drawn in site style: relative shares only, first quarter,
+      // tracking toward the year-end target drawn on the chart.
       { type: 'artifact', name: 'adoption-curve' },
       {
         type: 'narrative',

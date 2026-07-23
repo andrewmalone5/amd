@@ -12,7 +12,7 @@ const x = (i: number) => X0 + (i / (interested.length - 1)) * (X1 - X0);
 const y = (v: number) => Y0 - (v / MAX) * (Y0 - TOP);
 const path = (series: number[]) => series.map((v, i) => `${i === 0 ? 'M' : 'L'} ${x(i).toFixed(1)} ${y(v).toFixed(1)}`).join(' ');
 
-const gridlines = [10, 20, 30];
+const gridlines = [10, 20];
 const iEnd = interested[interested.length - 1];
 const aEnd = activated[activated.length - 1];
 ---
@@ -20,7 +20,7 @@ const aEnd = activated[activated.length - 1];
 <div class="block block--adoption" data-adoption>
   <p class="ad__kicker">Adoption among eligible sellers</p>
 
-  <svg class="ad__chart" viewBox="0 0 884 320" role="img" aria-label="Line chart: across the first quarter after launch, the share of eligible sellers interested in BackFunds holds around 28% while the activated share climbs from 14% to 22%, narrowing the gap.">
+  <svg class="ad__chart" viewBox="0 0 884 320" role="img" aria-label="Line chart: across the first quarter after launch, the share of eligible sellers interested in BackFunds holds around 28% while the activated share climbs from 14% to 22%, narrowing the gap toward a 30% year-end target.">
     {gridlines.map((v) => (
       <>
         <line class="ad__grid" x1={X0} y1={y(v)} x2={X1} y2={y(v)} />
@@ -28,6 +28,12 @@ const aEnd = activated[activated.length - 1];
       </>
     ))}
     <line class="ad__base" x1={X0} y1={Y0} x2={X1} y2={Y0} />
+
+    {/* The year-end target the activated line is climbing toward — the bridge
+        between the chart's quarter view and the stat row's 30%. */}
+    <line class="ad__target" x1={X0} y1={y(30)} x2={X1} y2={y(30)} />
+    <text class="ad__axis" x={X0 - 8} y={y(30) + 4} text-anchor="end">30%</text>
+    <text class="ad__target-label" x={X0} y={y(30) - 10} text-anchor="start">year-end target</text>
 
     <path class="ad__line ad__line--interested" d={path(interested)} pathLength="1" />
     <path class="ad__line ad__line--activated" d={path(activated)} pathLength="1" />
@@ -72,6 +78,28 @@ const aEnd = activated[activated.length - 1];
   .ad__base {
     stroke: var(--color-hairline-strong);
     stroke-width: 1;
+  }
+  .ad__target {
+    stroke: var(--color-mark);
+    stroke-width: 1.2;
+    stroke-dasharray: 4 7;
+    stroke-linecap: round;
+    opacity: 0;
+  }
+  .ad__target-label {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 13px;
+    fill: var(--color-mark);
+    opacity: 0;
+  }
+  [data-adoption].is-in .ad__target {
+    opacity: 0.55;
+    transition: opacity var(--duration-slow) var(--ease-out) 2.4s;
+  }
+  [data-adoption].is-in .ad__target-label {
+    opacity: 0.85;
+    transition: opacity var(--duration-slow) var(--ease-out) 2.5s;
   }
   .ad__axis {
     font-family: var(--font-body);
@@ -171,6 +199,7 @@ const aEnd = activated[activated.length - 1];
   @media (max-width: 44rem) {
     .ad__kicker { margin-bottom: var(--space-md); }
     .ad__axis, .ad__value, .ad__label { font-size: 17px; }
+    .ad__target-label { font-size: 18px; }
     .ad__drift { font-size: 19px; }
   }
 
@@ -178,6 +207,8 @@ const aEnd = activated[activated.length - 1];
     .ad__line { stroke-dashoffset: 0; }
     .ad__dot { opacity: 1; transform: scale(1); }
     .ad__value, .ad__label, .ad__drift { opacity: 1; }
+    .ad__target { opacity: 0.55; }
+    .ad__target-label { opacity: 0.85; }
     [data-adoption].is-in .ad__line,
     [data-adoption].is-in .ad__dot,
     [data-adoption].is-in .ad__value,
