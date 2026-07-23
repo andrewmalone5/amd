@@ -41,7 +41,9 @@ export type Block =
   // 2-4 stats on one ruled row. glyph: optional quiet SVG mark above the
   // numeral — 'growth' (before/after bars), 'shorter' (compressed track),
   // 'double' (unit vs doubled), 'sliver' (small share of a whole).
-  | { type: 'statRow'; stats: { value: string; label: string; glyph?: 'growth' | 'shorter' | 'double' | 'sliver' }[] }
+  // intro: a small written qualifier above the numeral ("from 14%", "under",
+  // "about") so the big figure stays clean of operators like → < ≈.
+  | { type: 'statRow'; stats: { value: string; label: string; intro?: string; glyph?: 'growth' | 'shorter' | 'double' | 'sliver' }[] }
   | { type: 'callout'; kicker: string; body: string } // bordered evidence aside
   // Oversized numeral + display title. With `image` set, the block becomes a
   // three-column row — numeral, argument, portrait shot — so tall drawers sit
@@ -275,10 +277,10 @@ export const projects: Project[] = [
       {
         type: 'statRow',
         stats: [
-          { value: '14% → 30%', label: 'Adoption among eligible sellers, by end of year', glyph: 'growth' },
-          { value: '< 7 days', label: 'Seller onboarding, down from 2–3 weeks', glyph: 'shorter' },
-          { value: '≈ 2×', label: 'The programme’s original revenue plan, at year close', glyph: 'double' },
-          { value: '< 5%', label: 'Of dashboard-answerable questions reached support', glyph: 'sliver' },
+          { intro: 'from 14% to', value: '30%', label: 'Adoption among eligible sellers, by end of year', glyph: 'growth' },
+          { intro: 'under', value: '7 days', label: 'Seller onboarding, down from 2–3 weeks', glyph: 'shorter' },
+          { intro: 'about', value: '2×', label: 'The programme’s original revenue plan, at year close', glyph: 'double' },
+          { intro: 'under', value: '5%', label: 'Of dashboard-answerable questions reached support', glyph: 'sliver' },
         ],
       },
       // Adoption drawn in site style: relative shares only, tracking toward the

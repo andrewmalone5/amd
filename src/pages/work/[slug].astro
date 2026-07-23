@@ -161,7 +161,10 @@ const glyphs: Record<string, Record<'a' | 'b', string>> = {
               {s.glyph && glyphs[s.glyph] && (
                 <svg class="statrow__glyph" viewBox="0 0 64 32" aria-hidden="true" set:html={glyphs[s.glyph][GLYPH_VARIANT]} />
               )}
-              <dd>{s.value}</dd>
+              <dd>
+                {s.intro && <span class="statrow__intro">{s.intro}</span>}
+                {s.value}
+              </dd>
               <dt>{s.label}</dt>
             </div>
           ))}
@@ -623,6 +626,18 @@ const glyphs: Record<string, Record<'a' | 'b', string>> = {
     line-height: 1;
     letter-spacing: var(--tracking-display);
     color: var(--color-mark); /* R2 */
+  }
+  /* The written qualifier — "from 14% to", "under", "about" — sits small and
+     italic above the clean numeral, doing the work of → < ≈ in words. */
+  .statrow__intro {
+    display: block;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: var(--text-lead);
+    line-height: 1;
+    letter-spacing: normal;
+    color: var(--color-ink-muted);
+    margin-bottom: var(--space-2xs);
   }
   .statrow__item dt {
     margin-top: var(--space-xs);
