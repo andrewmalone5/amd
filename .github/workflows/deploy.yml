@@ -33,6 +33,9 @@ jobs:
 
   deploy:
     needs: build
+    # The Pages environment only accepts deploys from the default branch;
+    # skip (instead of fail) everywhere else so pushes to main stay green.
+    if: github.ref_name == github.event.repository.default_branch
     runs-on: ubuntu-latest
     environment:
       name: github-pages
