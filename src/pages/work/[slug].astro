@@ -54,6 +54,23 @@ const { project } = Astro.props;
           <p>{b.text}</p>
           {b.cite && <cite>{b.cite}</cite>}
         </blockquote>
+      ) : b.type === 'ledger' ? (
+        <section class="block block--ledger">
+          {b.kicker && <p class="eyebrow">{b.kicker}</p>}
+          <p class="ledger__rule">{b.rule}</p>
+          <div class="ledger__grid">
+            <div class="ledger__row ledger__row--head">
+              <p>Never</p>
+              <p>Instead</p>
+            </div>
+            {b.rows.map((r) => (
+              <div class="ledger__row">
+                <p class="ledger__never">{r.never}</p>
+                <p class="ledger__instead">{r.instead}</p>
+              </div>
+            ))}
+          </div>
+        </section>
       ) : b.type === 'stat' ? (
         <div class="block block--stat">
           <span class="stat__value">{b.value}</span>
@@ -267,6 +284,63 @@ const { project } = Astro.props;
     letter-spacing: var(--tracking-label);
     text-transform: uppercase;
     color: var(--color-ink-muted);
+  }
+
+  /* Ledger — a governing copy rule proved by evidence. The rule opens in the
+     quote's emphasis language (second-ink rule, Spectral), then a Never/Instead
+     table shows the forbidden phrasing struck out against what shipped. */
+  .case > .block--ledger {
+    grid-column: 2 / -1;
+    width: min(61rem, calc(100% - var(--page-gutter)));
+    margin-top: var(--section-tight);
+    margin-bottom: var(--space-lg);
+    padding-top: var(--space-lg);
+    border-top: 2px solid var(--color-mark);
+  }
+  .block--ledger .eyebrow { margin-bottom: var(--space-sm); }
+  .ledger__rule {
+    font-family: var(--font-display);
+    font-size: var(--text-display-sm);
+    line-height: var(--leading-tight);
+    letter-spacing: var(--tracking-display);
+    color: var(--color-ink);
+    text-wrap: balance;
+    max-width: 40ch;
+  }
+  .ledger__grid { margin-top: var(--space-xl); }
+  .ledger__row {
+    display: grid;
+    grid-template-columns: minmax(0, 18rem) 1fr;
+    gap: var(--space-xl);
+    padding-block: var(--space-sm);
+    border-top: 1px solid var(--color-hairline);
+  }
+  .ledger__row--head {
+    border-top: none;
+    padding-bottom: var(--space-2xs);
+  }
+  .ledger__row--head p {
+    font-size: var(--text-xs);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    color: var(--color-ink-faint);
+  }
+  .ledger__never {
+    font-size: var(--text-body);
+    line-height: var(--leading-body);
+    color: var(--color-ink-faint);
+    text-decoration: line-through;
+    text-decoration-thickness: 1px;
+  }
+  .ledger__instead {
+    font-size: var(--text-body);
+    line-height: var(--leading-body);
+    font-weight: var(--weight-medium);
+    color: var(--color-ink);
+  }
+  @media (max-width: 40rem) {
+    .ledger__row { grid-template-columns: 1fr; gap: var(--space-3xs); }
+    .ledger__row--head p + p { display: none; }
   }
 
   /* Stat — a single big number. Reads as a lead when a project opens on it. */

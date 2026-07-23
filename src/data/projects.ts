@@ -21,6 +21,9 @@ export type Block =
   | { type: 'heading'; text: string; kicker?: string }
   | { type: 'narrative'; body: string } // body may contain \n\n paragraph breaks
   | { type: 'quote'; text: string; cite?: string }
+  // A governing copy rule proved by evidence: the rule as one line, then the
+  // forbidden phrasing struck out against what actually shipped.
+  | { type: 'ledger'; kicker?: string; rule: string; rows: { never: string; instead: string }[] }
   | { type: 'stat'; value: string; label: string }
   // Media slot. To fill one: drop the file under public/work/ (webp preferred,
   // ~1600px wide for full-width shots; svg for diagrams), set image to its
@@ -120,14 +123,24 @@ export const projects: Project[] = [
       // The hard part: mechanics, legibility, and the principle that governed it.
       { type: 'heading', kicker: 'The hard part', text: 'Making a money product legible' },
       {
-        type: 'quote',
-        text: 'Never imply the seller owes money. The product carries no repayment burden, so the UI must not manufacture one.',
-        cite: 'Design principle',
+        type: 'narrative',
+        body:
+          'The banner was the easy part. The leverage was in the mechanics, because they are counter-intuitive and parts of them were undefined.\n\nThe seller never wires money back: their early payout is repaid automatically when the normal weekly payout lands and routes to the partner. The “outstanding balance” in the spec is really the float of advances not yet settled, not money the seller owes. A UI that said “you owe a balance” would frighten sellers away from a product with no repayment burden. I worked the mechanics through with the PM, confirmed there is no arrears path, and distilled the answer into one hard copy rule.',
+      },
+      {
+        type: 'ledger',
+        kicker: 'Design principle',
+        rule: 'Never imply the seller owes money. The product carries no repayment burden, so the UI must not manufacture one.',
+        rows: [
+          { never: '“You owe 3,750 €”', instead: '“Balance left to clear: 3,750 €”' },
+          { never: '“Repayment due by Friday”', instead: '“Your payouts clear the balance automatically, nothing for you to do”' },
+          { never: '“Outstanding debt”', instead: '“Advances not yet settled”' },
+        ],
       },
       {
         type: 'narrative',
         body:
-          'The banner was the easy part. The leverage was in the mechanics, because they are counter-intuitive and parts of them were undefined.\n\nThe seller never wires money back: their early payout is repaid automatically when the normal weekly payout lands and routes to the partner. The “outstanding balance” in the spec is really the float of advances not yet settled, not money the seller owes. A UI that said “you owe a balance” would frighten sellers away from a product with no repayment burden. I worked the mechanics through with the PM, confirmed there is no arrears path, and made the principle above a hard copy rule. Every balance, pause, and cancel screen presents repayment as passive and automatic.',
+          'Every balance, pause, and cancel screen holds to it: repayment is presented as passive and automatic, something that happens to the balance rather than something the seller must do.',
       },
       {
         type: 'media',
