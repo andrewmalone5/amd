@@ -26,11 +26,10 @@ const other = projects.filter((p) => p.secondary);
           </div>
 
           <div class="work__body">
-            <span class="work__index">{p.num}</span>
             <h3 class="work__title" transition:name={`title-${p.slug}`}>{p.title}</h3>
 
             <p class="work__meta">
-              <span>{p.client} / {p.discipline} / {p.year}</span>
+              <span>{p.discipline} for <strong>{p.client}</strong></span>
               {p.status && <span class="tag">{p.status}</span>}
             </p>
 
@@ -51,7 +50,7 @@ const other = projects.filter((p) => p.secondary);
           <li>
             <a class="other__item" href={withBase(`/work/${p.slug}`)}>
               <span class="other__title" transition:name={`title-${p.slug}`}>{p.title}</span>
-              <span class="other__meta">{p.client}, {p.year}</span>
+              <span class="other__meta">{p.discipline} for <strong>{p.client}</strong></span>
             </a>
           </li>
         ))}
@@ -123,15 +122,6 @@ const other = projects.filter((p) => p.secondary);
     transform: scale(1.025);
   }
 
-  .work__index {
-    display: block;
-    font-size: var(--text-sm);
-    color: var(--color-ink-muted);
-    font-variant-numeric: tabular-nums;
-    letter-spacing: 0.02em;
-    margin-bottom: var(--space-md);
-  }
-
   .work__title {
     font-size: var(--text-display-sm);
     line-height: var(--leading-tight);
@@ -146,6 +136,11 @@ const other = projects.filter((p) => p.secondary);
     margin-top: var(--space-sm);
     font-size: var(--text-sm);
     color: var(--color-ink-muted);
+  }
+  .work__meta strong,
+  .other__meta strong {
+    font-weight: var(--weight-semibold);
+    color: var(--color-ink);
   }
 
   .work__summary {
@@ -231,7 +226,6 @@ const other = projects.filter((p) => p.secondary);
       grid-template-columns: 1fr;
     }
     li:nth-child(even) .work__media { order: 0; }
-    .work__index { margin-bottom: var(--space-sm); }
     .work-list { gap: var(--section-tight); }
 
     /* Other projects: title on its own line, meta beneath it. */

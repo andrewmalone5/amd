@@ -114,6 +114,11 @@ a {
   text-transform: uppercase;
   color: var(--color-ink-muted);
 }
+/* The client name carries the emphasis in a "Subject for Client" meta line. */
+.eyebrow strong {
+  font-weight: var(--weight-semibold);
+  color: var(--color-ink);
+}
 
 /* The ghost heading: a homepage section name at display scale, outlined and
    near-silent. It works as a divider you feel at scroll speed rather than a

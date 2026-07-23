@@ -39,7 +39,7 @@ function captionLead(caption: string): { lead: string; rest: string } | null {
 
     <header class="case__header">
       <p class="eyebrow">
-        {project.num} / {project.client} / {project.discipline} / {project.year}
+        {project.discipline} for <strong>{project.client}</strong>
       </p>
       <h1 class="case__title" transition:name={`title-${project.slug}`}>{project.title}</h1>
       {project.status && <span class="tag case__status">{project.status}</span>}
