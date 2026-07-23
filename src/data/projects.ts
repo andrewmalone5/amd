@@ -40,7 +40,10 @@ export type Block =
   | { type: 'overview'; columns: { label: string; value: string }[]; body: string } // at-a-glance strip under the header
   | { type: 'statRow'; stats: { value: string; label: string }[] } // 2-4 stats on one ruled row
   | { type: 'callout'; kicker: string; body: string } // bordered evidence aside
-  | { type: 'principle'; num: string; title: string; body: string } // oversized numeral + display title
+  // Oversized numeral + display title. With `image` set, the block becomes a
+  // three-column row — numeral, argument, portrait shot — so tall drawers sit
+  // beside their reasoning instead of dominating the viewport.
+  | { type: 'principle'; num: string; title: string; body: string; image?: string; imageLabel?: string; imageCaption?: string }
   // Two images side by side; lead: optional text column set beside them in one
   // row. An item may carry a `needs` capture spec instead of an image — it then
   // renders as a dashed placeholder card while showAssetSlots is on, like media.
@@ -196,20 +199,17 @@ export const projects: Project[] = [
         ],
       },
       {
+        // The counterfactual sits beside the argument: the multi-provider
+        // partner step the spec leaned toward, designed as its best self.
+        // Partner names other than Storfund are fictional.
         type: 'principle',
         num: '02',
         title: 'Show one provider, not a marketplace',
         body:
           'The product can route a seller to one of several funding partners, and the eligibility engine already picks the cheapest fit. The spec leaned toward a side-by-side comparison; I argued that choice here is cognitive load dressed up as empowerment. Sellers see a single match, framed as “matched for you.” The team took this direction.',
-      },
-      {
-        // Reconstructed counterfactual: the multi-provider comparison the spec
-        // leaned toward, mocked in the product's drawer. Partner names other
-        // than Storfund are fictional.
-        type: 'media',
-        label: 'Matched, not a marketplace',
-        image: '/work/backfunds/partner-comparison.webp',
-        caption: 'The partner step that never shipped: three providers with conflicting terms, and a “which is right for me?” link doing the work the eligibility engine already does.',
+        image: '/work/backfunds/comparison-drawer.webp',
+        imageLabel: 'The partner step that never shipped',
+        imageCaption: 'The step that never shipped: three providers with conflicting terms, and a “which is right for me?” link doing the work the eligibility engine already does.',
       },
       {
         type: 'principle',

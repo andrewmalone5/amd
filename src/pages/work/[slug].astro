@@ -141,7 +141,7 @@ function captionLead(caption: string): { lead: string; rest: string } | null {
           ))}
         </aside>
       ) : b.type === 'principle' ? (
-        <section class="block block--principle">
+        <section class:list={['block', 'block--principle', { 'block--principle-media': b.image }]}>
           <span class="principle__num" aria-hidden="true">{b.num}</span>
           <div class="principle__content">
             <h3>{b.title}</h3>
@@ -149,6 +149,18 @@ function captionLead(caption: string): { lead: string; rest: string } | null {
               <p>{para}</p>
             ))}
           </div>
+          {b.image && (
+            <figure class="principle__media">
+              <img src={withBase(b.image)} alt={b.imageLabel ?? b.title} loading="lazy" decoding="async" {...imgDims(b.image)} />
+              {b.imageCaption && (
+                <figcaption>
+                  {captionLead(b.imageCaption)
+                    ? (<><strong>{captionLead(b.imageCaption)!.lead}</strong>:{captionLead(b.imageCaption)!.rest}</>)
+                    : b.imageCaption}
+                </figcaption>
+              )}
+            </figure>
+          )}
         </section>
       ) : b.type === 'duo' ? (
         b.items.some((item) => item.image || item.needs) ? (
@@ -632,6 +644,37 @@ function captionLead(caption: string): { lead: string; rest: string } | null {
     line-height: var(--leading-lead);
     color: var(--color-ink);
   }
+  /* Principle with a portrait shot: numeral, argument, and drawer share one
+     row so the tall capture sits beside its reasoning instead of dominating
+     the viewport. Widens to the media envelope to make room. */
+  .case > .block--principle-media {
+    width: min(88rem, calc(100% - 2 * var(--page-gutter)));
+    grid-template-columns: minmax(0, 10rem) minmax(0, 1fr) minmax(0, 27rem);
+    gap: var(--space-lg) var(--space-2xl);
+    align-items: center;
+  }
+  .principle__media { margin: 0; }
+  .principle__media img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: var(--radius-frame);
+    border: 1px solid var(--color-hairline);
+    box-shadow:
+      0 1px 2px rgba(28, 25, 18, 0.05),
+      0 32px 64px -40px rgba(28, 25, 18, 0.28);
+  }
+  .principle__media figcaption {
+    margin-top: var(--space-sm);
+    font-size: var(--text-sm);
+    color: var(--color-ink-muted);
+    text-align: center;
+  }
+  @media (max-width: 60rem) {
+    .case > .block--principle-media { grid-template-columns: minmax(0, 10rem) 1fr; }
+    .principle__media { grid-column: 1 / -1; max-width: 30rem; margin-inline: auto; }
+  }
+
   /* Same-specificity selector as the base rule, or the collapse never wins. */
   @media (max-width: 48rem) {
     .case > .block--principle { grid-template-columns: 1fr; gap: var(--space-sm); }
