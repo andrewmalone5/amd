@@ -203,10 +203,13 @@ export const projects: Project[] = [
           'The product can route a seller to one of several funding partners, and the eligibility engine already picks the cheapest fit. The spec leaned toward a side-by-side comparison; I argued that choice here is cognitive load dressed up as empowerment. Sellers see a single match, framed as “matched for you.” The team took this direction.',
       },
       {
+        // Reconstructed counterfactual: the multi-provider comparison the spec
+        // leaned toward, mocked in the product's drawer. Partner names other
+        // than Storfund are fictional.
         type: 'media',
         label: 'Matched, not a marketplace',
-        needs: { kind: 'Figma', what: 'The partner step of the apply flow: the single Storfund card with the “Your best match” tag and the terms line. 2x.' },
-        caption: 'Matched for you: the comparison table that never shipped.',
+        image: '/work/backfunds/partner-comparison.webp',
+        caption: 'The comparison table that never shipped: three providers, five trade-offs, and a “which is right for me?” link doing the work the eligibility engine already does.',
       },
       {
         type: 'principle',
