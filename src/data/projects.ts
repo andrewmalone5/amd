@@ -33,7 +33,9 @@ export type Block =
   // the asset; without it, it renders a dashed placeholder card while
   // showAssetSlots (src/config.ts) is on, and nothing once that flag is off
   // (`needs` — the capture spec — then remains visible only in ?shotlist mode).
-  | { type: 'media'; label: string; caption?: string; image?: string; needs?: { kind: string; what: string } }
+  // wide: full-page captures render at the 61rem text envelope at natural
+  // height, matching the widest text containers instead of the 52rem height cap.
+  | { type: 'media'; label: string; caption?: string; image?: string; wide?: boolean; needs?: { kind: string; what: string } }
   // Flagship-case blocks:
   | { type: 'overview'; columns: { label: string; value: string }[]; body: string } // at-a-glance strip under the header
   | { type: 'statRow'; stats: { value: string; label: string }[] } // 2-4 stats on one ruled row
@@ -105,6 +107,7 @@ export const projects: Project[] = [
         type: 'media',
         label: 'BackFunds in the Back Office',
         image: '/work/backfunds/entry-point-full.webp',
+        wide: true,
         caption: 'The entry point, live in the new Daily payouts tab.',
       },
 
@@ -143,6 +146,7 @@ export const projects: Project[] = [
         type: 'media',
         label: 'Winding down',
         image: '/work/backfunds/winding-down.webp',
+        wide: true,
         caption: 'Winding down: the balance repays itself from payouts, and the page says so in the seller’s terms.',
       },
       {
@@ -203,6 +207,7 @@ export const projects: Project[] = [
         type: 'media',
         label: 'Servicing, hosted natively',
         image: '/work/backfunds/active-page.webp',
+        wide: true,
         caption: 'The whole service lives in the Back Office: dashboard, pause, and cancel, with no redirect to a lender.',
       },
 

@@ -82,7 +82,7 @@ const { project } = Astro.props;
            the build-out. Shot-list mode (?shotlist, owner-only) shows the same
            card regardless of the flag. */
         b.image ? (
-          <figure class="block block--media">
+          <figure class:list={['block', 'block--media', { 'block--media-wide': b.wide }]}>
             <div class="media__frame media__frame--image">
               <img src={withBase(b.image)} alt={b.label} loading="lazy" decoding="async" {...imgDims(b.image)} />
             </div>
@@ -390,6 +390,16 @@ const { project } = Astro.props;
     border: none;
     border-radius: 0;
     padding: 0;
+  }
+  /* Wide variant for full-page captures: span the 61rem text envelope (the
+     width of the widest text containers) at natural height, so the page shots
+     line up with the reading column instead of shrinking under the height cap. */
+  .case > .block--media-wide {
+    width: min(61rem, calc(100% - 2 * var(--page-gutter)));
+  }
+  .block--media-wide .media__frame--image img {
+    width: 100%;
+    max-height: none;
   }
   /* One treatment for every shot: capped at a reviewable height so full-page
      captures settle at a size the eye can take in whole, centred when the cap
