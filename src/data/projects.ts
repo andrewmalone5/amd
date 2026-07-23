@@ -150,7 +150,7 @@ export const projects: Project[] = [
         label: 'Winding down',
         image: '/work/backfunds/winding-down.webp',
         wide: true,
-        caption: 'Winding down: the balance repays itself from payouts, and the page says so in the seller’s terms.',
+        caption: 'Winding down: the balance repays itself from payouts.',
       },
       {
         type: 'duo',
@@ -166,7 +166,7 @@ export const projects: Project[] = [
         lead:
           'Pricing had the same shape of problem. The partner’s exact terms weren’t confirmed, and exec feedback was explicit: don’t show a single daily fee before underwriting. All cost and advance figures moved to honest ranges (“500 to 750 euros a day, around 0.1% to 0.15% daily”) that bracket the working model without promising a number no one could stand behind.\n\nEligibility got the same treatment. Internal risk-classification language was translated into plain second-person reasons a seller actually recognises, so an internal quality-tier threshold became “consistently strong quality metrics: low defect and refund rates.” Catching an internal mental model before it leaks onto a customer-facing surface is quiet work, and it is most of the job.',
         items: [
-          { image: '/work/backfunds/eligibility-step.webp', label: 'Why you qualify', caption: 'Eligibility in plain language: the reasons a seller recognises, and ranges instead of single figures.' },
+          { image: '/work/backfunds/eligibility-step.webp', label: 'Why you qualify', caption: 'Eligibility in plain language: recognisable reasons, ranges not exact figures.' },
         ],
       },
 
@@ -186,12 +186,12 @@ export const projects: Project[] = [
           {
             label: 'Growth Simulator, margin empty',
             image: '/work/backfunds/growth-simulator-empty.webp',
-            caption: 'Without gross margin: a useful estimate from the account data Back Market already has. Nothing sensitive required.',
+            caption: 'Without gross margin: a useful estimate from account data alone.',
           },
           {
             label: 'Growth Simulator, margin added',
             image: '/work/backfunds/growth-simulator.webp',
-            caption: 'With gross margin added: a sharper model. Optional, used only for this calculation, and never stored.',
+            caption: 'With gross margin: a sharper model, and never stored.',
           },
         ],
       },
@@ -206,7 +206,7 @@ export const projects: Project[] = [
         type: 'media',
         label: 'Matched, not a marketplace',
         needs: { kind: 'Figma', what: 'The partner step of the apply flow: the single Storfund card with the “Your best match” tag and the terms line. 2x.' },
-        caption: 'One provider, matched for you: the comparison table that never shipped.',
+        caption: 'Matched for you: the comparison table that never shipped.',
       },
       {
         type: 'principle',
@@ -220,7 +220,7 @@ export const projects: Project[] = [
         label: 'Servicing, hosted natively',
         image: '/work/backfunds/active-page.webp',
         wide: true,
-        caption: 'The whole service lives in the Back Office: dashboard, pause, and cancel, with no redirect to a lender.',
+        caption: 'Hosted in the Back Office: dashboard, pause, and cancel, no redirect.',
       },
 
       // The system: lifecycle over pitch.
@@ -235,14 +235,14 @@ export const projects: Project[] = [
         label: 'Application under review',
         image: '/work/backfunds/app-under-review.webp',
         wide: true,
-        caption: 'Under review, in the seller’s full context: calm, nothing demanded, and a plain account of what happens next.',
+        caption: 'Under review: calm, nothing demanded of the seller.',
       },
       {
         type: 'media',
         label: 'Application not approved',
         image: '/work/backfunds/app-not-approved.webp',
         wide: true,
-        caption: 'Not approved: calm, not an error. The seller’s account and payouts carry on unchanged, with a path to reapply.',
+        caption: 'Not approved: calm, not an error. Payouts carry on, with a path to reapply.',
       },
 
       // Impact: launched, with results. Evidence first, one reading after —

@@ -23,6 +23,14 @@ export function getStaticPaths() {
 }
 
 const { project } = Astro.props;
+
+// Captions follow a "Lead: detail" shape. Split on the first colon so the lead
+// can be set in bold — easier to scan than one flat run of muted text. Captions
+// without a colon render whole.
+function captionLead(caption: string): { lead: string; rest: string } | null {
+  const i = caption.indexOf(':');
+  return i === -1 ? null : { lead: caption.slice(0, i), rest: caption.slice(i + 1) };
+}
 ---
 
 <SiteLayout title={`${project.title} | Andrew Malone`} description={project.summary} minimalFooter>
@@ -86,7 +94,13 @@ const { project } = Astro.props;
             <div class="media__frame media__frame--image">
               <img src={withBase(b.image)} alt={b.label} loading="lazy" decoding="async" {...imgDims(b.image)} />
             </div>
-            {b.caption && <figcaption>{b.caption}</figcaption>}
+            {b.caption && (
+              <figcaption>
+                {captionLead(b.caption)
+                  ? (<><strong>{captionLead(b.caption)!.lead}</strong>:{captionLead(b.caption)!.rest}</>)
+                  : b.caption}
+              </figcaption>
+            )}
           </figure>
         ) : b.needs ? (
           <figure class="block block--media block--need">
@@ -152,7 +166,13 @@ const { project } = Astro.props;
                   <div class="duo__frame">
                     <img src={withBase(item.image)} alt={item.label} loading="lazy" decoding="async" {...imgDims(item.image)} />
                   </div>
-                  {item.caption && <figcaption>{item.caption}</figcaption>}
+                  {item.caption && (
+                    <figcaption>
+                      {captionLead(item.caption)
+                        ? (<><strong>{captionLead(item.caption)!.lead}</strong>:{captionLead(item.caption)!.rest}</>)
+                        : item.caption}
+                    </figcaption>
+                  )}
                 </figure>
               ) : (
                 <figure class="duo__item duo__item--need">
@@ -433,6 +453,10 @@ const { project } = Astro.props;
     font-size: var(--text-sm);
     color: var(--color-ink-muted);
     text-align: center;
+  }
+  figcaption strong {
+    font-weight: var(--weight-semibold);
+    color: var(--color-ink);
   }
 
   /* Shot-list cards: hidden from visitors, shown when the owner loads any
