@@ -30,7 +30,9 @@ export type Block =
   // the asset; without it, it renders a dashed placeholder card while
   // showAssetSlots (src/config.ts) is on, and nothing once that flag is off
   // (`needs` — the capture spec — then remains visible only in ?shotlist mode).
-  | { type: 'media'; label: string; caption?: string; image?: string; needs?: { kind: string; what: string } }
+  // full: force the shot to fill the breakout width even when it reads as tall
+  // (height > 1.15x width), overriding the default dialog-shaped narrowing.
+  | { type: 'media'; label: string; caption?: string; image?: string; full?: boolean; needs?: { kind: string; what: string } }
   // Flagship-case blocks:
   | { type: 'overview'; columns: { label: string; value: string }[]; body: string } // at-a-glance strip under the header
   | { type: 'statRow'; stats: { value: string; label: string }[] } // 2-4 stats on one ruled row
@@ -102,6 +104,7 @@ export const projects: Project[] = [
         type: 'media',
         label: 'BackFunds in the Back Office',
         image: '/work/backfunds/entry-point-full.webp',
+        full: true,
         caption: 'The entry point, live in the new Daily payouts tab.',
       },
 
