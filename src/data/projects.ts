@@ -185,7 +185,7 @@ export const projects: Project[] = [
         items: [
           {
             label: 'Growth Simulator, margin empty',
-            needs: { kind: 'Prototype', what: 'The Growth Simulator with the gross-margin field empty: the estimate built only from account data Back Market already holds. Same crop and zoom as the filled state. 2x.' },
+            image: '/work/backfunds/growth-simulator-empty.webp',
             caption: 'Without gross margin: a useful estimate from the account data Back Market already has. Nothing sensitive required.',
           },
           {
