@@ -31,6 +31,36 @@ function captionLead(caption: string): { lead: string; rest: string } | null {
   const i = caption.indexOf(':');
   return i === -1 ? null : { lead: caption.slice(0, i), rest: caption.slice(i + 1) };
 }
+
+// Stat glyphs — quiet marks above stat-row numerals. Two grammars, switched
+// here: 'a' = fills (bars, tracks, dots), 'b' = strokes (lines, ring).
+// Base marks wear hairline-strong; the outcome mark wears the second ink.
+// Proportions are honest: 14→30 heights, 7 of ~17.5 days, 1:2, 1 of 20.
+const GLYPH_VARIANT: 'a' | 'b' = 'a';
+const sliverDots = Array.from({ length: 20 }, (_, i) => {
+  const cls = i === 0 ? 'gw' : 'gb';
+  const x = 3 + (i % 10) * 6;
+  const y = i < 10 ? 10 : 22;
+  return `<circle class="${cls}" cx="${x}" cy="${y}" r="2.3"/>`;
+}).join('');
+const glyphs: Record<string, Record<'a' | 'b', string>> = {
+  growth: {
+    a: '<rect class="gb" x="10" y="17" width="18" height="15" rx="2"/><rect class="gw" x="34" y="0" width="18" height="32" rx="2"/>',
+    b: '<circle class="gb" cx="6" cy="26" r="3"/><path class="lw" d="M6 26 L54 6"/><circle class="gw" cx="54" cy="6" r="3.5"/>',
+  },
+  shorter: {
+    a: '<rect class="gb" x="0" y="6" width="56" height="7" rx="3.5"/><rect class="gw" x="0" y="19" width="22" height="7" rx="3.5"/>',
+    b: '<path class="lb" d="M2 9 H58"/><path class="lw" d="M2 23 H24"/>',
+  },
+  double: {
+    a: '<rect class="gb" x="0" y="6" width="27" height="7" rx="3.5"/><rect class="gw" x="0" y="19" width="54" height="7" rx="3.5"/>',
+    b: '<path class="lb" d="M2 9 H29"/><path class="lw" d="M2 23 H56"/>',
+  },
+  sliver: {
+    a: sliverDots,
+    b: '<circle class="lb" cx="16" cy="16" r="11"/><path class="lw" d="M16 5 A 11 11 0 0 1 19.4 5.54"/>',
+  },
+};
 ---
 
 <SiteLayout title={`${project.title} | Andrew Malone`} description={project.summary} minimalFooter>
@@ -128,6 +158,9 @@ function captionLead(caption: string): { lead: string; rest: string } | null {
         <dl class="block block--statrow" data-count={b.stats.length}>
           {b.stats.map((s) => (
             <div class="statrow__item">
+              {s.glyph && glyphs[s.glyph] && (
+                <svg class="statrow__glyph" viewBox="0 0 64 32" aria-hidden="true" set:html={glyphs[s.glyph][GLYPH_VARIANT]} />
+              )}
               <dd>{s.value}</dd>
               <dt>{s.label}</dt>
             </div>
@@ -570,6 +603,19 @@ function captionLead(caption: string): { lead: string; rest: string } | null {
     grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
     gap: var(--space-lg) var(--space-xl);
   }
+  /* Stat glyphs — set:html strips Astro's scoped attribute from the inner
+     nodes, so the mark classes are targeted through :global. */
+  .statrow__glyph {
+    display: block;
+    height: 2rem;
+    width: auto;
+    margin-bottom: var(--space-sm);
+    overflow: visible;
+  }
+  .statrow__glyph :global(.gb) { fill: var(--color-hairline-strong); }
+  .statrow__glyph :global(.gw) { fill: var(--color-mark); }
+  .statrow__glyph :global(.lb) { stroke: var(--color-hairline-strong); fill: none; stroke-width: 2.5; stroke-linecap: round; }
+  .statrow__glyph :global(.lw) { stroke: var(--color-mark); fill: none; stroke-width: 2.5; stroke-linecap: round; }
   .statrow__item dd {
     margin: 0;
     font-family: var(--font-display);

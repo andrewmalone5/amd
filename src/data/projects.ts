@@ -38,7 +38,10 @@ export type Block =
   | { type: 'media'; label: string; caption?: string; image?: string; wide?: boolean; needs?: { kind: string; what: string } }
   // Flagship-case blocks:
   | { type: 'overview'; columns: { label: string; value: string }[]; body: string } // at-a-glance strip under the header
-  | { type: 'statRow'; stats: { value: string; label: string }[] } // 2-4 stats on one ruled row
+  // 2-4 stats on one ruled row. glyph: optional quiet SVG mark above the
+  // numeral — 'growth' (before/after bars), 'shorter' (compressed track),
+  // 'double' (unit vs doubled), 'sliver' (small share of a whole).
+  | { type: 'statRow'; stats: { value: string; label: string; glyph?: 'growth' | 'shorter' | 'double' | 'sliver' }[] }
   | { type: 'callout'; kicker: string; body: string } // bordered evidence aside
   // Oversized numeral + display title. With `image` set, the block becomes a
   // three-column row — numeral, argument, portrait shot — so tall drawers sit
@@ -272,10 +275,10 @@ export const projects: Project[] = [
       {
         type: 'statRow',
         stats: [
-          { value: '14% → 30%', label: 'Adoption among eligible sellers, by end of year' },
-          { value: '< 7 days', label: 'Seller onboarding, down from 2–3 weeks' },
-          { value: '≈ 2×', label: 'The programme’s original revenue plan, at year close' },
-          { value: '< 5%', label: 'Of dashboard-answerable questions reached support' },
+          { value: '14% → 30%', label: 'Adoption among eligible sellers, by end of year', glyph: 'growth' },
+          { value: '< 7 days', label: 'Seller onboarding, down from 2–3 weeks', glyph: 'shorter' },
+          { value: '≈ 2×', label: 'The programme’s original revenue plan, at year close', glyph: 'double' },
+          { value: '< 5%', label: 'Of dashboard-answerable questions reached support', glyph: 'sliver' },
         ],
       },
       // Adoption drawn in site style: relative shares only, tracking toward the
