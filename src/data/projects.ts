@@ -209,7 +209,7 @@ export const projects: Project[] = [
         type: 'media',
         label: 'Matched, not a marketplace',
         image: '/work/backfunds/partner-comparison.webp',
-        caption: 'The comparison table that never shipped: three providers, five trade-offs, and a “which is right for me?” link doing the work the eligibility engine already does.',
+        caption: 'The comparison table that never shipped: three providers, six trade-offs, and a “which is right for me?” link doing the work the eligibility engine already does.',
       },
       {
         type: 'principle',
