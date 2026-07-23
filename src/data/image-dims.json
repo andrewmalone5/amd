@@ -118,5 +118,13 @@
   "/work/backfunds/growth-simulator-empty.webp": {
     "width": 1952,
     "height": 2164
+  },
+  "/work/backfunds/app-under-review.webp": {
+    "width": 2880,
+    "height": 2326
+  },
+  "/work/backfunds/app-not-approved.webp": {
+    "width": 2880,
+    "height": 2414
   }
 }

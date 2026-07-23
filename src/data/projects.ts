@@ -231,19 +231,18 @@ export const projects: Project[] = [
           'A single signup screen ignores the fact that a seller moves through a lifecycle. Designing all five states up front (eligible, under review, action needed, active, not approved) made the entry point honest and reusable, and pulled product questions forward, like how “not approved” should feel: calm, not an error. Tone carries the state through the design system’s semantic tokens, and only “action needed” earns a loud primary button.\n\nThe banner went through the same discipline. Version one led with the product and read like an advert. The chosen version leads with the outcome, “Get paid tomorrow, not next week,” anchored to the seller’s real next payout amount and date.',
       },
       {
-        type: 'duo',
-        items: [
-          {
-            label: 'Application under review',
-            needs: { kind: 'Prototype', what: 'The application-progress card in the under-review state, uncropped: full card with banner. Awaiting re-shoot.' },
-            caption: 'Under review: calm, nothing demanded of the seller.',
-          },
-          {
-            label: 'Application action needed',
-            needs: { kind: 'Prototype', what: 'The application-progress card in the action-needed state, uncropped: full card with the Verify with Storfund button. Awaiting re-shoot.' },
-            caption: 'Action needed: the one loud moment in the lifecycle.',
-          },
-        ],
+        type: 'media',
+        label: 'Application under review',
+        image: '/work/backfunds/app-under-review.webp',
+        wide: true,
+        caption: 'Under review, in the seller’s full context: calm, nothing demanded, and a plain account of what happens next.',
+      },
+      {
+        type: 'media',
+        label: 'Application not approved',
+        image: '/work/backfunds/app-not-approved.webp',
+        wide: true,
+        caption: 'Not approved: calm, not an error. The seller’s account and payouts carry on unchanged, with a path to reapply.',
       },
 
       // Impact: launched, with results. Evidence first, one reading after —
