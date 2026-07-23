@@ -137,7 +137,7 @@ const { project } = Astro.props;
           </div>
         </section>
       ) : b.type === 'duo' ? (
-        b.items.some((item) => item.image) ? (
+        b.items.some((item) => item.image || item.needs) ? (
           <div class:list={['block', 'block--duo', { 'block--duo-lead': b.lead, 'block--duo-solo': b.lead && b.items.filter((item) => item.image).length === 1 }]}>
             {b.lead && (
               <div class="duo__lead">
@@ -146,13 +146,24 @@ const { project } = Astro.props;
                 ))}
               </div>
             )}
-            {b.items.filter((item) => item.image).map((item) => (
-              <figure class="duo__item">
-                <div class="duo__frame">
-                  <img src={withBase(item.image)} alt={item.label} loading="lazy" decoding="async" {...imgDims(item.image)} />
-                </div>
-                {item.caption && <figcaption>{item.caption}</figcaption>}
-              </figure>
+            {b.items.filter((item) => item.image || item.needs).map((item) => (
+              item.image ? (
+                <figure class="duo__item">
+                  <div class="duo__frame">
+                    <img src={withBase(item.image)} alt={item.label} loading="lazy" decoding="async" {...imgDims(item.image)} />
+                  </div>
+                  {item.caption && <figcaption>{item.caption}</figcaption>}
+                </figure>
+              ) : (
+                <figure class="duo__item duo__item--need">
+                  <div class="need">
+                    <p class="need__kind">{item.needs.kind}</p>
+                    <p class="need__label">{item.label}</p>
+                    <p class="need__what">{item.needs.what}</p>
+                    {item.caption && <p class="need__caption">Planned caption: &ldquo;{item.caption}&rdquo;</p>}
+                  </div>
+                </figure>
+              )
             ))}
           </div>
         ) : null
@@ -431,6 +442,11 @@ const { project } = Astro.props;
   .block--need { display: none; }
   :global([data-shotlist]) .block--need,
   .case--slots .block--need { display: block; }
+  /* Duo items awaiting an asset follow the same gating as media need cards. */
+  .duo__item--need { display: none; }
+  :global([data-shotlist]) .duo__item--need,
+  .case--slots .duo__item--need { display: block; }
+  .duo__item--need .need { max-width: none; height: 100%; }
   .need {
     border: 1.5px dashed var(--color-hairline-strong);
     border-radius: var(--radius-frame);

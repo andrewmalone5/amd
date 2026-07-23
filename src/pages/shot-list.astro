@@ -15,7 +15,11 @@ const list = projects
     needs: p.blocks.flatMap((b) =>
       b.type === 'media' && !b.image && b.needs
         ? [{ label: b.label, kind: b.needs.kind, what: b.needs.what, caption: b.caption }]
-        : []
+        : b.type === 'duo'
+          ? b.items
+              .filter((item) => !item.image && item.needs)
+              .map((item) => ({ label: item.label, kind: item.needs.kind, what: item.needs.what, caption: item.caption }))
+          : []
     ),
   }))
   .filter((p) => p.needs.length > 0);

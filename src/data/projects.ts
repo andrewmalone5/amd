@@ -41,7 +41,10 @@ export type Block =
   | { type: 'statRow'; stats: { value: string; label: string }[] } // 2-4 stats on one ruled row
   | { type: 'callout'; kicker: string; body: string } // bordered evidence aside
   | { type: 'principle'; num: string; title: string; body: string } // oversized numeral + display title
-  | { type: 'duo'; lead?: string; items: { image?: string; label: string; caption?: string }[] } // two images side by side; lead: optional text column set beside them in one row
+  // Two images side by side; lead: optional text column set beside them in one
+  // row. An item may carry a `needs` capture spec instead of an image — it then
+  // renders as a dashed placeholder card while showAssetSlots is on, like media.
+  | { type: 'duo'; lead?: string; items: { image?: string; label: string; caption?: string; needs?: { kind: string; what: string } }[] }
   | { type: 'pairs'; kicker?: string; items: { label: string; value: string }[] } // label/value grid (dependency map)
   // Bespoke story artifacts: live scroll-animated components, one per story.
   // Each name maps to a component in src/components/case/.
@@ -175,13 +178,22 @@ export const projects: Project[] = [
         num: '01',
         title: 'Own the value model',
         body:
-          'The Growth Simulator, which models what daily payouts are worth to a seller, runs on Back Market’s own data and computation rather than the partner’s API, and a full-API integration was chosen over an embedded or SDK approach for the same reason. The partner’s own calculator leaned toward a sales pitch; a tool inside the Back Office has to hold up to more scrutiny than that.',
+          'The Growth Simulator, which models what daily payouts are worth to a seller, runs on Back Market’s own data and computation rather than the partner’s API, and a full-API integration was chosen over an embedded or SDK approach for the same reason. The partner’s own calculator leaned toward a sales pitch; a tool inside the Back Office has to hold up to more scrutiny than that.\n\nOwning the model also meant respecting the seller’s numbers. Gross margin sharpens the estimate but it is commercially sensitive, so entering it is optional: the simulator gives a useful answer from account data Back Market already holds, and a sharper one when the seller chooses to add margin, with a plain disclaimer that the figure is used only for the calculation and never stored.',
       },
       {
-        type: 'media',
-        label: 'Growth Simulator',
-        image: '/work/backfunds/growth-simulator.webp',
-        caption: 'The value model, run on Back Market’s own data: cash cycle, revenue turns, and what the fee buys.',
+        type: 'duo',
+        items: [
+          {
+            label: 'Growth Simulator, margin empty',
+            needs: { kind: 'Prototype', what: 'The Growth Simulator with the gross-margin field empty: the estimate built only from account data Back Market already holds. Same crop and zoom as the filled state. 2x.' },
+            caption: 'Without gross margin: a useful estimate from the account data Back Market already has. Nothing sensitive required.',
+          },
+          {
+            label: 'Growth Simulator, margin added',
+            image: '/work/backfunds/growth-simulator.webp',
+            caption: 'With gross margin added: a sharper model. Optional, used only for this calculation, and never stored.',
+          },
+        ],
       },
       {
         type: 'principle',
