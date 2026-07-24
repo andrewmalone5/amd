@@ -1,0 +1,136 @@
+---
+// The study's scale, drawn one seller at a time: 118 dots, every response
+// counted, beside the numeral. Replaces a bare stat block — the count is the
+// argument, so the count gets drawn.
+const TOTAL = 118;
+const PER_ROW = 17;
+const DX = 26;
+const DY = 26;
+const R = 6.5;
+const dots = Array.from({ length: TOTAL }, (_, i) => ({
+  cx: R + 2 + (i % PER_ROW) * DX,
+  cy: R + 2 + Math.floor(i / PER_ROW) * DY,
+  d: (i * 0.012).toFixed(3),
+}));
+const ROWS = Math.ceil(TOTAL / PER_ROW);
+const W = (PER_ROW - 1) * DX + 2 * R + 4;
+const H = (ROWS - 1) * DY + 2 * R + 4;
+---
+
+<div class="block block--study" data-study>
+  <div class="study__lead">
+    <span class="study__value">118</span>
+    <p class="study__label">Sellers in the study that set the posture</p>
+    <p class="study__note">Every response cross-checked with the teams who support sellers every day.</p>
+  </div>
+  <svg
+    class="study__dots"
+    viewBox={`0 0 ${W} ${H}`}
+    role="img"
+    aria-label="A field of 118 dots, one for every seller who answered the study."
+  >
+    {dots.map((p) => (
+      <circle cx={p.cx} cy={p.cy} r={R} style={`--d: ${p.d}s`} />
+    ))}
+  </svg>
+</div>
+
+<style>
+  .block--study {
+    display: grid;
+    grid-template-columns: minmax(0, 19rem) minmax(0, 1fr);
+    gap: var(--space-lg) var(--space-2xl);
+    align-items: center;
+  }
+
+  .study__value {
+    display: block;
+    font-family: var(--font-display);
+    font-size: var(--text-display-lg);
+    line-height: 1;
+    letter-spacing: var(--tracking-display);
+    color: var(--color-mark); /* R2: the evidence numeral takes the second ink */
+  }
+  .study__label {
+    margin-top: var(--space-xs);
+    font-size: var(--text-sm);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    color: var(--color-ink-muted);
+    max-width: 24ch;
+  }
+  .study__note {
+    margin-top: var(--space-sm);
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: var(--text-sm);
+    color: var(--color-ink-muted);
+    max-width: 34ch;
+  }
+
+  .study__dots {
+    width: 100%;
+    max-width: 30rem;
+    height: auto;
+    display: block;
+    justify-self: end;
+  }
+  /* One dot per seller, landing in reading order — the sample assembling. */
+  .study__dots circle {
+    fill: var(--color-ink);
+    opacity: 0;
+    transform: scale(0.5);
+    transform-origin: center;
+    transform-box: fill-box;
+  }
+  [data-study].is-in .study__dots circle {
+    opacity: 0.82;
+    transform: scale(1);
+    transition:
+      opacity var(--duration) var(--ease-out),
+      transform var(--duration) var(--ease-out);
+    transition-delay: var(--d);
+  }
+
+  @media (max-width: 48rem) {
+    .block--study {
+      grid-template-columns: 1fr;
+    }
+    .study__dots {
+      justify-self: start;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .study__dots circle {
+      opacity: 0.82;
+      transform: scale(1);
+    }
+    [data-study].is-in .study__dots circle {
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  // Same per-visit init pattern as the other case artifacts.
+  const init = () => {
+    const el = document.querySelector<HTMLElement>('[data-study]');
+    if (el && !el.dataset.bound) {
+      el.dataset.bound = '1';
+      new IntersectionObserver(
+        (entries, io) => {
+          for (const e of entries) {
+            if (e.isIntersecting) {
+              el.classList.add('is-in');
+              io.disconnect();
+            }
+          }
+        },
+        { threshold: 0.4 }
+      ).observe(el);
+    }
+  };
+  init();
+  document.addEventListener('astro:page-load', init);
+</script>

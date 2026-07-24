@@ -43,7 +43,7 @@ export type Block =
   // 'double' (unit vs doubled), 'sliver' (small share of a whole).
   // intro: a small written qualifier above the numeral ("from 14%", "under",
   // "about") so the big figure stays clean of operators like → < ≈.
-  | { type: 'statRow'; stats: { value: string; label: string; intro?: string; glyph?: 'growth' | 'shorter' | 'double' | 'sliver' }[] }
+  | { type: 'statRow'; stats: { value: string; label: string; intro?: string; glyph?: 'growth' | 'shorter' | 'double' | 'sliver' | 'majority' | 'gauge' | 'decide' | 'few' | 'cutoff' | 'handoff' }[] }
   | { type: 'callout'; kicker: string; body: string } // bordered evidence aside
   // Oversized numeral + display title. With `image` set, the block becomes a
   // three-column row — numeral, argument, portrait shot — so tall drawers sit
@@ -56,7 +56,7 @@ export type Block =
   | { type: 'pairs'; kicker?: string; items: { label: string; value: string }[] } // label/value grid (dependency map)
   // Bespoke story artifacts: live scroll-animated components, one per story.
   // Each name maps to a component in src/components/case/.
-  | { type: 'artifact'; name: 'deals-sliver' | 'care-between-visits' | 'payout-timeline' | 'adoption-curve' | 'autonomy-split' };
+  | { type: 'artifact'; name: 'deals-sliver' | 'care-between-visits' | 'payout-timeline' | 'adoption-curve' | 'autonomy-split' | 'study-field' | 'no-go-list' };
 
 export interface Project {
   num: string;
@@ -311,7 +311,6 @@ export const projects: Project[] = [
     client: 'Back Market',
     discipline: 'AI Strategy',
     year: '2025–present',
-    status: 'In progress',
     summary:
       'When AI in the Back Office was an open question with no evidence base, I ran the 118-seller study that set Back Market’s AI posture: suggest and confirm, adopted verbatim into the 2026 vision. Now turning that posture into a proactive assistant.',
     blocks: [
@@ -324,7 +323,7 @@ export const projects: Project[] = [
           { label: 'Status', value: 'Posture adopted, assistant in build' },
         ],
         body:
-          'A contested strategic question, how much autonomy AI should have in the Back Office, settled the only way it could be: with evidence. I designed and ran the two-phase study, 118 sellers cross-validated with the frontline teams who support them, and the resulting posture, suggest and confirm, became the company’s stated AI strategy for 2026. Now I am turning it into product: a proactive assistant prototype and the industrialization of the support chatbot.',
+          'A contested strategic question, how much autonomy AI should have in the Back Office, the portal where professional sellers run their entire Back Market business, settled the only way it could be: with evidence. I designed and ran the two-phase study, 118 sellers cross-validated with the frontline teams who support them, and the resulting posture, suggest and confirm, became the company’s stated AI strategy for 2026. Now I am turning it into product: a proactive assistant prototype and the industrialization of the support chatbot.',
       },
 
       // Lead: the ambiguity and the stakes.
@@ -333,11 +332,8 @@ export const projects: Project[] = [
         body:
           'AI in the Back Office was a strategic question nobody had evidence for. Leadership wanted to move fast, and the real risk was building the wrong AI: over-automating in ways sellers would not trust, or under-building and missing the moment. There was no data on what sellers actually wanted AI to do, or how much autonomy they would accept.\n\nI took the ambiguity on directly, as a product designer rather than a researcher by title. That is the point of this story: a contested, politically loaded question turned into an evidence question, and the answer turned into the company’s adopted AI posture.',
       },
-      {
-        type: 'stat',
-        value: '118',
-        label: 'Sellers in the study that set the AI posture, cross-validated with frontline Seller Success Managers',
-      },
+      // The sample, drawn one seller at a time rather than left as a bare stat.
+      { type: 'artifact', name: 'study-field' },
 
       // The bet: rigor under speed pressure, credibility by design. Evidence
       // runs as the Backfunds impact section does: numbers in the row, the
@@ -352,10 +348,10 @@ export const projects: Project[] = [
       {
         type: 'statRow',
         stats: [
-          { value: '54%', intro: 'already', label: 'Of sellers use AI tools in their business' },
-          { value: '6.9', intro: 'scored', label: 'Out of ten: the value sellers place on AI in the Back Office' },
-          { value: '52%', intro: 'about', label: 'Made per-action accept-or-reject control their top condition for trust' },
-          { value: '6%', intro: 'only', label: 'Reject AI in the Back Office outright' },
+          { value: '54%', intro: 'already', label: 'Of sellers use AI tools in their business', glyph: 'majority' },
+          { value: '6.9', intro: 'scored', label: 'Out of ten: the value sellers place on AI in the Back Office', glyph: 'gauge' },
+          { value: '52%', intro: 'about', label: 'Made per-action accept-or-reject control their top condition for trust', glyph: 'decide' },
+          { value: '6%', intro: 'only', label: 'Reject AI in the Back Office outright', glyph: 'few' },
         ],
       },
       // The decisive finding, drawn at the study's own proportions.
@@ -376,17 +372,11 @@ export const projects: Project[] = [
       {
         type: 'narrative',
         body:
-          'The consolidated report recommended a suggest-and-confirm posture: AI proposes, the seller approves. Not a temporary limitation while trust gets built, but the right stance on its own merits, and the distinction changes what gets built: if confirmation is scaffolding you design to remove it; treated as the product, the accept step has to be fast enough that autonomy stops being the thing sellers ask for. With the posture came a prioritized Phase 1 feature set, Alerts and Monitoring, a Listing Quality Assistant, a Performance Digest, and an explicit no-go list.\n\nThe no-go list is the part I’d defend hardest. It is a designer saying no, with evidence, to the most automated version of the roadmap while the pressure ran the other way.',
+          'The consolidated report recommended a suggest-and-confirm posture: AI proposes, the seller approves. Not a temporary limitation while trust gets built, but the right stance on its own merits, and the distinction changes what gets built: if confirmation is scaffolding you design to remove it; treated as the product, the accept step has to be fast enough that autonomy stops being the thing sellers ask for. With the posture came a first wave of recommended features, alerts and monitoring, a listing-quality assistant, a performance digest, and an explicit no-go list.\n\nThe no-go list is the part I’d defend hardest. It is a designer saying no, with evidence, to the most automated version of the roadmap while the pressure ran the other way.',
       },
-      {
-        type: 'ledger',
-        kicker: 'The no-go list',
-        rule: 'AI proposes, the seller approves. Nothing reprices or edits a listing on its own.',
-        rows: [
-          { never: 'Automated pricing decisions', instead: 'Price suggestions with an explicit accept step' },
-          { never: 'Autonomous listing changes', instead: 'Proposed edits the seller confirms, one by one' },
-        ],
-      },
+      // The no-go list as the product's own pattern: proposed automations,
+      // each given the accept-or-reject treatment — not the Backfunds ledger.
+      { type: 'artifact', name: 'no-go-list' },
 
       // The one close is 'Where it stands' at the end; this chapter claims the
       // adoption itself — what shipped here was a posture, not pixels.
@@ -394,15 +384,15 @@ export const projects: Project[] = [
       {
         type: 'narrative',
         body:
-          'The Seller XP Vision 2026 cites the posture word for word as the 2026 strategy, using the study’s specific data points and naming the study directly. The June 2026 revision reaffirms it, scoping the next phase, task execution, explicitly under suggest-and-confirm. The posture is not a line in an old deck; it is the standing rule the roadmap is being written against. The report also broke a stalled AI prioritization process that had been waiting on seller-validation evidence, producing the three recommended Phase 1 features, and the prototype’s proactive scenarios now sit in the chatbot PRD as backlog seller stories, the BackFunds introduction among them.\n\nThis is decision-impact, and I claim it as exactly that. The work changed what got built and the company’s stated posture. Whether suggest and confirm drives adoption once the features ship is the test still ahead, and I treat the accept-or-reject finding as a hypothesis the shipped product will prove or break, not a conclusion already proven.',
+          'Back Market’s 2026 seller-experience strategy cites the posture word for word, using the study’s specific data points and naming the study directly. The June 2026 revision reaffirms it, scoping the next phase, task execution, explicitly under suggest-and-confirm. The posture is not a line in an old deck; it is the standing rule the roadmap is being written against. The report also broke a stalled AI prioritization process that had been waiting on seller evidence, producing the first wave of three recommended features, and the prototype’s proactive scenarios are now written into the chatbot’s product plan as upcoming work, the BackFunds introduction, the financing product from the previous case, among them.\n\nThis is decision-impact, and I claim it as exactly that. The work changed what got built and the company’s stated posture. Whether suggest and confirm drives adoption once the features ship is the test still ahead, and I treat the accept-or-reject finding as a hypothesis the shipped product will prove or break, not a conclusion already proven.',
       },
       // Verbatim from the strategy document: the evidence block that cites the
       // study by name, and the guardrail that makes the posture policy.
       {
         type: 'callout',
-        kicker: 'Seller XP Vision 2026, verbatim',
+        kicker: 'Back Market’s 2026 seller strategy, quoted verbatim',
         body:
-          '“The Nov 2025 ‘AI in the BO’ study (118 sellers) backs the suggest-and-confirm posture. Familiarity isn’t the driver, control is, so the posture holds across segments.”\n\n“What we will not do: launch AI without a human override. Suggest-and-confirm is the 2026 standard. Skipping it needs explicit sign-off, not a quiet assumption.”',
+          '“The Nov 2025 ‘AI in the [Back Office]’ study (118 sellers) backs the suggest-and-confirm posture. Familiarity isn’t the driver, control is, so the posture holds across segments.”\n\n“What we will not do: launch AI without a human override. Suggest-and-confirm is the 2026 standard. Skipping it needs explicit sign-off, not a quiet assumption.”',
       },
 
       // Strategy into product: benchmark plus the two-concept prototype.
@@ -416,7 +406,7 @@ export const projects: Project[] = [
         type: 'media',
         label: 'The shape of a suggestion',
         image: '/work/ai-assistant-hero.webp',
-        caption: 'The shape every scenario follows: a suggestion grounded in the seller’s data, and a decision that stays with the seller.',
+        caption: 'Inside the assistant drawer: the shape every scenario follows, a suggestion grounded in the seller’s data, and a decision that stays with the seller.',
       },
       // Interim wireframes, labeled as such in the captions. Swap for
       // component-built Figma frames (or prototype captures) when they exist.
@@ -441,13 +431,13 @@ export const projects: Project[] = [
       {
         type: 'narrative',
         body:
-          'In parallel, a chatbot MVP built by a taskforce outside the team went live in January 2026 as a pilot with about 200 UK sellers, answering questions from support-centre articles. It proved the demand, and by its own PRD’s admission it was not built to last. Its first conversations described the problem to fix next, and articles were not filtered by country, a blocker for any rollout beyond the UK: a French seller could be served an answer that does not apply in France.',
+          'In parallel, a chatbot MVP built by a taskforce outside the team went live in January 2026 as a pilot with about 200 UK sellers, answering questions from support-centre articles. It proved the demand, and by its own documentation’s admission it was not built to last. Its first conversations described the problem to fix next, and articles were not filtered by country, a blocker for any rollout beyond the UK: a French seller could be served an answer that does not apply in France.',
       },
       {
         type: 'statRow',
         stats: [
-          { value: '44%', label: 'Of the pilot’s first 117 conversations ended after a single exchange, with no signal whether the seller got an answer or gave up' },
-          { value: '8.5%', label: 'Of pilot sellers explicitly asked the chatbot for a human' },
+          { value: '44%', label: 'Of the pilot’s first 117 conversations ended after a single exchange, with no signal whether the seller got an answer or gave up', glyph: 'cutoff' },
+          { value: '8.5%', label: 'Of pilot sellers explicitly asked the chatbot for a human', glyph: 'handoff' },
         ],
       },
       {
@@ -484,7 +474,7 @@ export const projects: Project[] = [
       {
         type: 'narrative',
         body:
-          'The industrialized chatbot is a hard commitment on the Q3 2026 roadmap, shipping to UK sellers first and then worldwide, and the measurement the MVP never had is already defined and waiting for it: deflection, escalation, satisfaction, and hallucination thresholds that tighten as autonomy grows. The proactive assistant is next in line, reframed in the Vision as task execution and gated, deliberately, on the chatbot infrastructure proving production-stable first.\n\nThe proof so far lives in decisions and citations rather than usage numbers, which is the right kind of impact for research-to-strategy work, and the honest version of this case study says so: the posture is adopted, the prototype exists, and the adoption test is ahead.',
+          'The industrialized chatbot is a hard commitment on the Q3 2026 roadmap, shipping to UK sellers first and then worldwide, and the measurement the MVP never had is already defined and waiting for it: deflection, escalation, satisfaction, and hallucination thresholds that tighten as autonomy grows. The proactive assistant is next in line, reframed in the strategy as task execution and gated, deliberately, on the chatbot infrastructure proving production-stable first.\n\nThe proof so far lives in decisions and citations rather than usage numbers, which is the right kind of impact for research-to-strategy work, and the honest version of this case study says so: the posture is adopted, the prototype exists, and the adoption test is ahead.',
       },
       {
         type: 'pairs',
@@ -500,7 +490,7 @@ export const projects: Project[] = [
           },
           {
             label: 'Then, task execution',
-            value: 'Once the infrastructure is production-stable, the assistant starts acting: pricing strategies, quality flags, Deal enrolment, every action still suggest-and-confirm.',
+            value: 'Once the infrastructure is production-stable, the assistant starts acting: pricing strategies, quality flags, enrolment in promotions, every action still suggest-and-confirm.',
           },
         ],
       },

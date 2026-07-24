@@ -11,6 +11,8 @@ import BetweenVisits from '../../components/case/BetweenVisits.astro';
 import PayoutTimeline from '../../components/case/PayoutTimeline.astro';
 import AdoptionCurve from '../../components/case/AdoptionCurve.astro';
 import AutonomySplit from '../../components/case/AutonomySplit.astro';
+import StudyField from '../../components/case/StudyField.astro';
+import NoGoList from '../../components/case/NoGoList.astro';
 import { projects } from '../../data/projects';
 import { withBase } from '../../lib/url';
 import { imgDims } from '../../lib/img';
@@ -60,6 +62,44 @@ const glyphs: Record<string, Record<'a' | 'b', string>> = {
   sliver: {
     a: sliverDots,
     b: '<circle class="lb" cx="16" cy="16" r="11"/><path class="lw" d="M16 5 A 11 11 0 0 1 19.4 5.54"/>',
+  },
+  // AI-case marks, honest to their figures: filled shares of one track
+  // (30/56 = 54%, 24.6/56 = 44%), a 0–10 gauge dotted at 6.9, dot fields at
+  // 2 of 34 (~6%) and 4 of 47 (8.5%). 'decide' is the one pictograph — the
+  // accept/reject pair itself, since that pair is the finding.
+  majority: {
+    a: '<rect class="gb" x="0" y="12" width="56" height="8" rx="4"/><rect class="gw" x="0" y="12" width="30" height="8" rx="4"/>',
+    b: '<path class="lb" d="M2 16 H58"/><path class="lw" d="M2 16 H32"/>',
+  },
+  gauge: {
+    a: '<rect class="gb" x="0" y="14" width="56" height="4" rx="2"/><circle class="gw" cx="38.6" cy="16" r="5"/>',
+    b: '<path class="lb" d="M2 16 H58"/><circle class="lw" cx="40" cy="16" r="4"/>',
+  },
+  decide: {
+    a: '<rect class="gw" x="0" y="9" width="26" height="14" rx="7"/><rect class="gb" x="31" y="9" width="26" height="14" rx="7"/>',
+    b: '<rect class="lw" x="1" y="9" width="26" height="14" rx="7"/><rect class="lb" x="32" y="9" width="26" height="14" rx="7"/>',
+  },
+  few: {
+    a: Array.from({ length: 34 }, (_, i) => {
+      const cls = i < 2 ? 'gw' : 'gb';
+      const x = 2.5 + (i % 17) * 3.55;
+      const y = i < 17 ? 10 : 22;
+      return `<circle class="${cls}" cx="${x.toFixed(2)}" cy="${y}" r="1.6"/>`;
+    }).join(''),
+    b: '<path class="lb" d="M2 16 H58"/><path class="lw" d="M2 16 H6"/>',
+  },
+  cutoff: {
+    a: '<rect class="gb" x="0" y="12" width="56" height="8" rx="4"/><rect class="gw" x="0" y="12" width="24.6" height="8" rx="4"/>',
+    b: '<path class="lb" d="M2 16 H58"/><path class="lw" d="M2 16 H27"/>',
+  },
+  handoff: {
+    a: Array.from({ length: 47 }, (_, i) => {
+      const cls = i < 4 ? 'gw' : 'gb';
+      const x = 2 + (i % 16) * 3.8;
+      const y = i < 16 ? 6 : i < 32 ? 16 : 26;
+      return `<circle class="${cls}" cx="${x.toFixed(2)}" cy="${y}" r="1.5"/>`;
+    }).join(''),
+    b: '<path class="lb" d="M2 16 H58"/><path class="lw" d="M2 16 H7"/>',
   },
 };
 ---
@@ -237,7 +277,7 @@ const glyphs: Record<string, Record<'a' | 'b', string>> = {
           </div>
         ) : null
       ) : b.type === 'artifact' ? (
-        b.name === 'deals-sliver' ? <DealsSliver /> : b.name === 'care-between-visits' ? <BetweenVisits /> : b.name === 'payout-timeline' ? <PayoutTimeline /> : b.name === 'adoption-curve' ? <AdoptionCurve /> : b.name === 'autonomy-split' ? <AutonomySplit /> : null
+        b.name === 'deals-sliver' ? <DealsSliver /> : b.name === 'care-between-visits' ? <BetweenVisits /> : b.name === 'payout-timeline' ? <PayoutTimeline /> : b.name === 'adoption-curve' ? <AdoptionCurve /> : b.name === 'autonomy-split' ? <AutonomySplit /> : b.name === 'study-field' ? <StudyField /> : b.name === 'no-go-list' ? <NoGoList /> : null
       ) : b.type === 'pairs' ? (
         <div class="block block--pairs">
           {b.kicker && <p class="eyebrow pairs__kicker">{b.kicker}</p>}
@@ -343,10 +383,10 @@ const glyphs: Record<string, Record<'a' | 'b', string>> = {
     margin-top: var(--space-md);
   }
 
-  /* Pull quote — Spectral, marked with a short rule above it. */
+  /* Pull quote — Spectral at display size; the register change is the marker,
+     no rule needed. */
   .block--quote {
-    padding-top: var(--space-lg);
-    border-top: 2px solid var(--color-ink);
+    padding-top: 0;
   }
   .block--quote p {
     font-family: var(--font-display);
@@ -599,13 +639,13 @@ const glyphs: Record<string, Record<'a' | 'b', string>> = {
     .overview__cols { grid-template-columns: 1fr 1fr; gap: var(--space-lg); }
   }
 
-  /* Stat row — 2-4 stats sharing one ruled row. */
+  /* Stat row — 2-4 stats sharing one row. The glyphs above the numerals are
+     the anchor; the old heavy top rule is gone (dividing lines only where
+     they're truly needed). */
   .case > .block--statrow {
     grid-column: 2 / -1;
     width: min(61rem, calc(100% - var(--page-gutter)));
     margin-block: var(--section-tight) var(--space-lg);
-    padding-top: var(--space-lg);
-    border-top: 2px solid var(--color-ink);
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
     gap: var(--space-lg) var(--space-xl);
@@ -863,7 +903,9 @@ const glyphs: Record<string, Record<'a' | 'b', string>> = {
   .case > :global(.block--between),
   .case > :global(.block--payout),
   .case > :global(.block--adoption),
-  .case > :global(.block--autonomy) {
+  .case > :global(.block--autonomy),
+  .case > :global(.block--study),
+  .case > :global(.block--nogo) {
     grid-column: 2 / -1;
     width: min(61rem, calc(100% - var(--page-gutter)));
     margin-block: var(--section-tight) var(--space-lg);
