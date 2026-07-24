@@ -347,7 +347,7 @@ export const projects: Project[] = [
       {
         type: 'narrative',
         body:
-          'The validation was two-phase by design: direct seller sentiment first, then a cross-validation round with Seller Success Managers, the people who talk to sellers every day. The survey closed at 118 responses, and the findings held across both phases.',
+          'A designer’s survey alone would not carry a decision this contested, however clean the data. So the validation was two-phase by design: direct seller sentiment first, then a cross-validation round with Seller Success Managers, the people who hear sellers complain in their own words. Credibility was designed into the method before a single question went out. The survey closed at 118 responses, and the findings held across both phases.',
       },
       {
         type: 'statRow',
@@ -376,7 +376,7 @@ export const projects: Project[] = [
       {
         type: 'narrative',
         body:
-          'The consolidated report recommended a suggest-and-confirm posture: AI proposes, the seller approves. With it came a prioritized Phase 1 feature set, Alerts and Monitoring, a Listing Quality Assistant, a Performance Digest, and an explicit no-go list.\n\nThe no-go list is the part I’d defend hardest. It is a designer saying no, with evidence, to the most automated version of the roadmap while the pressure ran the other way.',
+          'The consolidated report recommended a suggest-and-confirm posture: AI proposes, the seller approves. Not a temporary limitation while trust gets built, but the right stance on its own merits, and the distinction changes what gets built: if confirmation is scaffolding you design to remove it; treated as the product, the accept step has to be fast enough that autonomy stops being the thing sellers ask for. With the posture came a prioritized Phase 1 feature set, Alerts and Monitoring, a Listing Quality Assistant, a Performance Digest, and an explicit no-go list.\n\nThe no-go list is the part I’d defend hardest. It is a designer saying no, with evidence, to the most automated version of the roadmap while the pressure ran the other way.',
       },
       {
         type: 'ledger',
@@ -410,7 +410,7 @@ export const projects: Project[] = [
       {
         type: 'narrative',
         body:
-          'The posture then had to become product. I lead the design side of that, and the working artefact is a coded prototype built as two concepts side by side. Concept one is the current state: a reactive Q&A assistant that searches the support centre and answers. Concept two is where we want to be: a proactive assistant that surfaces things grounded in the seller’s actual data.\n\nSix proactive scenarios are fully built as clickable states, and every one follows the same shape: a proactive message grounded in real seller data, then follow-up branches the seller chooses. A BackFunds introduction pegged to the seller’s actual pending payout. A payout-tier answer with the specific next step. A GMV drop traced to delisted iPhone models, with a link to relist. A quality flag with the concrete consequence stated. The consistency is the argument: suggest and confirm applied as a system, not case by case.',
+          'The posture then had to become product. I lead the design side of that, and the working artefact is a coded prototype built as two concepts side by side. Concept one is the current state: a reactive Q&A assistant that searches the support centre and answers. Concept two is where we want to be: a proactive assistant that surfaces things grounded in the seller’s actual data.\n\nSix proactive scenarios are fully built as clickable states, and every one follows the same shape: a proactive message grounded in real seller data, then follow-up branches the seller chooses. A BackFunds introduction pegged to the seller’s actual pending payout; a revenue dip traced to two delisted iPhone listings, with a link to relist. The consistency is the argument: suggest and confirm applied as a system, not case by case.',
       },
       {
         type: 'media',
@@ -453,7 +453,7 @@ export const projects: Project[] = [
       {
         type: 'narrative',
         body:
-          'I co-wrote the industrialization spec with the PM, owning the seller-facing experience layer: the entry point moved out of a locked tab, the legal disclaimer redesigned so it stops blocking the first message, loading and error states, answer feedback, and the escalation logic that decides when the assistant hands the seller to a person.',
+          'I co-wrote the industrialization spec with the PM, owning the seller-facing experience layer: the entry point moved out of a locked tab, the legal disclaimer redesigned so it stops blocking the first message, loading and error states, answer feedback, and the escalation logic that decides when the assistant hands the seller to a person.\n\nThe escalation rules are deliberately simple. No answer found: offer a person, immediately, without making the seller ask. Negative rating: offer a person. Technical error: retry. An assistant inside someone’s business earns trust less by what it answers than by how gracefully it stops.',
       },
       // Interim wireframes of the MVP state and the industrialized spec.
       // Replace with live UK-release captures once Iteration 1 ships.
@@ -473,31 +473,11 @@ export const projects: Project[] = [
         ],
       },
 
-      // Judgment: the calls argued for and won, in the numbered principle
-      // pattern the other flagship cases use. Each claims ground the chapters
-      // only pass through — method credibility, posture framing, escalation.
-      { type: 'heading', kicker: 'Principles', text: 'The calls I’d make again' },
-      {
-        type: 'principle',
-        num: '01',
-        title: 'Cross-validate before you claim',
-        body:
-          'A designer’s survey alone would not carry a decision this contested, however clean the data. Running seller sentiment through a second round with Seller Success Managers, the people who hear sellers complain in their own words, is what turned a survey into evidence leadership could cite without hedging. Credibility was designed into the method before a single question went out.',
-      },
-      {
-        type: 'principle',
-        num: '02',
-        title: 'A destination, not a detour',
-        body:
-          'Suggest and confirm is framed as the right posture for 2026 on its own merits, not as a temporary limitation while trust gets built. The distinction changes what gets built: if confirmation is scaffolding, you design to remove it; if it is the product, you design the accept step to be so fast that autonomy stops being the thing sellers ask for.',
-      },
-      {
-        type: 'principle',
-        num: '03',
-        title: 'Offer the human before the seller asks',
-        body:
-          'The escalation rules in the industrialization spec are deliberately simple. No answer found: offer a person, immediately, without making the seller ask. Negative rating: offer a person. Technical error: retry. An assistant inside someone’s business earns trust less by what it answers than by how gracefully it stops.',
-      },
+      // No numbered-principles section here by design: that device belongs to
+      // the Backfunds case. This story's judgment lives inside its chapters
+      // (method rigor in The bet, posture framing in The recommendation,
+      // escalation in Shipping it); its own devices are the quote, the
+      // verbatim callout, the path-from-here pairs, and the reflection.
 
       // Where it stands — facts as of the July 2026 status reconciliation.
       { type: 'heading', kicker: 'Where it stands', text: 'The bet is still being tested' },
