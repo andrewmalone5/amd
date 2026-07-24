@@ -301,10 +301,10 @@ export const projects: Project[] = [
     // ~200 UK sellers from Jan 2026, 44% = 52 of 117 conversations; Iteration 1
     // is a Q3 roadmap hard commitment, UK release ETA end of Jul 2026; Phase 1
     // features are recommended, not roadmapped; the proactive scenarios sit in
-    // the chatbot PRD backlog. Removed as uncorroborated: benchmark "~60%
-    // complete", the Head-of-Product resource-commitment claim, and "iteration
-    // 2 in discovery for Q3". The nine-platform benchmark stays only as the
-    // author's own artifact — cut it if the deck can't be produced on request.
+    // the chatbot PRD backlog. Removed as uncorroborated: the nine-platform
+    // benchmark (no artifact findable; restore only with the deck in hand),
+    // the Head-of-Product resource-commitment claim, and "iteration 2 in
+    // discovery for Q3".
     // The argument, drawn: the suggestion continues; the decision is taken.
     image: '/work/ai-fork-thumb.svg',
     title: 'AI suggests. The seller decides.',
@@ -410,7 +410,7 @@ export const projects: Project[] = [
       {
         type: 'narrative',
         body:
-          'The posture then had to become product. I lead the design side of that: a competitive benchmark of AI seller-assistant capabilities across nine platforms (Amazon, Shopify, eBay, Walmart, Etsy and others), mapped against Back Market’s own vision, and a coded prototype built as two concepts side by side. Concept one is the current state: a reactive Q&A assistant that searches the support centre and answers. Concept two is where we want to be: a proactive assistant that surfaces things grounded in the seller’s actual data.\n\nSix proactive scenarios are fully built as clickable states, and every one follows the same shape: a proactive message grounded in real seller data, then follow-up branches the seller chooses. A BackFunds introduction pegged to the seller’s actual pending payout. A payout-tier answer with the specific next step. A GMV drop traced to delisted iPhone models, with a link to relist. A quality flag with the concrete consequence stated. The consistency is the argument: suggest and confirm applied as a system, not case by case.',
+          'The posture then had to become product. I lead the design side of that, and the working artefact is a coded prototype built as two concepts side by side. Concept one is the current state: a reactive Q&A assistant that searches the support centre and answers. Concept two is where we want to be: a proactive assistant that surfaces things grounded in the seller’s actual data.\n\nSix proactive scenarios are fully built as clickable states, and every one follows the same shape: a proactive message grounded in real seller data, then follow-up branches the seller chooses. A BackFunds introduction pegged to the seller’s actual pending payout. A payout-tier answer with the specific next step. A GMV drop traced to delisted iPhone models, with a link to relist. A quality flag with the concrete consequence stated. The consistency is the argument: suggest and confirm applied as a system, not case by case.',
       },
       {
         type: 'media',
@@ -519,6 +519,16 @@ export const projects: Project[] = [
             value: 'Once the infrastructure is production-stable, the assistant starts acting: pricing strategies, quality flags, Deal enrolment, every action still suggest-and-confirm.',
           },
         ],
+      },
+
+      // Reflection: the study's two real methodological limits, owned. The
+      // first is the report's own caveat; the second is the standard gap
+      // between stated preference and behaviour.
+      { type: 'heading', kicker: 'Reflection', text: 'What I’d do differently so far' },
+      {
+        type: 'narrative',
+        body:
+          'Two flaws in the study are mine to own. The survey never captured seller tier or size, so the findings cannot be cut by the sellers who matter most to the business, and the report has to call itself indicative rather than representative. And it measured attitudes, not behaviour: sellers who say they want an accept step may stop wanting it the tenth time they tap it.\n\nRun again, the survey would ship with a behavioural probe alongside it, the prototype in sellers’ hands, so the accept-or-reject finding faced real behaviour before it became strategy. That test now happens in production, which is the more expensive place to learn it.',
       },
     ],
   },
