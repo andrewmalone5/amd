@@ -295,6 +295,16 @@ export const projects: Project[] = [
   {
     num: '02',
     slug: 'ai-seller-back-office',
+    // HONESTY MARKERS — facts reconciled against the internal status report of
+    // 24 Jul 2026: study figures verified against the Nov 2025 preliminary
+    // report; Vision quotes verbatim from v55 (18 Jun 2026); chatbot pilot was
+    // ~200 UK sellers from Jan 2026, 44% = 52 of 117 conversations; Iteration 1
+    // is a Q3 roadmap hard commitment, UK release ETA end of Jul 2026; Phase 1
+    // features are recommended, not roadmapped; the proactive scenarios sit in
+    // the chatbot PRD backlog. Removed as uncorroborated: benchmark "~60%
+    // complete", the Head-of-Product resource-commitment claim, and "iteration
+    // 2 in discovery for Q3". The nine-platform benchmark stays only as the
+    // author's own artifact — cut it if the deck can't be produced on request.
     // The argument, drawn: the suggestion continues; the decision is taken.
     image: '/work/ai-fork-thumb.svg',
     title: 'AI suggests. The seller decides.',
@@ -353,7 +363,12 @@ export const projects: Project[] = [
       {
         type: 'narrative',
         body:
-          'Sellers were not afraid of AI. They were unwilling to be automated over. Two in three keep the final say for themselves, and the smallest group of all is the one that wants no AI at all. The posture almost named itself.',
+          'Sellers were not afraid of AI. They were unwilling to be automated over. Two in three keep the final say for themselves, and the smallest group of all is the one that wants no AI at all. The posture almost named itself.\n\nThe cross-validation round said the same thing in its own words.',
+      },
+      {
+        type: 'quote',
+        text: 'Sellers want a time-saving tool that supports decisions, not something that replaces them.',
+        cite: 'Seller Success Manager validation round, February 2026',
       },
 
       // The recommendation: posture plus a no-go list.
@@ -379,7 +394,7 @@ export const projects: Project[] = [
       {
         type: 'narrative',
         body:
-          'The Seller XP Vision 2026 cites the posture word for word as the 2026 strategy, using the study’s specific data points and naming the study directly. The report also broke a stalled AI prioritization process that had been waiting on seller-validation evidence, producing the three confirmed Phase 1 features, and it seeded the workstreams that followed: a competitive benchmark and the Head of Product’s commitment of development resources for a chatbot-to-BackFunds integration.\n\nThis is decision-impact, and I claim it as exactly that. The work changed what got built and the company’s stated posture. Whether suggest and confirm drives adoption once the features ship is the test still ahead, and I treat the accept-or-reject finding as a hypothesis the shipped product will prove or break, not a conclusion already proven.',
+          'The Seller XP Vision 2026 cites the posture word for word as the 2026 strategy, using the study’s specific data points and naming the study directly. The June 2026 revision reaffirms it, scoping the next phase, task execution, explicitly under suggest-and-confirm. The posture is not a line in an old deck; it is the standing rule the roadmap is being written against. The report also broke a stalled AI prioritization process that had been waiting on seller-validation evidence, producing the three recommended Phase 1 features, and the prototype’s proactive scenarios now sit in the chatbot PRD as backlog seller stories, the BackFunds introduction among them.\n\nThis is decision-impact, and I claim it as exactly that. The work changed what got built and the company’s stated posture. Whether suggest and confirm drives adoption once the features ship is the test still ahead, and I treat the accept-or-reject finding as a hypothesis the shipped product will prove or break, not a conclusion already proven.',
       },
       // Verbatim from the strategy document: the evidence block that cites the
       // study by name, and the guardrail that makes the posture policy.
@@ -424,13 +439,13 @@ export const projects: Project[] = [
       {
         type: 'narrative',
         body:
-          'In parallel, a chatbot MVP built by a taskforce outside the team went live in Q1 2026, answering seller questions from support-centre articles. It worked, and its own numbers described the problem to fix next. Articles were not even filtered by country, so French sellers could receive answers that did not apply to them.',
+          'In parallel, a chatbot MVP built by a taskforce outside the team went live in January 2026 as a pilot with about 200 UK sellers, answering questions from support-centre articles. It proved the demand, and by its own PRD’s admission it was not built to last. Its first conversations described the problem to fix next, and articles were not filtered by country, a blocker for any rollout beyond the UK: a French seller could be served an answer that does not apply in France.',
       },
       {
         type: 'statRow',
         stats: [
-          { value: '44%', label: 'Of conversations ended after a single exchange, with no signal whether the seller got an answer or gave up' },
-          { value: '8.5%', label: 'Of sellers explicitly asked the chatbot for a human' },
+          { value: '44%', label: 'Of the pilot’s first 117 conversations ended after a single exchange, with no signal whether the seller got an answer or gave up' },
+          { value: '8.5%', label: 'Of pilot sellers explicitly asked the chatbot for a human' },
         ],
       },
       {
@@ -480,12 +495,30 @@ export const projects: Project[] = [
           'The escalation rules in the industrialization spec are deliberately simple. No answer found: offer a person, immediately, without making the seller ask. Negative rating: offer a person. Technical error: retry. An assistant inside someone’s business earns trust less by what it answers than by how gracefully it stops.',
       },
 
-      // Where it stands.
+      // Where it stands — facts as of the July 2026 status reconciliation.
       { type: 'heading', kicker: 'Where it stands', text: 'The bet is still being tested' },
       {
         type: 'narrative',
         body:
-          'The benchmark sits at roughly 60% complete, iteration 2 of the assistant is in discovery for Q3 2026 with implementation scoped for Q4, and the committed BackFunds-integration resources unlock when the PRDs and designs land. The proof so far lives in decisions and citations rather than usage numbers, which is the right kind of impact for research-to-strategy work, and the honest version of this case study says so: the posture is adopted, the prototype exists, and the adoption test is ahead.',
+          'The industrialized chatbot is a hard commitment on the Q3 2026 roadmap, shipping to UK sellers first and then worldwide, and the measurement the MVP never had is already defined and waiting for it: deflection, escalation, satisfaction, and hallucination thresholds that tighten as autonomy grows. The proactive assistant is next in line, reframed in the Vision as task execution and gated, deliberately, on the chatbot infrastructure proving production-stable first.\n\nThe proof so far lives in decisions and citations rather than usage numbers, which is the right kind of impact for research-to-strategy work, and the honest version of this case study says so: the posture is adopted, the prototype exists, and the adoption test is ahead.',
+      },
+      {
+        type: 'pairs',
+        kicker: 'The path from here',
+        items: [
+          {
+            label: 'Iteration 1 ships',
+            value: 'The industrialized chatbot reaches UK sellers: surfaced entry point, demoted disclaimer, answer feedback, escalation to a human, country-filtered answers.',
+          },
+          {
+            label: 'Then, measurement',
+            value: 'Worldwide rollout brings the numbers the MVP could not produce: deflection rate, escalation rate, seller satisfaction against a 3.5-of-5 bar.',
+          },
+          {
+            label: 'Then, task execution',
+            value: 'Once the infrastructure is production-stable, the assistant starts acting: pricing strategies, quality flags, Deal enrolment, every action still suggest-and-confirm.',
+          },
+        ],
       },
     ],
   },
