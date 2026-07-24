@@ -10,6 +10,7 @@ import DealsSliver from '../../components/case/DealsSliver.astro';
 import BetweenVisits from '../../components/case/BetweenVisits.astro';
 import PayoutTimeline from '../../components/case/PayoutTimeline.astro';
 import AdoptionCurve from '../../components/case/AdoptionCurve.astro';
+import AutonomySplit from '../../components/case/AutonomySplit.astro';
 import { projects } from '../../data/projects';
 import { withBase } from '../../lib/url';
 import { imgDims } from '../../lib/img';
@@ -236,7 +237,7 @@ const glyphs: Record<string, Record<'a' | 'b', string>> = {
           </div>
         ) : null
       ) : b.type === 'artifact' ? (
-        b.name === 'deals-sliver' ? <DealsSliver /> : b.name === 'care-between-visits' ? <BetweenVisits /> : b.name === 'payout-timeline' ? <PayoutTimeline /> : b.name === 'adoption-curve' ? <AdoptionCurve /> : null
+        b.name === 'deals-sliver' ? <DealsSliver /> : b.name === 'care-between-visits' ? <BetweenVisits /> : b.name === 'payout-timeline' ? <PayoutTimeline /> : b.name === 'adoption-curve' ? <AdoptionCurve /> : b.name === 'autonomy-split' ? <AutonomySplit /> : null
       ) : b.type === 'pairs' ? (
         <div class="block block--pairs">
           {b.kicker && <p class="eyebrow pairs__kicker">{b.kicker}</p>}
@@ -861,7 +862,8 @@ const glyphs: Record<string, Record<'a' | 'b', string>> = {
   .case > :global(.block--sliver),
   .case > :global(.block--between),
   .case > :global(.block--payout),
-  .case > :global(.block--adoption) {
+  .case > :global(.block--adoption),
+  .case > :global(.block--autonomy) {
     grid-column: 2 / -1;
     width: min(61rem, calc(100% - var(--page-gutter)));
     margin-block: var(--section-tight) var(--space-lg);

@@ -1,0 +1,215 @@
+---
+// The study's decisive finding, drawn rather than quoted: how much autonomy
+// 118 sellers hand to AI, as one divided band. The two left segments carry the
+// ink, the bracket lands last and names the posture — suggest and confirm is
+// where 69% of sellers already are. Proportions are the study's own.
+const shares = [
+  { pct: 36, label: 'suggest only' },
+  { pct: 33, label: 'auto-fill, seller approves' },
+  { pct: 25, label: 'full automation' },
+  { pct: 6, label: 'no AI' },
+];
+
+// Band geometry: shares mapped onto a fixed viewBox, hairline gaps between.
+const X0 = 40, X1 = 844, GAP = 4, Y = 96, H = 30;
+const track = X1 - X0 - GAP * (shares.length - 1);
+let cursor = X0;
+const segs = shares.map((s) => {
+  const w = (s.pct / 100) * track;
+  const seg = { ...s, x: cursor, w, mid: cursor + w / 2 };
+  cursor += w + GAP;
+  return seg;
+});
+const bracketEnd = segs[1].x + segs[1].w;
+---
+
+<div class="block block--autonomy" data-autonomy>
+  <p class="as__kicker">How much autonomy sellers give AI</p>
+
+  <svg
+    class="as__chart"
+    viewBox="0 0 884 214"
+    role="img"
+    aria-label="Divided bar: how much autonomy 118 sellers want AI to have in the Back Office. 36% want suggestions only, 33% want auto-fill with their approval, 25% want full automation under their own rules, and 6% want no AI at all. A bracket over the first two segments marks 69% keeping the final say — where suggest and confirm lands."
+  >
+    {segs.map((s, i) => (
+      <rect
+        class={`as__seg as__seg--${i + 1}`}
+        x={s.x}
+        y={Y}
+        width={s.w.toFixed(1)}
+        height={H}
+        rx="3"
+        style={`--d: ${(i * 0.25).toFixed(2)}s`}
+      />
+    ))}
+
+    {segs.map((s, i) => (
+      <>
+        <text
+          class={`as__pct ${i > 1 ? 'as__pct--rest' : ''}`}
+          x={s.mid.toFixed(1)}
+          y={Y + H + 34}
+          text-anchor="middle"
+          style={`--d: ${(i * 0.25 + 0.4).toFixed(2)}s`}
+        >{s.pct}%</text>
+        <text
+          class="as__desc"
+          x={s.mid.toFixed(1)}
+          y={Y + H + 56}
+          text-anchor="middle"
+          style={`--d: ${(i * 0.25 + 0.4).toFixed(2)}s`}
+        >{s.label}</text>
+      </>
+    ))}
+
+    {/* The reading, drawn: the two segments that keep a human holding the pen. */}
+    <path
+      class="as__bracket"
+      d={`M ${X0} ${Y - 12} V ${Y - 20} H ${bracketEnd.toFixed(1)} V ${Y - 12}`}
+      pathLength="1"
+    />
+    <text
+      class="as__read"
+      x={((X0 + bracketEnd) / 2).toFixed(1)}
+      y={Y - 34}
+      text-anchor="middle"
+    >suggest and confirm: 69% keep the final say</text>
+  </svg>
+
+  <p class="as__caption">The autonomy split across the 118-seller study, at the study&rsquo;s own proportions.</p>
+</div>
+
+<style>
+  .as__kicker {
+    font-size: var(--text-xs);
+    font-weight: var(--weight-medium);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    color: var(--color-ink-muted);
+    margin-bottom: var(--space-lg);
+  }
+
+  .as__chart {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  /* Segments grow left to right, in share order, like the band is being dealt. */
+  .as__seg {
+    transform: scaleX(0);
+    transform-origin: left;
+    transform-box: fill-box;
+  }
+  .as__seg--1 { fill: var(--color-ink); }
+  .as__seg--2 { fill: var(--color-ink); fill-opacity: 0.66; }
+  .as__seg--3 { fill: var(--color-hairline-strong); }
+  .as__seg--4 { fill: var(--color-hairline); }
+  [data-autonomy].is-in .as__seg {
+    transform: scaleX(1);
+    transition: transform 0.6s var(--ease-out);
+    transition-delay: var(--d);
+  }
+
+  .as__pct {
+    font-family: var(--font-display);
+    font-size: 27px;
+    letter-spacing: var(--tracking-display);
+    fill: var(--color-ink);
+    opacity: 0;
+  }
+  .as__pct--rest { fill: var(--color-ink-muted); }
+  .as__desc {
+    font-family: var(--font-body);
+    font-size: 11.5px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    fill: var(--color-ink-muted);
+    opacity: 0;
+  }
+  [data-autonomy].is-in .as__pct,
+  [data-autonomy].is-in .as__desc {
+    opacity: 1;
+    transition: opacity var(--duration-slow) var(--ease-out);
+    transition-delay: var(--d);
+  }
+
+  /* R3: the decisive stroke takes the second ink, and lands last. */
+  .as__bracket {
+    fill: none;
+    stroke: var(--color-mark);
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+  }
+  [data-autonomy].is-in .as__bracket {
+    stroke-dashoffset: 0;
+    transition: stroke-dashoffset 0.9s cubic-bezier(0.45, 0, 0.55, 1) 1.3s;
+  }
+  .as__read {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 15px;
+    fill: var(--color-mark);
+    opacity: 0;
+  }
+  [data-autonomy].is-in .as__read {
+    opacity: 1;
+    transition: opacity var(--duration-slow) var(--ease-out) 2s;
+  }
+
+  .as__caption {
+    margin-top: var(--space-sm);
+    font-size: var(--text-sm);
+    color: var(--color-ink-muted);
+    text-align: center;
+  }
+
+  /* Phone: the band scales down uniformly, so in-chart type is bumped in
+     viewBox units to stay legible; the two narrow segments hand their
+     descriptors over to the caption at this size. */
+  @media (max-width: 44rem) {
+    .as__kicker { margin-bottom: var(--space-md); }
+    .as__pct { font-size: 34px; }
+    .as__desc { font-size: 15px; }
+    .as__read { font-size: 20px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .as__seg { transform: scaleX(1); }
+    .as__pct, .as__desc, .as__read { opacity: 1; }
+    .as__bracket { stroke-dashoffset: 0; }
+    [data-autonomy].is-in .as__seg,
+    [data-autonomy].is-in .as__pct,
+    [data-autonomy].is-in .as__desc,
+    [data-autonomy].is-in .as__bracket,
+    [data-autonomy].is-in .as__read { transition: none; }
+  }
+</style>
+
+<script>
+  // Same per-visit init pattern as the payout timeline: view-transition
+  // navigations rebuild the DOM without re-running module scripts.
+  const init = () => {
+    const el = document.querySelector<HTMLElement>('[data-autonomy]');
+    if (el && !el.dataset.bound) {
+      el.dataset.bound = '1';
+      new IntersectionObserver(
+        (entries, io) => {
+          for (const e of entries) {
+            if (e.isIntersecting) {
+              el.classList.add('is-in');
+              io.disconnect();
+            }
+          }
+        },
+        { threshold: 0.4 }
+      ).observe(el);
+    }
+  };
+  init();
+  document.addEventListener('astro:page-load', init);
+</script>

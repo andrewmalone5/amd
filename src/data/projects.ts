@@ -56,7 +56,7 @@ export type Block =
   | { type: 'pairs'; kicker?: string; items: { label: string; value: string }[] } // label/value grid (dependency map)
   // Bespoke story artifacts: live scroll-animated components, one per story.
   // Each name maps to a component in src/components/case/.
-  | { type: 'artifact'; name: 'deals-sliver' | 'care-between-visits' | 'payout-timeline' | 'adoption-curve' };
+  | { type: 'artifact'; name: 'deals-sliver' | 'care-between-visits' | 'payout-timeline' | 'adoption-curve' | 'autonomy-split' };
 
 export interface Project {
   num: string;
@@ -314,7 +314,7 @@ export const projects: Project[] = [
           { label: 'Status', value: 'Posture adopted, assistant in build' },
         ],
         body:
-          'When AI in the Back Office was an open question with no evidence base, I ran the 118-seller study that set Back Market’s AI posture: suggest and confirm. The posture was adopted verbatim into the company’s 2026 vision, and I am now turning it into product, a proactive assistant prototype and the industrialization of the support chatbot.',
+          'A contested strategic question, how much autonomy AI should have in the Back Office, settled the only way it could be: with evidence. I designed and ran the two-phase study, 118 sellers cross-validated with the frontline teams who support them, and the resulting posture, suggest and confirm, became the company’s stated AI strategy for 2026. Now I am turning it into product: a proactive assistant prototype and the industrialization of the support chatbot.',
       },
 
       // Lead: the ambiguity and the stakes.
@@ -329,17 +329,31 @@ export const projects: Project[] = [
         label: 'Sellers in the study that set the AI posture, cross-validated with frontline Seller Success Managers',
       },
 
-      // The bet: rigor under speed pressure, credibility by design.
+      // The bet: rigor under speed pressure, credibility by design. Evidence
+      // runs as the Backfunds impact section does: numbers in the row, the
+      // split drawn as the artifact, one reading in prose after — nothing the
+      // row or the band already shows gets restated.
       { type: 'heading', kicker: 'The bet', text: 'Evidence before roadmap' },
       {
         type: 'narrative',
         body:
-          'A designer’s survey alone would not carry a decision this contested. So the validation was two-phase by design: direct seller sentiment first, then a cross-validation round with Seller Success Managers, the people who talk to sellers every day. The survey instrument went out in October 2025, hit 100 responses in two weeks, and closed at 118. A preliminary report landed in November; the consolidated report, with the recommendation, in February.\n\nThe signal was consistent. 54% of sellers already used AI tools, and they rated its potential value in the Back Office at 6.9 out of 10. On autonomy the split was decisive: 36% wanted suggest-only, 33% wanted auto-fill with approval, 25% wanted full automation on their own rules. Sellers were not afraid of AI. They were unwilling to be automated over.',
+          'The validation was two-phase by design: direct seller sentiment first, then a cross-validation round with Seller Success Managers, the people who talk to sellers every day. The survey closed at 118 responses, and the findings held across both phases.',
       },
       {
-        type: 'stat',
-        value: '51.8%',
-        label: 'Require the ability to accept or reject every individual AI action; only 6% reject AI outright',
+        type: 'statRow',
+        stats: [
+          { value: '54%', intro: 'already', label: 'Of sellers use AI tools in their business' },
+          { value: '6.9', intro: 'scored', label: 'Out of ten: the value sellers place on AI in the Back Office' },
+          { value: '52%', intro: 'about', label: 'Require an accept-or-reject step on every individual AI action' },
+          { value: '6%', intro: 'only', label: 'Reject AI in the Back Office outright' },
+        ],
+      },
+      // The decisive finding, drawn at the study's own proportions.
+      { type: 'artifact', name: 'autonomy-split' },
+      {
+        type: 'narrative',
+        body:
+          'Sellers were not afraid of AI. They were unwilling to be automated over. Two in three keep the final say for themselves, and the smallest group of all is the one that wants no AI at all. The posture almost named itself.',
       },
 
       // The recommendation: posture plus a no-go list.
@@ -347,27 +361,30 @@ export const projects: Project[] = [
       {
         type: 'narrative',
         body:
-          'The consolidated report recommended a suggest-and-confirm posture: AI proposes, the seller approves. Framed as the right stance for 2026 on its own merits, not as a temporary limitation while trust gets built. With it came a prioritized Phase 1 feature set (Alerts and Monitoring, a Listing Quality Assistant, a Performance Digest) and an explicit no-go list: no automated pricing decisions, and no autonomous listing changes without an accept-or-reject step.\n\nThe no-go list is the part I’d defend hardest. It is a designer saying no, with evidence, to the most automated version of the roadmap while the pressure ran the other way.',
+          'The consolidated report recommended a suggest-and-confirm posture: AI proposes, the seller approves. With it came a prioritized Phase 1 feature set, Alerts and Monitoring, a Listing Quality Assistant, a Performance Digest, and an explicit no-go list.\n\nThe no-go list is the part I’d defend hardest. It is a designer saying no, with evidence, to the most automated version of the roadmap while the pressure ran the other way.',
       },
       {
-        type: 'media',
-        label: 'Suggest-and-confirm framework',
-        needs: { kind: 'Diagram', what: 'The posture in one picture: what AI proposes, what sellers approve, what stays off-limits. Redraw from the strategy deck, anonymised.' },
-        caption: 'The posture in one picture: what AI proposes, what sellers approve, what stays off the table.',
+        type: 'ledger',
+        kicker: 'The no-go list',
+        rule: 'AI proposes, the seller approves. Nothing reprices or edits a listing on its own.',
+        rows: [
+          { never: 'Automated pricing decisions', instead: 'Price suggestions with an explicit accept step' },
+          { never: 'Autonomous listing changes', instead: 'Proposed edits the seller confirms, one by one' },
+        ],
       },
 
-      // Impact: decision-impact, claimed as exactly that.
-      { type: 'heading', kicker: 'Impact', text: 'Adopted verbatim into strategy' },
+      // The one close is 'Where it stands' at the end; this chapter claims the
+      // adoption itself — what shipped here was a posture, not pixels.
+      { type: 'heading', kicker: 'What shipped', text: 'Adopted verbatim into strategy' },
       {
         type: 'narrative',
         body:
-          'The suggest-and-confirm posture was cited verbatim in the Seller XP Vision 2026 as the 2026 strategy, using the study’s specific data points and naming the study directly. The report also broke a stalled AI prioritization process that had been waiting on seller-validation evidence, producing the three confirmed Phase 1 features, and it seeded the workstreams that followed: a competitive benchmark and the Head of Product’s commitment of development resources for a chatbot-to-BackFunds integration.\n\nThis is decision-impact, and I claim it as exactly that. The work changed what got built and the company’s stated posture. Whether suggest and confirm drives adoption once the features ship is the test still ahead, and I treat the 51.8% finding as a hypothesis the shipped product will prove or break, not a conclusion already proven.',
+          'The Seller XP Vision 2026 cites the posture word for word as the 2026 strategy, using the study’s specific data points and naming the study directly. The report also broke a stalled AI prioritization process that had been waiting on seller-validation evidence, producing the three confirmed Phase 1 features, and it seeded the workstreams that followed: a competitive benchmark and the Head of Product’s commitment of development resources for a chatbot-to-BackFunds integration.\n\nThis is decision-impact, and I claim it as exactly that. The work changed what got built and the company’s stated posture. Whether suggest and confirm drives adoption once the features ship is the test still ahead, and I treat the accept-or-reject finding as a hypothesis the shipped product will prove or break, not a conclusion already proven.',
       },
       {
         type: 'media',
         label: 'Vision 2026 citation',
-        needs: { kind: 'Document', what: 'A crop of the strategy document where the posture is cited — the sentence highlighted, everything around it out of frame or blurred.' },
-        caption: 'The posture, cited in the company’s strategy document.',
+        needs: { kind: 'Quote', what: 'The sentence in the strategy document that cites the posture, quoted and anonymised — destined for a callout block in the serif voice, not a screenshot crop.' },
       },
 
       // Strategy into product: benchmark plus the two-concept prototype.
@@ -379,9 +396,24 @@ export const projects: Project[] = [
       },
       {
         type: 'media',
-        label: 'Two concepts, side by side',
-        needs: { kind: 'Figma', what: 'The reactive assistant next to the proactive vision — the same seller task shown in both, one frame each.' },
-        caption: 'The reactive assistant in development, next to the proactive vision it should become.',
+        label: 'The shape of a suggestion',
+        image: '/work/ai-assistant-hero.webp',
+        caption: 'The shape every scenario follows: a suggestion grounded in the seller’s data, and a decision that stays with the seller.',
+      },
+      {
+        type: 'duo',
+        items: [
+          {
+            label: 'Concept one, the reactive assistant',
+            needs: { kind: 'Prototype', what: 'The current state: the reactive Q&A assistant answering a seller’s question — one frame from the coded prototype.' },
+            caption: 'Where it is: a reactive assistant that waits to be asked.',
+          },
+          {
+            label: 'Concept two, the proactive assistant',
+            needs: { kind: 'Prototype', what: 'The proactive vision: the assistant opening with a suggestion grounded in the seller’s own data — same seller, same zoom as concept one.' },
+            caption: 'Where it should be: proactive, grounded, still asking permission.',
+          },
+        ],
       },
 
       // Shipping it: the industrialization spec on the live MVP.
@@ -389,13 +421,60 @@ export const projects: Project[] = [
       {
         type: 'narrative',
         body:
-          'In parallel, a chatbot MVP built by a taskforce outside the team went live in Q1 2026, answering seller questions from support-centre articles. It worked, and its numbers described the problem: 44% of conversations ended after a single exchange with no way to know whether the seller got an answer or gave up, 8.5% of sellers explicitly asked for a human, and articles were not filtered by country, so French sellers could receive answers that did not apply to them.\n\nI co-wrote the industrialization spec with the PM, owning the seller-facing experience layer: the entry point moved out of a locked tab, the legal disclaimer redesigned so it stops blocking the first message, loading and error states, answer feedback, and the escalation logic. The rules are deliberately simple. No answer found: offer a human, immediately, without making the seller ask. Negative rating: offer a human. Technical error: retry.',
+          'In parallel, a chatbot MVP built by a taskforce outside the team went live in Q1 2026, answering seller questions from support-centre articles. It worked, and its own numbers described the problem to fix next. Articles were not even filtered by country, so French sellers could receive answers that did not apply to them.',
       },
       {
-        type: 'media',
-        label: 'Entry point, before and after',
-        needs: { kind: 'Figma / live', what: 'The chatbot entry before (buried tab, disclaimer first) and after (surfaced, disclaimer demoted) — two crops at the same zoom.' },
-        caption: 'The chatbot freed from its tab, with the disclaimer out of the way of the first message.',
+        type: 'statRow',
+        stats: [
+          { value: '44%', label: 'Of conversations ended after a single exchange, with no signal whether the seller got an answer or gave up' },
+          { value: '8.5%', label: 'Of sellers explicitly asked the chatbot for a human' },
+        ],
+      },
+      {
+        type: 'narrative',
+        body:
+          'I co-wrote the industrialization spec with the PM, owning the seller-facing experience layer: the entry point moved out of a locked tab, the legal disclaimer redesigned so it stops blocking the first message, loading and error states, answer feedback, and the escalation logic that decides when the assistant hands the seller to a person.',
+      },
+      {
+        type: 'duo',
+        items: [
+          {
+            label: 'The entry point, before',
+            needs: { kind: 'Live product', what: 'The chatbot buried in its locked tab, disclaimer first — cropped at the same zoom as the after shot.' },
+            caption: 'Before: a locked tab, and a disclaimer where the conversation should start.',
+          },
+          {
+            label: 'The entry point, after',
+            needs: { kind: 'Figma / live', what: 'The industrialized entry: surfaced, disclaimer demoted out of the first message’s way — same crop and zoom as the before shot.' },
+            caption: 'After: surfaced, with the disclaimer out of the way of the first message.',
+          },
+        ],
+      },
+
+      // Judgment: the calls argued for and won, in the numbered principle
+      // pattern the other flagship cases use. Each claims ground the chapters
+      // only pass through — method credibility, posture framing, escalation.
+      { type: 'heading', kicker: 'Principles', text: 'The calls I’d make again' },
+      {
+        type: 'principle',
+        num: '01',
+        title: 'Cross-validate before you claim',
+        body:
+          'A designer’s survey alone would not carry a decision this contested, however clean the data. Running seller sentiment through a second round with Seller Success Managers, the people who hear sellers complain in their own words, is what turned a survey into evidence leadership could cite without hedging. Credibility was designed into the method before a single question went out.',
+      },
+      {
+        type: 'principle',
+        num: '02',
+        title: 'A destination, not a detour',
+        body:
+          'Suggest and confirm is framed as the right posture for 2026 on its own merits, not as a temporary limitation while trust gets built. The distinction changes what gets built: if confirmation is scaffolding, you design to remove it; if it is the product, you design the accept step to be so fast that autonomy stops being the thing sellers ask for.',
+      },
+      {
+        type: 'principle',
+        num: '03',
+        title: 'Offer the human before the seller asks',
+        body:
+          'The escalation rules in the industrialization spec are deliberately simple. No answer found: offer a person, immediately, without making the seller ask. Negative rating: offer a person. Technical error: retry. An assistant inside someone’s business earns trust less by what it answers than by how gracefully it stops.',
       },
 
       // Where it stands.
