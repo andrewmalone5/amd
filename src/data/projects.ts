@@ -344,7 +344,7 @@ export const projects: Project[] = [
         stats: [
           { value: '54%', intro: 'already', label: 'Of sellers use AI tools in their business' },
           { value: '6.9', intro: 'scored', label: 'Out of ten: the value sellers place on AI in the Back Office' },
-          { value: '52%', intro: 'about', label: 'Require an accept-or-reject step on every individual AI action' },
+          { value: '52%', intro: 'about', label: 'Made per-action accept-or-reject control their top condition for trust' },
           { value: '6%', intro: 'only', label: 'Reject AI in the Back Office outright' },
         ],
       },
@@ -381,10 +381,13 @@ export const projects: Project[] = [
         body:
           'The Seller XP Vision 2026 cites the posture word for word as the 2026 strategy, using the study’s specific data points and naming the study directly. The report also broke a stalled AI prioritization process that had been waiting on seller-validation evidence, producing the three confirmed Phase 1 features, and it seeded the workstreams that followed: a competitive benchmark and the Head of Product’s commitment of development resources for a chatbot-to-BackFunds integration.\n\nThis is decision-impact, and I claim it as exactly that. The work changed what got built and the company’s stated posture. Whether suggest and confirm drives adoption once the features ship is the test still ahead, and I treat the accept-or-reject finding as a hypothesis the shipped product will prove or break, not a conclusion already proven.',
       },
+      // Verbatim from the strategy document: the evidence block that cites the
+      // study by name, and the guardrail that makes the posture policy.
       {
-        type: 'media',
-        label: 'Vision 2026 citation',
-        needs: { kind: 'Quote', what: 'The sentence in the strategy document that cites the posture, quoted and anonymised — destined for a callout block in the serif voice, not a screenshot crop.' },
+        type: 'callout',
+        kicker: 'Seller XP Vision 2026, verbatim',
+        body:
+          '“The Nov 2025 ‘AI in the BO’ study (118 sellers) backs the suggest-and-confirm posture. Familiarity isn’t the driver, control is, so the posture holds across segments.”\n\n“What we will not do: launch AI without a human override. Suggest-and-confirm is the 2026 standard. Skipping it needs explicit sign-off, not a quiet assumption.”',
       },
 
       // Strategy into product: benchmark plus the two-concept prototype.
