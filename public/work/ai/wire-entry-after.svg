@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="920" height="754" viewBox="0 0 920 754" font-family="Helvetica, Arial, sans-serif" role="img" aria-label="Wireframe of the chatbot entry after industrialization: a launcher available from every Back Office page opens a panel where the first message is immediately typeable, the disclaimer is demoted to a line under the input, and a talk-to-a-human path is visible in the header.">
+  <rect width="920" height="754" fill="#FFFFFF"/>
+  <rect x="20" y="20" width="880" height="700" rx="10" fill="#FFFFFF" stroke="#C9C9C9" stroke-width="1.5"/>
+
+  <!-- top bar -->
+  <rect x="21" y="21" width="878" height="48" rx="9" fill="#FAFAFA"/>
+  <line x1="21" y1="69" x2="899" y2="69" stroke="#E4E4E4"/>
+  <circle cx="52" cy="45" r="10" fill="#3A3A3A"/>
+  <rect x="76" y="39" width="70" height="12" rx="6" fill="#DCDCDC"/>
+  <rect x="740" y="37" width="60" height="16" rx="8" fill="#EDEDED"/>
+  <circle cx="864" cy="45" r="12" fill="#EDEDED"/>
+
+  <!-- sidebar -->
+  <rect x="21" y="69" width="180" height="650" fill="#FAFAFA"/>
+  <line x1="201" y1="69" x2="201" y2="719" stroke="#E4E4E4"/>
+  <rect x="32" y="90" width="158" height="28" rx="6" fill="#EDEDED"/>
+  <text x="40" y="109" font-size="11" font-weight="bold" fill="#2B2B2B">Dashboard</text>
+  <rect x="40" y="138" width="130" height="10" rx="5" fill="#DCDCDC"/>
+  <rect x="40" y="172" width="96" height="10" rx="5" fill="#DCDCDC"/>
+  <rect x="40" y="206" width="120" height="10" rx="5" fill="#DCDCDC"/>
+  <rect x="40" y="240" width="88" height="10" rx="5" fill="#DCDCDC"/>
+  <rect x="40" y="274" width="110" height="10" rx="5" fill="#DCDCDC"/>
+
+  <!-- content: an ordinary page -->
+  <text x="240" y="116" font-size="18" font-weight="bold" fill="#2B2B2B">Dashboard</text>
+  <rect x="240" y="144" width="180" height="90" rx="10" fill="#FAFAFA" stroke="#E4E4E4"/>
+  <rect x="256" y="164" width="60" height="8" rx="4" fill="#DCDCDC"/>
+  <rect x="256" y="184" width="90" height="20" rx="4" fill="#CFCFCF"/>
+  <rect x="436" y="144" width="180" height="90" rx="10" fill="#FAFAFA" stroke="#E4E4E4"/>
+  <rect x="452" y="164" width="60" height="8" rx="4" fill="#DCDCDC"/>
+  <rect x="452" y="184" width="90" height="20" rx="4" fill="#CFCFCF"/>
+  <rect x="240" y="266" width="376" height="12" rx="6" fill="#EDEDED"/>
+  <rect x="240" y="294" width="376" height="12" rx="6" fill="#F2F2F2"/>
+  <rect x="240" y="322" width="376" height="12" rx="6" fill="#EDEDED"/>
+  <rect x="240" y="350" width="376" height="12" rx="6" fill="#F2F2F2"/>
+
+  <!-- assistant panel, open over the page -->
+  <rect x="492" y="164" width="380" height="530" rx="14" fill="#FFFFFF" stroke="#3A3A3A" stroke-width="1.5"/>
+  <text x="516" y="198" font-size="13" font-weight="bold" fill="#2B2B2B">Assistant</text>
+  <text x="750" y="198" font-size="10" fill="#4A4A4A" text-decoration="underline">Talk to a human</text>
+  <text x="852" y="198" font-size="12" fill="#8A8A8A" text-anchor="end">✕</text>
+  <line x1="493" y1="214" x2="871" y2="214" stroke="#E4E4E4"/>
+
+  <rect x="516" y="234" width="270" height="64" rx="12" fill="#F2F2F2"/>
+  <text x="532" y="260" font-size="11" fill="#2B2B2B">Hi Marie — ask me anything about</text>
+  <text x="532" y="276" font-size="11" fill="#2B2B2B">your shop, orders, or payouts.</text>
+
+  <rect x="516" y="318" width="150" height="28" rx="14" fill="#FFFFFF" stroke="#D0D0D0"/>
+  <text x="591" y="336" font-size="10" fill="#4A4A4A" text-anchor="middle">Where is my payout?</text>
+  <rect x="674" y="318" width="128" height="28" rx="14" fill="#FFFFFF" stroke="#D0D0D0"/>
+  <text x="738" y="336" font-size="10" fill="#4A4A4A" text-anchor="middle">Fix a listing issue</text>
+
+  <rect x="516" y="590" width="288" height="38" rx="19" fill="#FFFFFF" stroke="#3A3A3A" stroke-width="1.5"/>
+  <line x1="534" y1="600" x2="534" y2="618" stroke="#2B2B2B" stroke-width="1.5"/>
+  <rect x="814" y="590" width="42" height="38" rx="11" fill="#3A3A3A"/>
+  <path d="M829 613 L843 609 L829 605 L832 609 Z" fill="#FFFFFF"/>
+
+  <text x="516" y="650" font-size="8.5" fill="#9A9A9A">AI assistant — answers can contain errors · How we use your data</text>
+
+  <!-- floating launcher -->
+  <rect x="786" y="704" width="86" height="30" rx="15" fill="#3A3A3A"/>
+  <text x="829" y="723" font-size="10" font-weight="bold" fill="#FFFFFF" text-anchor="middle">✦ Assistant</text>
+</svg>

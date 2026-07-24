@@ -418,18 +418,20 @@ export const projects: Project[] = [
         image: '/work/ai-assistant-hero.webp',
         caption: 'The shape every scenario follows: a suggestion grounded in the seller’s data, and a decision that stays with the seller.',
       },
+      // Interim wireframes, labeled as such in the captions. Swap for
+      // component-built Figma frames (or prototype captures) when they exist.
       {
         type: 'duo',
         items: [
           {
             label: 'Concept one, the reactive assistant',
-            needs: { kind: 'Prototype', what: 'The current state: the reactive Q&A assistant answering a seller’s question — one frame from the coded prototype.' },
-            caption: 'Where it is: a reactive assistant that waits to be asked.',
+            image: '/work/ai/wire-concept-reactive.svg',
+            caption: 'Where it is: a reactive assistant that waits to be asked. Shown in wireframe.',
           },
           {
             label: 'Concept two, the proactive assistant',
-            needs: { kind: 'Prototype', what: 'The proactive vision: the assistant opening with a suggestion grounded in the seller’s own data — same seller, same zoom as concept one.' },
-            caption: 'Where it should be: proactive, grounded, still asking permission.',
+            image: '/work/ai/wire-concept-proactive.svg',
+            caption: 'Where it should be: proactive, grounded, still asking permission. Shown in wireframe.',
           },
         ],
       },
@@ -453,18 +455,20 @@ export const projects: Project[] = [
         body:
           'I co-wrote the industrialization spec with the PM, owning the seller-facing experience layer: the entry point moved out of a locked tab, the legal disclaimer redesigned so it stops blocking the first message, loading and error states, answer feedback, and the escalation logic that decides when the assistant hands the seller to a person.',
       },
+      // Interim wireframes of the MVP state and the industrialized spec.
+      // Replace with live UK-release captures once Iteration 1 ships.
       {
         type: 'duo',
         items: [
           {
             label: 'The entry point, before',
-            needs: { kind: 'Live product', what: 'The chatbot buried in its locked tab, disclaimer first — cropped at the same zoom as the after shot.' },
-            caption: 'Before: a locked tab, and a disclaimer where the conversation should start.',
+            image: '/work/ai/wire-entry-before.svg',
+            caption: 'Before: a locked tab, and a disclaimer where the conversation should start. Wireframe of the MVP state.',
           },
           {
             label: 'The entry point, after',
-            needs: { kind: 'Figma / live', what: 'The industrialized entry: surfaced, disclaimer demoted out of the first message’s way — same crop and zoom as the before shot.' },
-            caption: 'After: surfaced, with the disclaimer out of the way of the first message.',
+            image: '/work/ai/wire-entry-after.svg',
+            caption: 'After: surfaced, with the disclaimer out of the way of the first message. Wireframe of the industrialized spec.',
           },
         ],
       },
